@@ -1,0 +1,59 @@
+body {
+    background: linear-gradient(to right, #111, #444);
+    color: white; 
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+h1 {
+    font-size: 50px;
+    text-align: center;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+ul {
+    list-style: none; 
+    display: flex; 
+    gap: 30px; 
+    font-size: 20px;
+    justify-content: center;
+}
+
+ul li a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+input{
+    padding: 8px; 
+    width: 250px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+}
+
+.Man {
+    color: #0099ff;
+    font-size: 35px;
+}
+
+.Woman {
+    color: #ff00aa; 
+    font-size: 35px;
+}
+
+#Contact {
+    color: #ffcc00;
+}
+
+p {
+    font-size: 25px;
+}
+
+del {
+    font-size: 15px;
+}
+
+strong {
+    font-size: 20px;
+}
