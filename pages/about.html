@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ArabiaTech — تكنولوجيا المستقبل</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="icon" type="image/png" href="../static/image/icon3.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #1976d2;
+    --gold-light: #1976d2;
+    --gold-dim: rgba(212,169,67,0.15);
+    --bg: #0A0A0C;
+    --bg2: #0F0F13;
+    --bg3: #141419;
+    --surface: #1A1A22;
+    --surface2: #20202B;
+    --border: rgba(212,169,67,0.2);
+    --border-dim: rgba(255,255,255,0.06);
+    --text: #F0EEE8;
+    --text-muted: #888880;
+    --text-dim: #555550;
+    --accent: #3B6D11;
+    --radius: 4px;
+    --radius-lg: 12px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 3rem;
+    background: rgba(10,10,12,0.85);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+  .nav-logo-mark {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--gold);
+    border-radius: var(--radius);
+    display: grid;
+    place-items: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: -1px;
+  }
+  .nav-logo-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: 0.02em;
+  }
+  .nav-logo-text span { color: var(--gold); }
+  .nav-links {
+    display: flex;
+    gap: 2.2rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 400;
+    transition: color 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold);
+    color: #0A0A0C !important;
+    padding: 0.45rem 1.2rem;
+    border-radius: var(--radius);
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--gold-light) !important; color: #0A0A0C !important; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(212,169,67,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(212,169,67,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--gold-dim);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 13px;
+    color: var(--gold-light);
+    margin-bottom: 2rem;
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: 0.05em;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  .hero h1 .line-gold { color: var(--gold); display: block; }
+  .hero-sub {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+    max-width: 500px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn-primary {
+    background: var(--gold);
+    color: #0A0A0C;
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    padding: 0.8rem 2rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    font-family: 'Cairo', sans-serif;
+    transition: border-color 0.2s, color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+  .hero-stats {
+    margin-top: 5rem;
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+    position: relative;
+  }
+  .stat::after {
+    content: '';
+    position: absolute;
+    left: -1.5rem;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--border-dim);
+  }
+  .stat:first-child::after { display: none; }
+  .stat-num {
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+    display: block;
+  }
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ── SECTION BASE ── */
+  section { padding: 6rem 2rem; }
+  .container { max-width: 1100px; margin: 0 auto; }
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--gold);
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 550px;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* ── ABOUT ── */
+  .about-section { background: var(--bg2); }
+  .about-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+    border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  }
+  .about-card-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    color: var(--gold);
+  }
+  .about-card h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .about-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+  .about-card.accent {
+    background: var(--gold-dim);
+    border-color: var(--border);
+  }
+
+  /* ── COURSES ── */
+  .courses-section { background: var(--bg); }
+  .courses-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3.5rem;
+  }
+  .course-card {
+    background: var(--surface);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.25s, transform 0.2s;
+    cursor: default;
+  }
+  .course-card:hover {
+    border-color: var(--border);
+    transform: translateY(-4px);
+  }
+  .course-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .course-card:hover::after { opacity: 1; }
+  .course-number {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+  }
+  .course-icon-wrap {
+    width: 52px; height: 52px;
+    background: var(--gold-dim);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    display: grid;
+    place-items: center;
+    margin-bottom: 1.5rem;
+    font-size: 22px;
+    color: var(--gold);
+  }
+  .course-card h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.01em;
+  }
+  .course-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .course-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--gold);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  .course-tag::before { content: '→'; }
+
+  /* ── WHY ── */
+  .why-section { background: var(--bg2); }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 3.5rem;
+  }
+  .why-item {
+    background: var(--surface);
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius-lg);
+    padding: 1.8rem;
+    display: flex;
+    gap: 1.2rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+  .why-item:hover { border-color: var(--border); }
+  .why-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--gold-dim);
+    line-height: 1;
+    min-width: 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 44px; height: 44px;
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    color: var(--gold);
+    flex-shrink: 0;
+  }
+  .why-text h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .why-text p {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    background: var(--bg3);
+    padding: 6rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(212,169,67,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section h2 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+  }
+  .cta-section p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+    line-height: 1.8;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #070709;
+    border-top: 1px solid var(--border-dim);
+    padding: 4rem 2rem 2rem;
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.4fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid var(--border-dim);
+  }
+  .footer-brand p {
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+    line-height: 1.8;
+    margin: 1.2rem 0 1.5rem;
+  }
+  .footer-socials {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .social-btn {
+    width: 36px; height: 36px;
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius);
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-size: 14px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .social-btn:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+    background: var(--gold-dim);
+  }
+  .footer-col h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 1.4rem;
+    letter-spacing: 0.02em;
+  }
+  .footer-links { list-style: none; }
+  .footer-links li { margin-bottom: 10px; }
+  .footer-links a {
+    text-decoration: none;
+    font-size: 14px;
+    color: var(--text-muted);
+    font-weight: 300;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+  .footer-contact { display: flex; flex-direction: column; gap: 12px; }
+  .contact-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+  .contact-row i {
+    color: var(--gold);
+    margin-top: 2px;
+    width: 14px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .newsletter-form {
+    display: flex;
+    margin-top: 0.5rem;
+    border: 1px solid var(--border-dim);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .newsletter-form:focus-within { border-color: var(--border); }
+  .newsletter-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0.7rem 1rem;
+    color: var(--text);
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    direction: rtl;
+  }
+  .newsletter-input::placeholder { color: var(--text-dim); }
+  .newsletter-btn {
+    background: var(--gold);
+    border: none;
+    padding: 0 1rem;
+    cursor: pointer;
+    color: #0A0A0C;
+    font-size: 14px;
+    transition: background 0.2s;
+  }
+  .newsletter-btn:hover { background: var(--gold-light); }
+  .footer-bottom {
+    max-width: 1100px;
+    margin: 2rem auto 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--text-dim);
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-bottom a { color: var(--gold); text-decoration: none; }
+
+  /* ── DIVIDER LINE ── */
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 0;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .about-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .courses-grid { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .footer-inner { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px) {
+    .footer-inner { grid-template-columns: 1fr; }
+    .hero-stats { gap: 2rem; }
+    .stat::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div style="width: 20%;">
+  <a class="nav-logo" href="../index.html">
+    <img src="../static/image/logo_drak.png" alt="" width="100%">
+  </a>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">من نحن</a></li>
+    <li><a href="../index.html#courses">الكورسات</a></li>
+    <li><a href="#why">لماذا نحن</a></li>
+    <li><a href="https://wa.me/+201080749803" class="nav-cta">ابدأ الآن</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-badge">التعليم التقني للمراهقين ·12 - 18 سنة</div>
+  <h1>
+    ابنِ مهاراتك
+    <span class="line-gold">في عالم التكنولوجيا</span>
+  </h1>
+  <p class="hero-sub">منصة ArabiaTech تُعلّم المراهقين البرمجة والذكاء الاصطناعي والأمن السيبراني بأسلوب تفاعلي عملي يُعدّهم لمستقبل رقمي.</p>
+  <div class="hero-actions">
+    <a href="https://wa.me/+201080749803" class="btn-primary"><i class="fab fa-whatsapp"></i> تواصل معنا</a>
+    <a href="#courses" class="btn-ghost">استكشف الكورسات <i class="fas fa-arrow-left"></i></a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat">
+      <span class="stat-num">+500</span>
+      <span class="stat-label">طالب منضم</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">3</span>
+      <span class="stat-label">مسارات تخصصية</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">100%</span>
+      <span class="stat-label">تعليم عملي</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <div class="about-inner">
+      <div>
+        <div class="section-label">من نحن</div>
+        <h2 class="section-title">نحن نُشكّل<br>جيل المبتكرين</h2>
+        <p class="section-sub">منصة تعليمية متخصصة تُقدّم تعليماً تقنياً عالي الجودة للمراهقين في الوطن العربي، بمحتوى عملي وتفاعلي يتجاوز الحفظ النظري نحو بناء مشاريع حقيقية.</p>
+        <br>
+        <a href="https://wa.me/+201080749803" class="btn-ghost" style="margin-top:1rem">تعرف علينا أكثر <i class="fas fa-arrow-left"></i></a>
+      </div>
+      <div class="about-visual">
+        <div class="about-card accent">
+          <div class="about-card-icon"><i class="fas fa-rocket"></i></div>
+          <h4>تعلم مسرّع بالمشاريع</h4>
+          <p>كل وحدة تعليمية تنتهي بمشروع فعلي يُضاف إلى ملفك الإبداعي.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon"><i class="fas fa-users"></i></div>
+          <h4>مجتمع تعليمي داعم</h4>
+          <p>تواصل مع مدربين خبراء ومجتمع من الطلاب المتحمسين مثلك.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon"><i class="fas fa-certificate"></i></div>
+          <h4>شهادات معتمدة</h4>
+          <p>احصل على شهادات تُثبت مهاراتك وتفتح أمامك أبواب الفرص.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- COURSES -->
+<section class="courses-section" id="courses">
+  <div class="container">
+    <div class="section-label">مساراتنا</div>
+    <h2 class="section-title">اختر مسارك التقني</h2>
+    <p class="section-sub">ثلاثة مسارات متخصصة مصممة خصيصاً للمراهقين، تأخذك من الصفر حتى الاحتراف.</p>
+    <div class="courses-grid">
+      <div class="course-card">
+        <div class="course-number">01 — COURSE</div>
+        <div class="course-icon-wrap"><i class="fas fa-brain"></i></div>
+        <h3>الذكاء الاصطناعي</h3>
+        <p>تعلم أساسيات الذكاء الاصطناعي وتعلم الآلة وبناء نماذج حقيقية تحل مشكلات يومية من حولك.</p>
+        <span class="course-tag">ابدأ الاستكشاف</span>
+      </div>
+      <div class="course-card">
+        <div class="course-number">02 — COURSE</div>
+        <div class="course-icon-wrap"><i class="fas fa-code"></i></div>
+        <h3>تطوير الويب</h3>
+        <p>بناء مواقع وتطبيقات ويب متجاوبة واحترافية باستخدام أحدث التقنيات والأدوات الحديثة.</p>
+        <span class="course-tag">ابدأ الاستكشاف</span>
+      </div>
+      <div class="course-card">
+        <div class="course-number">03 — COURSE</div>
+        <div class="course-icon-wrap"><i class="fas fa-shield-alt"></i></div>
+        <h3>الأمن السيبراني</h3>
+        <p>فهم مبادئ حماية الأنظمة الرقمية والتهديدات الإلكترونية وكيفية التصدي لها باحترافية.</p>
+        <span class="course-tag">ابدأ الاستكشاف</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHY -->
+<section class="why-section" id="why">
+  <div class="container">
+    <div class="section-label">لماذا نحن</div>
+    <h2 class="section-title">ما يجعلنا مختلفين</h2>
+    <p class="section-sub">ليس مجرد تعليم — تجربة تحوّل المراهق إلى مبتكر.</p>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-num">01</div>
+        <div class="why-text">
+          <h4>مدربون من صناعة التكنولوجيا</h4>
+          <p>فريقنا من محترفين يعملون فعلياً في شركات تقنية، يُشاركون خبراتهم الحقيقية لا المنهجية فقط.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">02</div>
+        <div class="why-text">
+          <h4>تعلم قائم على المشاريع</h4>
+          <p>لا نؤمن بالحفظ. كل مهارة تتعلمها تُطبّقها فوراً في مشروع حقيقي يُعزز الفهم العميق.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">03</div>
+        <div class="why-text">
+          <h4>مهارات شخصية وتقنية معاً</h4>
+          <p>نُدرّب على التفكير النقدي وحل المشكلات والعمل الجماعي جنباً إلى جنب مع المهارات التقنية.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="why-num">04</div>
+        <div class="why-text">
+          <h4>مجتمع عربي متكامل</h4>
+          <p>انضم لأكبر مجتمع عربي لمحبي التكنولوجيا الشباب، وابنِ شبكة علاقات تدوم طوال مسيرتك.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="section-label" style="justify-content:center">ابدأ رحلتك</div>
+    <h2>مستقبلك الرقمي<br>يبدأ اليوم</h2>
+    <p>انضم إلى مئات الطلاب الذين يبنون مهاراتهم التقنية الآن. التسجيل متاح والفرصة لا تنتظر.</p>
+    <a href="https://wa.me/+201080749803" class="btn-primary" style="font-size:16px;padding:0.9rem 2.5rem">
+      <i class="fab fa-whatsapp"></i> تواصل معنا عبر واتساب
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      
+    <div style="width: 80%;">
+  <a class="nav-logo" href="../index.html">
+    <img src="../static/image/logo_drak.png" alt="" width="100%">
+  </a>
+  </div>
+     
+      <p>نُقدّم أفضل تجربة تعليمية في مجالات البرمجة والتكنولوجيا للمراهقين العرب، بمحتوى عالي الجودة ودعم مستمر.</p>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/profile.php?id=61571660153694" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.youtube.com/@ArabiaTechAcademy" class="social-btn"><i class="fab fa-youtube"></i></a>
+        <a href="mailto:admin@arabiatech.net" class="social-btn"><i class="fas fa-envelope"></i></a>
+        <a href="#" class="social-btn"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>روابط سريعة</h4>
+      <ul class="footer-links">
+        <li><a href="#">الرئيسية</a></li>
+        <li><a href="#about">من نحن</a></li>
+        <li><a href="#courses">الكورسات</a></li>
+        <li><a href="https://wa.me/+201080749803">اتصل بنا</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>تواصل معنا</h4>
+      <div class="footer-contact">
+        <div class="contact-row"><i class="fas fa-map-marker-alt"></i><span>القاهرة، جمهورية مصر العربية</span></div>
+        <div class="contact-row"><i class="fas fa-envelope"></i><span>admin@arabiatech.net</span></div>
+        <div class="contact-row"><i class="fas fa-phone-alt"></i><span dir="ltr">+201080749803</span></div>
+        <div class="contact-row"><i class="fas fa-clock"></i><span>9 صباحاً – 10 مساءً</span></div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>النشرة الإخبارية</h4>
+      <p style="font-size:13px;color:var(--text-muted);font-weight:300;line-height:1.8;margin-bottom:1rem">اشترك للحصول على آخر التحديثات والعروض الحصرية في عالم التكنولوجيا.</p>
+      <form class="newsletter-form" onsubmit="return false">
+        <input type="email" class="newsletter-input" placeholder="بريدك الإلكتروني">
+        <button type="submit" class="newsletter-btn"><i class="fas fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>جميع الحقوق محفوظة © 2025 <a href="#">ArabiaTech</a></span>
+    <span>تصميم وتطوير بواسطة فريق ArabiaTech</span>
+  </div>
+</footer>
+
+</body>
+</html>
