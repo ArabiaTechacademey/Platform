@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="background.css">
+      <link rel="icon" type="image/png" href="../image/icon1.png">
+    <title>ArabiaTech GUI Designer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background-color: #051e3d;
+            min-height: 100vh;
+            color: #334155;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+            background: rgba(255, 255, 255, 0);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(226, 232, 240, 0.5);
+        }
+
+        .classw {
+            width: 160px;
+            background: linear-gradient(145deg, #ffffff, #f1f5f9);
+            height: 24px;
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: #475569;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .toolbar {
+            width: 280px;
+            background: rgba(0,0,0,0.7);
+            
+            padding: 24px;
+            overflow-y: auto;
+            min-width: 220px;
+            box-shadow: 4px 0 24px rgba(15, 23, 42, 0.06);
+        }
+
+        .toolbar h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            text-shadow: none;
+        }
+
+        .widget-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 18px;
+            margin: 10px 0;
+            background: rgba(0,0,0,0.7);
+            border-radius: 12px;
+            cursor: grab;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.08);
+            font-weight: 500;
+            gap: 12px;
+        }
+
+        .widget-item:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.12), 0 4px 12px rgba(15, 23, 42, 0.08);
+            border-color: #cbd5e1;
+        }
+
+        .widget-item:active {
+            cursor: grabbing;
+            transform: translateY(-1px);
+        }
+
+        .widget-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 12px;
+             background: rgba(0,0,0,0);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #ffffff;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(15, 23, 42, 0.1);
+        }
+
+        .canvas-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(0,0,0,0.7);
+            
+        }
+        
+        .canvas-header {
+            background: rgba(0,0,0,0);
+            padding: 20px 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        .canvas-header h2 {
+            color: #1e293b;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+        }
+
+        .export-btn {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+            letter-spacing: 0.025em;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.2);
+            background: linear-gradient(145deg, #475569, #334155);
+        }
+
+        .canvas {
+            flex: 1;
+            background:rgba(0,0,0,0.7);
+
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08), 0 8px 16px rgba(15, 23, 42, 0.04);
+            border: 0px dashed #000000;
+            width: 850px;
+            height: auto;
+            max-height: 720px;
+            max-width: 1400px;
+        }
+
+        .canvas.drag-over {
+            border-color: #64748b;
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        }
+
+        .canvas-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        .canvas-placeholder h3 {
+            font-size: 28px;
+            margin-bottom: 12px;
+            font-weight: 300;
+            letter-spacing: -0.025em;
+        }
+
+        .dropped-widget {
+            position: absolute;
+            border: 1px solid #1d1d1d;
+            cursor: move;
+            user-select: none;
+            background-color: #f0f0f0;
+            font-size: 16px;
+            font-family: 'Arial';
+            overflow: hidden;
+            font-weight: normal;
+            border-width: 1px;
+            color: #000;
+        }
+
+        .dropped-widget:hover {
+            border-color: #64748b;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+        }
+
+        .dropped-widget.selected {
+            border-color: #475569;
+            box-shadow: 0 0 20px rgba(71, 85, 105, 0.3);
+        }
+
+        /* Widget Name Label */
+        .widget-name-label {
+            position: absolute;
+            top: -22px;
+            left: 0;
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            pointer-events: none;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .widget-button, .widget-label, .widget-entry, .widget-text, .widget-checkbox, .widget-radio, .widget-listbox, .widget-combobox, .widget-scale, .widget-spinbox, .widget-progressbar, .widget-frame {
+            background-color: inherit;
+            border: inherit;
+            cursor: pointer;
+            font-weight: inherit;
+            width: 100%;
+            height: 100%;
+            color:inherit;
+            transition: all 0.2s ease;
+            border-width: inherit;
+            font-size: 1em;
+            font-family:inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-button:hover {
+            background: linear-gradient(145deg, #f8fafc, #e2e8f0);
+        }
+
+        .widget-checkbox input, .widget-radio input {
+             margin-right:2px;
+            transform: scale(1);
+        }
+
+        .widget-radio {
+            width: 25px;
+            gap: 5px;
+            display: flex;
+            align-items: center;
+           padding: 5px;
+        }
+
+        .widget-progressbar {
+            display: flex;
+        }
+
+        .progress-fill {
+            background-color: green;
+            height: 100%;
+            width: 65%;
+            border-radius: 4px;
+        }
+
+        .widget-frame {
+            color:transparent;
+        }
+
+        .properties-panel {
+            width: 340px;
+             background: rgba(0,0,0,0.7);
+           
+            padding: 24px;
+            overflow-y: auto;
+            min-width: 220px;
+            box-shadow: -4px 0 24px rgba(15, 23, 42, 0.06);
+            color: #ffffff;
+        }
+
+        .properties-panel h3 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.025em;
+        }
+
+        .property-group {
+            margin-bottom: 20px;
+        }
+
+        .property-group label {
+            color: #ffffff;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .property-group input, .property-group select, .property-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: #ffffff;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        .property-group input:focus, .property-group select:focus, .property-group textarea:focus {
+            outline: none;
+            border-color: #64748b;
+            box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.1);
+        }
+
+        .property-group textarea {
+            height: 90px;
+            resize: vertical;
+        }
+
+        .color-input {
+            height: 48px !important;
+            cursor: pointer;
+            border-radius: 12px !important;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-left: 1px solid #e2e8f0;
+            color: #64748b;
+            cursor: pointer;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .tab:last-child {
+            border-left: none;
+        }
+
+        .tab.active {
+            background: linear-gradient(145deg, #ffffff, #f1f5f9);
+            color: #1e293b;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .code-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+        }
+
+        .code-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 32px;
+            width: 90%;
+            max-width: 1000px;
+            max-height: 90%;
+            overflow: hidden;
+            box-shadow: 0 25px 80px rgba(15, 23, 42, 0.25);
+            border: 1px solid #e2e8f0;
+        }
+
+        .code-modal h3 {
+            margin-bottom: 24px;
+            color: #1e293b;
+            font-weight: 700;
+            font-size: 24px;
+        }
+
+        .code-display {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            max-height: 450px;
+            color: #334155;
+            max-height: 200px;
+        }
+
+        .modal-buttons {
+            margin-top: 24px;
+            text-align: right;
+        }
+
+        .modal-buttons button {
+            margin-left: 12px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn {
+            background: linear-gradient(145deg, #64748b, #475569);
+            color: white;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.2);
+        }
+
+        .close-btn {
+            background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+            color: #475569;
+            border: 1px solid #cbd5e1;
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(145deg, #e2e8f0, #cbd5e1);
+            transform: translateY(-1px);
+        }
+
+        .delete-btn {
+            background: linear-gradient(145deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            margin-top: 16px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(145deg, #dc2626, #b91c1c);
+            transform: translateY(-1px);
+        }
+
+        .function-editor {
+            margin-top: 16px;
+        }
+
+        .function-item {
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
+        }
+
+        .function-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .function-name {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .remove-function {
+            background: linear-gradient(145deg, #ef4444, #dc2626);
+            color: white;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .add-function-btn {
+            background: linear-gradient(145deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .add-function-btn:hover {
+            background: linear-gradient(145deg, #059669, #047857);
+            transform: translateY(-1px);
+        }
+
+        /* Widget Name Highlight */
+        .widget-name-highlight {
+            background: linear-gradient(145deg, #fef3c7, #fde68a) !important;
+            border-color: #f59e0b !important;
+        }
+
+        /* Validation styles */
+        .invalid {
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+        }
+
+        .valid {
+            border-color: #10b981 !important;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1) !important;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #cbd5e1, #94a3b8);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #94a3b8, #64748b);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <h3>Widgets</h3>
+            <div class="widget-item" draggable="true" data-widget="button">
+                <div class="widget-icon">🔘</div>
+                Button
+            </div>
+            <div class="widget-item" draggable="true" data-widget="label">
+                <div class="widget-icon">📝</div>
+                Label
+            </div>
+            <div class="widget-item" draggable="true" data-widget="entry">
+                <div class="widget-icon">📄</div>
+                Entry
+            </div>
+            <div class="widget-item" draggable="true" data-widget="text">
+                <div class="widget-icon">📋</div>
+                Text Area
+            </div>
+            <div class="widget-item" draggable="true" data-widget="checkbox">
+                <div class="widget-icon">☑️</div>
+                Checkbox
+            </div>
+            <div class="widget-item" draggable="true" data-widget="radio">
+                <div class="widget-icon">🔘</div>
+                Radio Button
+            </div>
+            <div class="widget-item" draggable="true" data-widget="listbox">
+                <div class="widget-icon">📋</div>
+                Listbox
+            </div>
+            <div class="widget-item" draggable="true" data-widget="combobox">
+                <div class="widget-icon">🔽</div>
+                Combobox
+            </div>
+            <div class="widget-item" draggable="true" data-widget="scale">
+                <div class="widget-icon">🎚️</div>
+                Scale/Slider
+            </div>
+            <div class="widget-item" draggable="true" data-widget="spinbox">
+                <div class="widget-icon">🔢</div>
+                Spinbox
+            </div>
+            <div class="widget-item" draggable="true" data-widget="progressbar">
+                <div class="widget-icon">📊</div>
+                Progressbar
+            </div>
+            <div class="widget-item" draggable="true" data-widget="frame">
+                <div class="widget-icon">🖼️</div>
+                Frame
+            </div>
+        </div>
+
+        <div class="canvas-area">
+            <div class="canvas-header">
+                <h2 style="color:white"> ArabiaTech GUI Designer</h2>
+                <input type="number" name="" id="w1"  class="classw" placeholder="width max=1400">
+                <input type="number" name="" id="h1" class="classw" placeholder="height max=720"> 
+                <button class="export-btn" onclick="exportCode()">
+                     Export Tkinter Code
+                </button>
+            </div>
+            <div class="canvas" id="canvas">
+                <div class="canvas-placeholder">
+                    <h3>Drop widgets here</h3>
+                    <p>Drag widgets from the toolbar to start building your GUI</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="properties-panel">
+            <h3> Properties</h3>
+            <div id="properties-content">
+                <p style="color: rgba(255,255,255,0.7);">Select a widget to edit its properties</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="code-modal" id="codeModal">
+        <div class="code-modal-content">
+            <h3> Generated Advanced Tkinter Code</h3>
+            <div class="code-display" id="codeDisplay"></div>
+            <div class="modal-buttons">
+                <button class="copy-btn" onclick="copyCode()"> Copy Code</button>
+                <button class="close-btn" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let widgetCounter = 0;
+        let selectedWidget = null;
+        let widgets = [];
+        let currentTab = 'basic';
+        const widthInput = document.getElementById("w1");
+        const heightInput = document.getElementById("h1");
+        const canvas = document.getElementById("canvas");
+
+        function updateCanvasSize() {
+            const width = parseInt(widthInput.value);
+            const height = parseInt(heightInput.value);
+
+            if (!isNaN(width)) {
+                canvas.style.width = width + "px";
+            }
+
+            if (!isNaN(height)) {
+                canvas.style.maxHeight = height + "px";
+            }
+        }
+
+        widthInput.addEventListener("input", updateCanvasSize);
+        heightInput.addEventListener("input", updateCanvasSize);
+        
+        // Drag and drop functionality
+        document.querySelectorAll('.widget-item').forEach(item => {
+            item.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', e.target.dataset.widget);
+            });
+        });
+
+        canvas.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            canvas.classList.add('drag-over');
+        });
+
+        canvas.addEventListener('dragleave', () => {
+            canvas.classList.remove('drag-over');
+        });
+
+        canvas.addEventListener('drop', (e) => {
+            e.preventDefault();
+            canvas.classList.remove('drag-over');
+            
+            const widgetType = e.dataTransfer.getData('text/plain');
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            createWidget(widgetType, x, y);
+        });
+
+        // NEW: Function to generate unique widget name
+        function generateWidgetName(type) {
+            const baseName = type.toLowerCase();
+            let counter = 1;
+            let proposedName = `${baseName}${counter}`;
+            
+            // Check if name already exists
+            while (widgets.some(w => w.properties.widget_name === proposedName)) {
+                counter++;
+                proposedName = `${baseName}${counter}`;
+            }
+            
+            return proposedName;
+        }
+
+        // NEW: Function to validate widget name
+        function validateWidgetName(name, excludeWidget = null) {
+            if (!name) return { valid: false, message: "Widget name cannot be empty" };
+            
+            // Check Python identifier rules
+            const pythonIdentifierRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+            if (!pythonIdentifierRegex.test(name)) {
+                return { valid: false, message: "Invalid name. Use letters, numbers, and underscores only. Must start with letter or underscore." };
+            }
+            
+            // Check for Python keywords
+            const pythonKeywords = ['and', 'as', 'assert', 'break', 'class', 'continue', 'def', 'del', 'elif', 'else', 'except', 'finally', 'for', 'from', 'global', 'if', 'import', 'in', 'is', 'lambda', 'nonlocal', 'not', 'or', 'pass', 'raise', 'return', 'try', 'while', 'with', 'yield'];
+            if (pythonKeywords.includes(name.toLowerCase())) {
+                return { valid: false, message: "Cannot use Python keywords as widget names" };
+            }
+            
+            // Check if name already exists (excluding current widget)
+            const existingWidget = widgets.find(w => w.properties.widget_name === name && w !== excludeWidget);
+            if (existingWidget) {
+                return { valid: false, message: "Widget name already exists" };
+            }
+            
+            return { valid: true, message: "Valid widget name" };
+        }
+
+        // NEW: Function to update widget name label
+        function updateWidgetNameLabel(widget, name) {
+            let nameLabel = widget.querySelector('.widget-name-label');
+            if (!nameLabel) {
+                nameLabel = document.createElement('div');
+                nameLabel.className = 'widget-name-label';
+                widget.appendChild(nameLabel);
+            }
+            nameLabel.textContent = name || 'unnamed';
+        }
+
+        function createWidget(type, x, y) {
+            widgetCounter++;
+            const widget = document.createElement('div');
+            widget.className = 'dropped-widget';
+            widget.dataset.type = type;
+            widget.dataset.id = `widget_${widgetCounter}`;
+            widget.style.left = x + 'px';
+            widget.style.top = y + 'px';
+
+            // Create widget content and properties based on type
+            let content = '';
+            let properties = {
+                // Basic properties
+                text: type.charAt(0).toUpperCase() + type.slice(1),
+                x: x,
+                y: y,
+                width: 120,
+                height: 30,
+                // NEW: Widget name property
+                widget_name: generateWidgetName(type),
+                // Style properties
+                fg: '#000000',
+                bg: '#f0f0f0',
+                font_family: 'Arial',
+                font_size: 12,
+                font_weight: 'normal',
+                relief: 'raised',
+                borderwidth: 2,
+                // State properties
+                state: 'normal',
+                anchor: 'center',
+                justify: 'center',
+                // Events and functions
+                functions: [],
+                // Widget-specific properties
+                variable: '',
+                values: '',
+                from_: 0,
+                to: 100,
+                orient: 'horizontal',
+                mode: 'determinate',
+                maximum: 100,
+                value: 50
+            };
+
+            switch(type) {
+                case 'button':
+                    content = `<div class="widget-button">Button</div>`;
+                    properties.width = 100;
+                    properties.height = 35;
+                    break;
+                case 'label':
+                    content = `<div class="widget-label">Label</div>`;
+                    properties.relief = 'flat';
+                    break;
+                case 'entry':
+                    content = `<input type="text" class="widget-entry"  style="width: 100%; height: 100%; border: none; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit;">`;
+                    properties.width = 150;
+                    break;
+                case 'text':
+                    content = `<textarea class="widget-text" style="width: 100%; height: 100%; border: none; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit; resize: none;"></textarea>`;
+                    properties.width = 200;
+                    properties.height = 100;
+                    break;
+                case 'checkbox':
+                    content = `<div class="widget-checkbox"><input type="checkbox" style="pointer-events: auto;"> Checkbox</div>`;
+                    properties.width = 100;
+                    break;
+                case 'radio':
+                    content = `<div class="widget-radio"><input type="radio" style="pointer-events: auto;"> Radio</div>`;
+                    properties.width = 100;
+                    break;
+                case 'listbox':
+                    content = `<select class="widget-listbox" multiple style="width: 100%; height: 100%; border: none; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit;"><option>Item 1</option><option>Item 2</option><option>Item 3</option></select>`;
+                    properties.width = 150;
+                    properties.height = 80;
+                    properties.values = 'Item 1,Item 2,Item 3';
+                    break;
+                case 'combobox':
+                    content = `<select class="widget-combobox" style="width: 100%; height: 100%; border: none; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit;"><option>Option 1</option><option>Option 2</option><option>Option 3</option></select>`;
+                    properties.width = 150;
+                    properties.values = 'Option 1,Option 2,Option 3';
+                    break;
+                case 'scale':
+                    content = `<input type="range" class="widget-scale" min="0" max="100" value="50" style="width: 100%; height: 100%;">`;
+                    properties.width = 150;
+                    properties.height = 50;
+                    break;
+                case 'spinbox':
+                    content = `<input type="number" class="widget-spinbox" value="50" min="0" max="100" style="width: 100%; height: 100%; border: none; outline: none; background: transparent; font-family: inherit; font-size: inherit; color: inherit;">`;
+                    properties.width = 80;
+                    break;
+                case 'progressbar':
+                    content = `<div class="widget-progressbar"><div class="progress-fill"></div></div>`;
+                    properties.width = 200;
+                    properties.height = 25;
+                    break;
+                case 'frame':
+                    content = `<div class="widget-frame" style="color:transparent"></div>`;
+                    properties.width = 200;
+                    properties.height = 150;
+                    break;
+            }
+
+            widget.innerHTML = content;
+            widget.style.width = properties.width + 'px';
+            widget.style.height = properties.height + 'px';
+            
+            // NEW: Add widget name label
+            updateWidgetNameLabel(widget, properties.widget_name);
+            
+            // Add to widgets array
+            widgets.push({
+                id: widget.dataset.id,
+                type: type,
+                element: widget,
+                properties: properties
+            });
+
+            // Make draggable within canvas
+            makeDraggable(widget);
+            
+            // Add click handler for selection
+            widget.addEventListener('click', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                    return;
+                }
+                e.stopPropagation();
+                selectWidget(widget);
+            });
+
+            // Special handling for input elements
+            const inputElements = widget.querySelectorAll('input, textarea, select');
+            inputElements.forEach(input => {
+                input.addEventListener('mousedown', (e) => {
+                    e.stopPropagation();
+                });
+                
+                input.addEventListener('focus', (e) => {
+                    e.stopPropagation();
+                    selectWidget(widget);
+                });
+
+                input.style.pointerEvents = 'auto';
+            });
+
+            canvas.appendChild(widget);
+            selectWidget(widget);
+
+            // Hide placeholder if this is the first widget
+            if (widgets.length === 1) {
+                canvas.querySelector('.canvas-placeholder').style.display = 'none';
+            }
+        }
+
+        function makeDraggable(element) {
+            let isDragging = false;
+            let startX, startY, startLeft, startTop;
+            let dragTimeout;
+
+            element.addEventListener('mousedown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
+                    return;
+                }
+                
+                if (e.target.classList.contains('widget-entry') || 
+                    e.target.classList.contains('widget-text') || 
+                    e.target.classList.contains('widget-listbox') || 
+                    e.target.classList.contains('widget-combobox') || 
+                    e.target.classList.contains('widget-scale') || 
+                    e.target.classList.contains('widget-spinbox')) {
+                    return;
+                }
+
+                dragTimeout = setTimeout(() => {
+                    isDragging = true;
+                    startX = e.clientX;
+                    startY = e.clientY;
+                    startLeft = parseInt(element.style.left);
+                    startTop = parseInt(element.style.top);
+                    
+                    document.addEventListener('mousemove', onMouseMove);
+                    document.addEventListener('mouseup', onMouseUp);
+                }, 100);
+
+                e.preventDefault();
+            });
+
+            element.addEventListener('mousemove', (e) => {
+                if (dragTimeout && !isDragging) {
+                    const moveThreshold = 5;
+                    if (Math.abs(e.clientX - startX) < moveThreshold && 
+                        Math.abs(e.clientY - startY) < moveThreshold) {
+                        return;
+                    }
+                }
+            });
+
+            element.addEventListener('mouseup', () => {
+                if (dragTimeout) {
+                    clearTimeout(dragTimeout);
+                    dragTimeout = null;
+                }
+            });
+
+            function onMouseMove(e) {
+                if (!isDragging) return;
+                
+                const newLeft = startLeft + (e.clientX - startX);
+                const newTop = startTop + (e.clientY - startY);
+                
+                element.style.left = Math.max(0, newLeft) + 'px';
+                element.style.top = Math.max(0, newTop) + 'px';
+                
+                const widgetData = widgets.find(w => w.element === element);
+                if (widgetData) {
+                    widgetData.properties.x = Math.max(0, newLeft);
+                    widgetData.properties.y = Math.max(0, newTop);
+                    updateProperties();
+                }
+            }
+
+            function onMouseUp() {
+                isDragging = false;
+                if (dragTimeout) {
+                    clearTimeout(dragTimeout);
+                    dragTimeout = null;
+                }
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+            }
+        }
+
+        function selectWidget(widget) {
+            document.querySelectorAll('.dropped-widget').forEach(w => {
+                w.classList.remove('selected');
+            });
+            
+            widget.classList.add('selected');
+            selectedWidget = widget;
+            
+            updateProperties();
+        }
+
+        function switchTab(tabName) {
+            currentTab = tabName;
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        function getWidgetSpecificProperties(type, props) {
+            let html = '';
+            
+            switch(type) {
+                case 'listbox':
+                case 'combobox':
+                    html = `
+                        <div class="property-group">
+                            <label>Values (comma separated):</label>
+                            <textarea onchange="updateWidgetProperty('values', this.value)" placeholder="Item 1,Item 2,Item 3">${props.values}</textarea>
+                        </div>
+                    `;
+                    break;
+                case 'scale':
+                    html = `
+                        <div class="property-group">
+                            <label>From:</label>
+                            <input type="number" value="${props.from_}" onchange="updateWidgetProperty('from_', parseInt(this.value))">
+                        </div>
+                        <div class="property-group">
+                            <label>To:</label>
+                            <input type="number" value="${props.to}" onchange="updateWidgetProperty('to', parseInt(this.value))">
+                        </div>
+                        <div class="property-group">
+                            <label>Orientation:</label>
+                            <select onchange="updateWidgetProperty('orient', this.value)">
+                                <option value="horizontal" ${props.orient === 'horizontal' ? 'selected' : ''}>Horizontal</option>
+                                <option value="vertical" ${props.orient === 'vertical' ? 'selected' : ''}>Vertical</option>
+                            </select>
+                        </div>
+                    `;
+                    break;
+                case 'spinbox':
+                    html = `
+                        <div class="property-group">
+                            <label>From:</label>
+                            <input type="number" value="${props.from_}" onchange="updateWidgetProperty('from_', parseInt(this.value))">
+                        </div>
+                        <div class="property-group">
+                            <label>To:</label>
+                            <input type="number" value="${props.to}" onchange="updateWidgetProperty('to', parseInt(this.value))">
+                        </div>
+                        <div class="property-group">
+                            <label>Values (comma separated):</label>
+                            <textarea onchange="updateWidgetProperty('values', this.value)" placeholder="1,2,3,4,5">${props.values}</textarea>
+                        </div>
+                    `;
+                    break;
+                case 'progressbar':
+                    html = `
+                        <div class="property-group">
+                            <label>Mode:</label>
+                            <select onchange="updateWidgetProperty('mode', this.value)">
+                                <option value="determinate" ${props.mode === 'determinate' ? 'selected' : ''}>Determinate</option>
+                                <option value="indeterminate" ${props.mode === 'indeterminate' ? 'selected' : ''}>Indeterminate</option>
+                            </select>
+                        </div>
+                        <div class="property-group">
+                            <label>Maximum:</label>
+                            <input type="number" value="${props.maximum}" onchange="updateWidgetProperty('maximum', parseInt(this.value))">
+                        </div>
+                        <div class="property-group">
+                            <label>Value:</label>
+                            <input type="number" value="${props.value}" onchange="updateWidgetProperty('value', parseInt(this.value))">
+                        </div>
+                    `;
+                    break;
+            }
+            
+            return html;
+        }
+
+        // NEW: Updated function to handle widget name changes
+        function updateWidgetProperty(property, value) {
+            if (!selectedWidget) return;
+            
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (!widgetData) return;
+
+            // NEW: Special handling for widget_name property
+            if (property === 'widget_name') {
+                const validation = validateWidgetName(value, widgetData);
+                const input = document.querySelector('input[data-property="widget_name"]');
+                
+                if (validation.valid) {
+                    input.classList.remove('invalid');
+                    input.classList.add('valid');
+                    input.title = validation.message;
+                    widgetData.properties[property] = value;
+                    updateWidgetNameLabel(selectedWidget, value);
+                } else {
+                    input.classList.remove('valid');
+                    input.classList.add('invalid');
+                    input.title = validation.message;
+                    return; // Don't update if invalid
+                }
+            } else {
+                widgetData.properties[property] = value;
+            }
+            
+            // Update visual representation
+            switch(property) {
+                case 'text':
+                    updateWidgetText(selectedWidget, value);
+                    break;
+                case 'x':
+                    selectedWidget.style.left = value + 'px';
+                    break;
+                case 'y':
+                    selectedWidget.style.top = value + 'px';
+                    break;
+                case 'width':
+                    selectedWidget.style.width = value + 'px';
+                    break;
+                case 'height':
+                    selectedWidget.style.height = value + 'px';
+                    break;
+                case 'fg':
+                    selectedWidget.style.color = value;
+                    break;
+                case 'bg':
+                    selectedWidget.style.backgroundColor = value;
+                    break;
+                case 'values':
+                    updateWidgetValues(selectedWidget, value);
+                    break;
+                case 'font_family':
+                    selectedWidget.style.fontFamily = value;
+                    break;
+                case 'font_size':
+                    selectedWidget.style.fontSize = value + 'px';
+                    break;
+                case 'font_weight':
+                    selectedWidget.style.fontWeight = value;
+                    break;
+                case 'relief':
+                    if (value === 'flat') {
+                        selectedWidget.style.border = 'none';
+                        selectedWidget.style.boxShadow = 'none';
+                    } else if (value === 'raised') {
+                        selectedWidget.style.borderTop = 'none';
+                        selectedWidget.style.borderBottom = '1px solid black';
+                        selectedWidget.style.borderLeft = 'none';
+                        selectedWidget.style.borderRight = '1px solid black';
+                        selectedWidget.style.boxShadow = 'inset -2px -2px 5px rgba(0,0,0,0.3)';                   
+                     }else if (value === 'sunken'){
+                        selectedWidget.style.borderTop = '1px solid black';
+                        selectedWidget.style.borderBottom = 'none';
+                        selectedWidget.style.borderLeft = '1px solid black';
+                        selectedWidget.style.borderRight = 'none';
+                        selectedWidget.style.boxShadow = 'inset 2px 2px 5px rgba(0,0,0,0.3)'; 
+                    } else if (value === 'groove') {
+                        selectedWidget.style.border = '1px solid black ';
+                        selectedWidget.style.boxShadow = 'none';
+                    } else if (value === 'ridge') {
+                        selectedWidget.style.border = '2px ridge #999';
+                    }
+                    break;
+                case 'borderwidth':
+                    selectedWidget.style.borderWidth = value + 'px';
+                    break;
+            }
+        }
+
+        function updateWidgetText(widget, text) {
+            const textElement = widget.querySelector('.widget-button, .widget-label, .widget-entry, .widget-text, .widget-checkbox, .widget-radio, .widget-frame');
+            if (textElement) {
+                if (textElement.tagName === 'INPUT' || textElement.tagName === 'TEXTAREA') {
+                    textElement.value = text;
+                } else if (textElement.classList.contains('widget-checkbox') || textElement.classList.contains('widget-radio')) {
+                    textElement.childNodes[1].textContent = ' ' + text;
+                } else {
+                    textElement.textContent = text;
+                }
+            }
+        }
+
+        function updateWidgetValues(widget, values) {
+            const selectElement = widget.querySelector('select');
+            if (selectElement) {
+                selectElement.innerHTML = '';
+                values.split(',').forEach(value => {
+                    const option = document.createElement('option');
+                    option.value = value.trim();
+                    option.textContent = value.trim();
+                    selectElement.appendChild(option);
+                });
+            }
+        }
+
+        function addFunction() {
+            if (!selectedWidget) return;
+            
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (!widgetData) return;
+            
+            const functionName = `on_${widgetData.properties.widget_name}_click`;
+            widgetData.properties.functions.push({
+                name: functionName,
+                code: `def ${functionName}():\n    # Your code here\n    pass`,
+                event: 'command',
+                pattern: '<Button-1>'
+            });
+            
+            updateProperties();
+        }
+
+        function removeFunction(index) {
+            if (!selectedWidget) return;
+            
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (!widgetData) return;
+            
+            widgetData.properties.functions.splice(index, 1);
+            updateProperties();
+        }
+
+        function updateFunction(index, property, value) {
+            if (!selectedWidget) return;
+            
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (!widgetData) return;
+            
+            widgetData.properties.functions[index][property] = value;
+        }
+
+        function deleteWidget() {
+            if (!selectedWidget) return;
+            
+            widgets = widgets.filter(w => w.element !== selectedWidget);
+            
+            selectedWidget.remove();
+            selectedWidget = null;
+            
+            updateProperties();
+            
+            if (widgets.length === 0) {
+                canvas.querySelector('.canvas-placeholder').style.display = 'block';
+            }
+        }
+
+        canvas.addEventListener('click', (e) => {
+            if (e.target === canvas) {
+                document.querySelectorAll('.dropped-widget').forEach(w => {
+                    w.classList.remove('selected');
+                });
+                selectedWidget = null;
+                updateProperties();
+            }
+        });
+
+        function exportCode() {
+            const code = generateAdvancedTkinterCode();
+            document.getElementById('codeDisplay').textContent = code;
+            document.getElementById('codeModal').style.display = 'block';
+        }
+
+        function generateAdvancedTkinterCode() {
+            let allowwidth = 0;
+            let allowheight = 0;
+            
+            if (parseInt(widthInput.value) > 1400) {
+                allowwidth = 1400;
+            } else if (isNaN(parseInt(widthInput.value))) {
+                allowwidth = 850;
+            } else {
+                allowwidth = parseInt(widthInput.value);
+            }
+
+            if (parseInt(heightInput.value) > 720) {
+                allowheight = 720;
+            } else if (isNaN(parseInt(heightInput.value))) {
+                allowheight = 720;
+            } else {
+                allowheight = parseInt(heightInput.value);
+            }
+            
+            let code = `import tkinter as tk
+from tkinter import ttk
+from tkinter import messagebox
+
+# Create main window
+root = tk.Tk()
+root.title("Generated Advanced GUI")
+root.geometry("${allowwidth}x${allowheight}")
+
+# Initialize variables
+variables = {}
+
+`;
+
+            // Generate variables
+            widgets.forEach(widget => {
+                const props = widget.properties;
+                if (props.variable) {
+                    const varType = getVariableType(widget.type);
+                    code += `# Variable for ${props.widget_name}\n`;
+                    code += `variables['${props.variable}'] = tk.${varType}()\n\n`;
+                }
+            });
+
+            // Generate all custom functions
+            let customFunctions = '';
+            widgets.forEach(widget => {
+                const props = widget.properties;
+                if (props.functions && props.functions.length > 0) {
+                    props.functions.forEach(func => {
+                        customFunctions += `${func.code}\n\n`;
+                    });
+                }
+            });
+
+            if (customFunctions) {
+                code += `# Custom Functions\n${customFunctions}`;
+            }
+
+            code += `# Create widgets\n`;
+
+            widgets.forEach(widget => {
+                const props = widget.properties;
+                // NEW: Use widget_name instead of generated name
+                const varName = props.widget_name;
+                
+                code += `# ${props.text} ${widget.type.charAt(0).toUpperCase() + widget.type.slice(1)}\n`;
+                
+                switch(widget.type) {
+                    case 'button':
+                        code += `${varName} = tk.Button(\n`;
+                        code += `    root,\n`;
+                        code += `    text="${props.text}",\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}",\n`;
+                        code += `    anchor="${props.anchor}"`;
+                        
+                        const buttonFunc = props.functions.find(f => f.event === 'command');
+                        if (buttonFunc) {
+                            code += `,\n    command=${buttonFunc.name}`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'label':
+                        code += `${varName} = tk.Label(\n`;
+                        code += `    root,\n`;
+                        code += `    text="${props.text}",\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    anchor="${props.anchor}"\n`;
+                        code += `)\n`;
+                        break;
+                        
+                    case 'entry':
+                        code += `${varName} = tk.Entry(\n`;
+                        code += `    root,\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}",\n`;
+                        code += `    justify="${props.justify}"`;
+                        if (props.variable) {
+                            code += `,\n    textvariable=variables['${props.variable}']`;
+                        }
+                        code += `\n)\n`;
+                        if (!props.variable) {
+                            code += `${varName}.insert(0, "${props.text}")\n`;
+                        }
+                        break;
+                        
+                    case 'text':
+                        code += `${varName} = tk.Text(\n`;
+                        code += `    root,\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}"\n`;
+                        code += `)\n`;
+                        code += `${varName}.insert("1.0", "${props.text}")\n`;
+                        break;
+                        
+                    case 'checkbox':
+                        code += `${varName} = tk.Checkbutton(\n`;
+                        code += `    root,\n`;
+                        code += `    text="${props.text}",\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}",\n`;
+                        code += `    anchor="${props.anchor}"`;
+                        if (props.variable) {
+                            code += `,\n    variable=variables['${props.variable}']`;
+                        }
+                        
+                        const checkFunc = props.functions.find(f => f.event === 'command');
+                        if (checkFunc) {
+                            code += `,\n    command=${checkFunc.name}`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'radio':
+                        code += `${varName} = tk.Radiobutton(\n`;
+                        code += `    root,\n`;
+                        code += `    text="${props.text}",\n`;
+                        code += `    value="${props.text}",\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}",\n`;
+                        code += `    anchor="${props.anchor}"`;
+                        if (props.variable) {
+                            code += `,\n    variable=variables['${props.variable}']`;
+                        }
+                        
+                        const radioFunc = props.functions.find(f => f.event === 'command');
+                        if (radioFunc) {
+                            code += `,\n    command=${radioFunc.name}`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'listbox':
+                        code += `${varName} = tk.Listbox(\n`;
+                        code += `    root,\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}"\n`;
+                        code += `)\n`;
+                        if (props.values) {
+                            const values = props.values.split(',');
+                            values.forEach(value => {
+                                code += `${varName}.insert(tk.END, "${value.trim()}")\n`;
+                            });
+                        }
+                        break;
+                        
+                    case 'combobox':
+                        code += `${varName} = ttk.Combobox(\n`;
+                        code += `    root,\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    state="${props.state}"`;
+                        if (props.values) {
+                            const values = props.values.split(',').map(v => `"${v.trim()}"`).join(', ');
+                            code += `,\n    values=[${values}]`;
+                        }
+                        if (props.variable) {
+                            code += `,\n    textvariable=variables['${props.variable}']`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'scale':
+                        code += `${varName} = tk.Scale(\n`;
+                        code += `    root,\n`;
+                        code += `    from_=${props.from_},\n`;
+                        code += `    to=${props.to},\n`;
+                        code += `    orient="${props.orient}",\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}"`;
+                        if (props.variable) {
+                            code += `,\n    variable=variables['${props.variable}']`;
+                        }
+                        
+                        const scaleFunc = props.functions.find(f => f.event === 'command');
+                        if (scaleFunc) {
+                            code += `,\n    command=${scaleFunc.name}`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'spinbox':
+                        code += `${varName} = tk.Spinbox(\n`;
+                        code += `    root,\n`;
+                        code += `    from_=${props.from_},\n`;
+                        code += `    to=${props.to},\n`;
+                        code += `    fg="${props.fg}",\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    font=("${props.font_family}", ${props.font_size}, "${props.font_weight}"),\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth},\n`;
+                        code += `    state="${props.state}"`;
+                        if (props.values) {
+                            const values = props.values.split(',').map(v => `"${v.trim()}"`).join(', ');
+                            code += `,\n    values=[${values}]`;
+                        }
+                        if (props.variable) {
+                            code += `,\n    textvariable=variables['${props.variable}']`;
+                        }
+                        
+                        const spinFunc = props.functions.find(f => f.event === 'command');
+                        if (spinFunc) {
+                            code += `,\n    command=${spinFunc.name}`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'progressbar':
+                        code += `${varName} = ttk.Progressbar(\n`;
+                        code += `    root,\n`;
+                        code += `    mode="${props.mode}",\n`;
+                        code += `    maximum=${props.maximum},\n`;
+                        code += `    value=${props.value}`;
+                        if (props.variable) {
+                            code += `,\n    variable=variables['${props.variable}']`;
+                        }
+                        code += `\n)\n`;
+                        break;
+                        
+                    case 'frame':
+                        code += `${varName} = tk.Frame(\n`;
+                        code += `    root,\n`;
+                        code += `    bg="${props.bg}",\n`;
+                        code += `    relief="${props.relief}",\n`;
+                        code += `    borderwidth=${props.borderwidth}\n`;
+                        code += `)\n`;
+                        break;
+                }
+                
+                code += `${varName}.place(x=${props.x}, y=${props.y}, width=${props.width}, height=${props.height})\n\n`;
+            });
+
+            // Add event bindings
+            let hasBindEvents = false;
+            code += `# Bind events\n`;
+            
+            widgets.forEach(widget => {
+                const props = widget.properties;
+                const varName = props.widget_name;
+                
+                if (props.functions && props.functions.length > 0) {
+                    props.functions.forEach(func => {
+                        if (func.event === 'bind') {
+                            code += `${varName}.bind("${func.pattern}", ${func.name})\n`;
+                            hasBindEvents = true;
+                        }
+                    });
+                }
+            });
+            
+            if (!hasBindEvents) {
+                code += `# No event bindings\n`;
+            }
+            
+            code += `\n# Start the GUI event loop\nroot.mainloop()`;
+
+            return code;
+        }
+
+        function getVariableType(widgetType) {
+            switch(widgetType) {
+                case 'checkbox':
+                    return 'BooleanVar';
+                case 'scale':
+                case 'spinbox':
+                    return 'IntVar';
+                case 'entry':
+                case 'text':
+                case 'radio':
+                case 'combobox':
+                default:
+                    return 'StringVar';
+            }
+        }
+
+        function copyCode() {
+            const codeText = document.getElementById('codeDisplay').textContent;
+            navigator.clipboard.writeText(codeText).then(() => {
+                const copyBtn = document.querySelector('.copy-btn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✅ Copied!';
+                setTimeout(() => {
+                    copyBtn.textContent = originalText;
+                }, 2000);
+            });
+        }
+
+        function closeModal() {
+            document.getElementById('codeModal').style.display = 'none';
+        }
+
+        // Function to get current text from input elements
+        function getCurrentWidgetText(widget) {
+            const widgetType = widget.dataset.type;
+            
+            switch(widgetType) {
+                case 'entry':
+                    const entry = widget.querySelector('.widget-entry');
+                    return entry ? entry.value : '';
+                    
+                case 'text':
+                    const textarea = widget.querySelector('.widget-text');
+                    return textarea ? textarea.value : '';
+                    
+                case 'checkbox':
+                    const checkbox = widget.querySelector('.widget-checkbox');
+                    if (checkbox && checkbox.childNodes.length > 1) {
+                        return checkbox.childNodes[1].textContent.trim();
+                    }
+                    return '';
+                    
+                case 'radio':
+                    const radio = widget.querySelector('.widget-radio');
+                    if (radio && radio.childNodes.length > 1) {
+                        return radio.childNodes[1].textContent.trim();
+                    }
+                    return '';
+                    
+                case 'combobox':
+                    const combobox = widget.querySelector('.widget-combobox');
+                    return combobox ? combobox.value : '';
+                    
+                case 'spinbox':
+                    const spinbox = widget.querySelector('.widget-spinbox');
+                    return spinbox ? spinbox.value : '';
+                    
+                default:
+                    const widgetData = widgets.find(w => w.element === widget);
+                    return widgetData ? widgetData.properties.text : '';
+            }
+        }
+
+        function selectWidget(widget) {
+            document.querySelectorAll('.dropped-widget').forEach(w => {
+                w.classList.remove('selected');
+            });
+            
+            widget.classList.add('selected');
+            selectedWidget = widget;
+            
+            const widgetData = widgets.find(w => w.element === widget);
+            if (widgetData) {
+                const currentText = getCurrentWidgetText(widget);
+                widgetData.properties.text = currentText;
+            }
+            
+            updateProperties();
+        }
+
+        function isTextInputWidget(widgetType) {
+            const textInputTypes = ['entry', 'text', 'spinbox', 'combobox'];
+            return textInputTypes.includes(widgetType);
+        }
+
+        // NEW: Enhanced updateProperties function with widget name input
+        function updateProperties() {
+            const propertiesContent = document.getElementById('properties-content');
+            
+            if (!selectedWidget) {
+                propertiesContent.innerHTML = '<p style="color: rgba(255,255,255,0.7);">Select a widget to edit its properties</p>';
+                return;
+            }
+
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (!widgetData) return;
+
+            const props = widgetData.properties;
+            const widgetType = widgetData.type;
+            
+            let currentText = props.text;
+            if (isTextInputWidget(widgetType)) {
+                currentText = getCurrentWidgetText(selectedWidget);
+                widgetData.properties.text = currentText;
+            }
+            
+            propertiesContent.innerHTML = `
+                <div class="tabs">
+                    <div class="tab active" data-tab="basic" onclick="switchTab('basic')">Basic</div>
+                    <div class="tab" data-tab="style" onclick="switchTab('style')">Style</div>
+                    <div class="tab" data-tab="events" onclick="switchTab('events')">Events</div>
+                </div>
+
+                <div id="basic-tab" class="tab-content active">
+                    <div class="property-group">
+                        <label>Widget Name (Variable):</label>
+                        <input type="text" value="${props.widget_name}" 
+                               data-property="widget_name"
+                               onchange="updateWidgetProperty('widget_name', this.value)" 
+                               oninput="validateWidgetNameInput(this)"
+                               placeholder="Enter variable name..."
+                               title="This will be the variable name in the generated code">
+                        <small style="color: #64748b; font-size: 11px; display: block; margin-top: 4px;">
+                            Must be a valid Python identifier (letters, numbers, underscore)
+                        </small>
+                    </div>
+                    <div class="property-group">
+                        <label>Text ${isTextInputWidget(widgetType) ? '(Current Input)' : ''}:</label>
+                        ${isTextInputWidget(widgetType) && widgetType === 'text' ? 
+                            `<textarea onchange="updateWidgetProperty('text', this.value)" oninput="syncTextProperty(this.value)" placeholder="Enter text...">${currentText}</textarea>` :
+                            `<input type="text" value="${currentText}" onchange="updateWidgetProperty('text', this.value)" oninput="syncTextProperty(this.value)" placeholder="Enter text...">`
+                        }
+                        ${isTextInputWidget(widgetType) ? 
+                            `<small style="color: #64748b; font-size: 11px;">This shows the current text in the input field</small>` : ''
+                        }
+                    </div>
+                    <div class="property-group">
+                        <label>X Position:</label>
+                        <input type="number" value="${props.x}" onchange="updateWidgetProperty('x', parseInt(this.value))">
+                    </div>
+                    <div class="property-group">
+                        <label>Y Position:</label>
+                        <input type="number" value="${props.y}" onchange="updateWidgetProperty('y', parseInt(this.value))">
+                    </div>
+                    <div class="property-group">
+                        <label>Width:</label>
+                        <input type="number" value="${props.width}" onchange="updateWidgetProperty('width', parseInt(this.value))">
+                    </div>
+                    <div class="property-group">
+                        <label>Height:</label>
+                        <input type="number" value="${props.height}" onchange="updateWidgetProperty('height', parseInt(this.value))">
+                    </div>
+                    <div class="property-group">
+                        <label>State:</label>
+                        <select onchange="updateWidgetProperty('state', this.value)">
+                            <option value="normal" ${props.state === 'normal' ? 'selected' : ''}>Normal</option>
+                            <option value="disabled" ${props.state === 'disabled' ? 'selected' : ''}>Disabled</option>
+                            <option value="readonly" ${props.state === 'readonly' ? 'selected' : ''}>Readonly</option>
+                        </select>
+                    </div>
+                    ${getWidgetSpecificProperties(widgetData.type, props)}
+                </div>
+
+                <div id="style-tab" class="tab-content">
+                    <div class="property-group">
+                        <label>Foreground Color:</label>
+                        <input type="color" class="color-input" value="${props.fg}" onchange="updateWidgetProperty('fg', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>Background Color:</label>
+                        <input type="color" class="color-input" value="${props.bg}" onchange="updateWidgetProperty('bg', this.value)">
+                    </div>
+                    <div class="property-group">
+                        <label>Font Family:</label>
+                        <select onchange="updateWidgetProperty('font_family', this.value)">
+                            <option value="Arial" ${props.font_family === 'Arial' ? 'selected' : ''}>Arial</option>
+                            <option value="Times New Roman" ${props.font_family === 'Times New Roman' ? 'selected' : ''}>Times New Roman</option>
+                            <option value="Courier New" ${props.font_family === 'Courier New' ? 'selected' : ''}>Courier New</option>
+                            <option value="Helvetica" ${props.font_family === 'Helvetica' ? 'selected' : ''}>Helvetica</option>
+                        </select>
+                    </div>
+                    <div class="property-group">
+                        <label>Font Size:</label>
+                        <input type="number" value="${props.font_size}" min="8" max="72" onchange="updateWidgetProperty('font_size', parseInt(this.value))">
+                    </div>
+                    <div class="property-group">
+                        <label>Font Weight:</label>
+                        <select onchange="updateWidgetProperty('font_weight', this.value)">
+                            <option value="normal" ${props.font_weight === 'normal' ? 'selected' : ''}>Normal</option>
+                            <option value="bold" ${props.font_weight === 'bold' ? 'selected' : ''}>Bold</option>
+                        </select>
+                    </div>
+                    <div class="property-group">
+                        <label>Relief:</label>
+                        <select onchange="updateWidgetProperty('relief', this.value)">
+                            <option value="flat" ${props.relief === 'flat' ? 'selected' : ''}>Flat</option>
+                            <option value="raised" ${props.relief === 'raised' ? 'selected' : ''}>Raised</option>
+                            <option value="sunken" ${props.relief === 'sunken' ? 'selected' : ''}>Sunken</option>
+                            <option value="groove" ${props.relief === 'groove' ? 'selected' : ''}>Groove</option>
+                            <option value="ridge" ${props.relief === 'ridge' ? 'selected' : ''}>Ridge</option>
+                        </select>
+                    </div>
+                    <div class="property-group">
+                        <label>Border Width:</label>
+                        <input type="number" value="${props.borderwidth}" min="0" max="10" onchange="updateWidgetProperty('borderwidth', parseInt(this.value))">
+                    </div>
+                    <div class="property-group">
+                        <label>Anchor:</label>
+                        <select onchange="updateWidgetProperty('anchor', this.value)">
+                            <option value="n" ${props.anchor === 'n' ? 'selected' : ''}>North</option>
+                            <option value="ne" ${props.anchor === 'ne' ? 'selected' : ''}>Northeast</option>
+                            <option value="e" ${props.anchor === 'e' ? 'selected' : ''}>East</option>
+                            <option value="se" ${props.anchor === 'se' ? 'selected' : ''}>Southeast</option>
+                            <option value="s" ${props.anchor === 's' ? 'selected' : ''}>South</option>
+                            <option value="sw" ${props.anchor === 'sw' ? 'selected' : ''}>Southwest</option>
+                            <option value="w" ${props.anchor === 'w' ? 'selected' : ''}>West</option>
+                            <option value="nw" ${props.anchor === 'nw' ? 'selected' : ''}>Northwest</option>
+                            <option value="center" ${props.anchor === 'center' ? 'selected' : ''}>Center</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="events-tab" class="tab-content">
+                    <div class="property-group">
+                        <label>Tkinter Variable Name:</label>
+                        <input type="text" value="${props.variable}" placeholder="var_name" onchange="updateWidgetProperty('variable', this.value)">
+                        <small style="color: #64748b; font-size: 11px; display: block; margin-top: 4px;">
+                            Optional: Creates a tkinter StringVar/IntVar/BooleanVar for data binding
+                        </small>
+                    </div>
+                    
+                    <div class="function-editor">
+                        <button class="add-function-btn" onclick="addFunction()">➕ Add Custom Function</button>
+                        <div id="functions-list">
+                            ${props.functions.map((func, index) => `
+                                <div class="function-item">
+                                    <div class="function-header">
+                                        <span class="function-name">${func.name}</span>
+                                        <button class="remove-function" onclick="removeFunction(${index})">❌</button>
+                                    </div>
+                                    <div class="property-group">
+                                        <label>Function Name:</label>
+                                        <input type="text" value="${func.name}" onchange="updateFunction(${index}, 'name', this.value)">
+                                    </div>
+                                    <div class="property-group">
+                                        <label>Function Code:</label>
+                                        <textarea onchange="updateFunction(${index}, 'code', this.value)" placeholder="def ${func.name}():\n    # Your code here\n    pass">${func.code}</textarea>
+                                    </div>
+                                    <div class="property-group">
+                                        <label>Event Type:</label>
+                                        <select onchange="updateFunction(${index}, 'event', this.value)">
+                                            <option value="command" ${func.event === 'command' ? 'selected' : ''}>Command (Click)</option>
+                                            <option value="bind" ${func.event === 'bind' ? 'selected' : ''}>Key/Mouse Event</option>
+                                        </select>
+                                    </div>
+                                    ${func.event === 'bind' ? `
+                                        <div class="property-group">
+                                            <label>Event Pattern:</label>
+                                            <select onchange="updateFunction(${index}, 'pattern', this.value)">
+                                                <option value="<Button-1>" ${func.pattern === '<Button-1>' ? 'selected' : ''}>Left Click</option>
+                                                <option value="<Button-3>" ${func.pattern === '<Button-3>' ? 'selected' : ''}>Right Click</option>
+                                                <option value="<Double-Button-1>" ${func.pattern === '<Double-Button-1>' ? 'selected' : ''}>Double Click</option>
+                                                <option value="<Enter>" ${func.pattern === '<Enter>' ? 'selected' : ''}>Enter Key</option>
+                                                <option value="<KeyPress>" ${func.pattern === '<KeyPress>' ? 'selected' : ''}>Any Key</option>
+                                                <option value="<FocusIn>" ${func.pattern === '<FocusIn>' ? 'selected' : ''}>Focus In</option>
+                                                <option value="<FocusOut>" ${func.pattern === '<FocusOut>' ? 'selected' : ''}>Focus Out</option>
+                                            </select>
+                                        </div>
+                                    ` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <button class="delete-btn" onclick="deleteWidget()">🗑️ Delete Widget</button>
+            `;
+        }
+
+        // NEW: Function to validate widget name input in real-time
+        function validateWidgetNameInput(input) {
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (!widgetData) return;
+
+            const validation = validateWidgetName(input.value, widgetData);
+            
+            input.classList.remove('valid', 'invalid');
+            if (input.value) {
+                if (validation.valid) {
+                    input.classList.add('valid');
+                } else {
+                    input.classList.add('invalid');
+                }
+                input.title = validation.message;
+            } else {
+                input.title = '';
+            }
+        }
+
+        function syncTextProperty(value) {
+            if (!selectedWidget) return;
+            
+            const widgetData = widgets.find(w => w.element === selectedWidget);
+            if (widgetData) {
+                widgetData.properties.text = value;
+            }
+        }
+
+        function addInputSyncListeners(widget) {
+            const inputElements = widget.querySelectorAll('input, textarea, select');
+            inputElements.forEach(input => {
+                input.addEventListener('input', () => {
+                    const widgetData = widgets.find(w => w.element === widget);
+                    if (widgetData) {
+                        widgetData.properties.text = getCurrentWidgetText(widget);
+                        if (selectedWidget === widget) {
+                            const textInput = document.querySelector('#basic-tab input[type="text"]:not([data-property="widget_name"]), #basic-tab textarea');
+                            if (textInput && textInput !== document.activeElement) {
+                                textInput.value = widgetData.properties.text;
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
