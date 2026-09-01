@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>ArabiaTech Academy - Admin Control</title>
+  <link rel="icon" type="image/png" href="../static/image/icon1.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="icon" type="image/png" href="./static/image/icon3.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --surface2: #1e2333;
+    --surface3: #252b40;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaf2;
+    --muted: #7a80a0;
+    --accent: #4f8ef7;
+    --accent2: #38c98e;
+    --gold: #f0b840;
+    --red: #e05c5c;
+    --ai-color: #4f8ef7;
+    --web-color: #38c98e;
+    --kids-color: #b464f0;
+    --private-color: #f0b840;
+  }
+
+  body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+  button, input, select, textarea { font-family: 'Cairo', sans-serif; }
+
+  /* LOGIN */
+  .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; background: radial-gradient(circle at 20% 20%, rgba(79,142,247,0.10), transparent 45%), radial-gradient(circle at 80% 80%, rgba(56,201,142,0.08), transparent 45%), var(--bg); }
+  .login-card { width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 2.25rem 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.4); animation: fadeIn 0.4s ease; }
+  .login-logo { width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, var(--accent), var(--accent2)); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 800; color: #0f1117; margin: 0 auto 1.25rem; }
+  .login-card h1 { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+  .login-card .sub { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 1.75rem; }
+  .login-field { margin-bottom: 1rem; }
+  .login-field label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .login-field input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); border-radius: 9px; padding: 10px 12px; font-size: 14px; color: var(--text); outline: none; transition: border-color .15s; }
+  .login-field input:focus { border-color: var(--accent); }
+  .login-btn { width: 100%; background: var(--accent); border: none; border-radius: 9px; padding: 11px; font-size: 14px; font-weight: 700; color: #fff; cursor: pointer; margin-top: 0.5rem; transition: opacity .15s, transform .1s; }
+  .login-btn:hover { opacity: 0.92; }
+  .login-btn:active { transform: scale(0.98); }
+  .login-error { font-size: 12px; color: var(--red); text-align: center; margin-top: 12px; min-height: 16px; }
+
+  /* APP SHELL */
+  .app { display: none; min-height: 100vh; }
+  .app.visible { display: block; }
+
+  .top-bar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1.1rem 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px); gap: 1rem; flex-wrap: wrap; }
+  .top-bar h1 { font-size: 18px; font-weight: 700; letter-spacing: -0.02em; }
+  .top-bar h1 span { color: var(--accent); }
+  .top-bar .subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .live-dot { width: 8px; height: 8px; background: var(--accent2); border-radius: 50%; display: inline-block; margin-left: 6px; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  .top-actions { display: flex; align-items: center; gap: 10px; }
+  .logout-btn { background: transparent; border: 1px solid var(--border2); color: var(--muted); font-size: 12px; padding: 7px 14px; border-radius: 8px; cursor: pointer; transition: all .15s; }
+  .logout-btn:hover { border-color: var(--red); color: var(--red); }
+  .nav-link-btn { background: transparent; border: 1px solid var(--border2); color: var(--text); font-size: 12px; padding: 7px 14px; border-radius: 8px; cursor: pointer; transition: all .15s; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+  .nav-link-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(79,142,247,0.08); }
+  .nav-link-btn.report:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(56,201,142,0.08); }
+  .nav-link-btn.timetable:hover { border-color: var(--gold); color: var(--gold); background: rgba(240,184,64,0.08); }
+
+  /* DOWNLOAD BUTTONS */
+  .download-strip { background: var(--surface2); border-bottom: 1px solid var(--border); padding: 8px 2rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .download-strip span { font-size: 12px; color: var(--muted); }
+  .dl-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 8px; border: 1px solid var(--border2); background: transparent; font-size: 12px; font-weight: 600; color: var(--text); cursor: pointer; transition: all .15s; white-space: nowrap; }
+  .dl-btn:hover { border-color: var(--accent2); color: var(--accent2); background: rgba(56,201,142,0.07); }
+  .dl-btn svg { flex-shrink: 0; }
+
+  /* TABS */
+  .tab-nav { display: flex; gap: 4px; background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 2rem; overflow-x: auto; }
+  .tab-btn { background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--muted); font-size: 13px; font-weight: 600; padding: 12px 16px; cursor: pointer; white-space: nowrap; transition: color .15s, border-color .15s; }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  .view { display: none; }
+  .view.active { display: block; animation: fadeIn 0.25s ease; }
+
+  /* STATS */
+  .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+  .stat-item { background: var(--surface); padding: 1.1rem 1.5rem; text-align: center; }
+  .stat-num { font-size: 26px; font-weight: 700; color: var(--text); line-height: 1; }
+  .stat-lbl { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+  /* FILTERS */
+  .filters-wrap { padding: 1rem 2rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .filters-wrap label { font-size: 12px; color: var(--muted); margin-left: 4px; }
+  .filter-group { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .filter-sep { width: 1px; height: 20px; background: var(--border2); margin: 0 4px; }
+  .filter-btn { padding: 5px 14px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-btn.active.web { background: var(--web-color); border-color: var(--web-color); }
+  .filter-btn.active.gold { background: var(--gold); border-color: var(--gold); color: #1a1a1a; }
+  .filter-btn.active.purple { background: var(--kids-color); border-color: var(--kids-color); }
+  .filter-btn.active.red { background: var(--red); border-color: var(--red); }
+
+  .search-wrap { margin-right: auto; display: flex; gap: 8px; align-items: center; }
+  .search-wrap input { background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 7px 12px; font-size: 13px; color: var(--text); width: 200px; outline: none; direction: rtl; }
+  .search-wrap input::placeholder { color: var(--muted); }
+  .search-wrap input:focus { border-color: var(--accent); }
+
+  .add-btn { background: var(--accent2); border: none; color: #0f1117; font-size: 12px; font-weight: 700; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: opacity .15s; white-space: nowrap; }
+  .add-btn:hover { opacity: 0.88; }
+
+  .main { padding: 1.5rem 2rem 3rem; }
+
+  /* STUDENTS FILTER PANEL (inside Students tab) */
+  .students-filter-bar { padding: 1rem 2rem; background: var(--surface2); border-bottom: 1px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .students-filter-bar .section-label { font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; min-width: 50px; }
+  .filter-tag { padding: 4px 12px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .filter-tag:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-tag.on { background: var(--accent); border-color: var(--accent); color: #fff; font-weight: 600; }
+  .filter-tag.on.t-web { background: var(--web-color); border-color: var(--web-color); }
+  .filter-tag.on.t-kids { background: var(--kids-color); border-color: var(--kids-color); }
+  .filter-tag.on.t-private { background: var(--gold); border-color: var(--gold); color: #111; }
+  .filter-tag.on.t-active { background: var(--accent2); border-color: var(--accent2); color: #111; }
+  .filter-tag.on.t-inactive { background: var(--red); border-color: var(--red); }
+  .filter-tag.on.t-free { background: var(--surface3); border-color: var(--muted); color: var(--text); }
+  .students-search-row { padding: 0.75rem 2rem; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .students-search-row input { background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 8px 12px; font-size: 13px; color: var(--text); width: 280px; outline: none; direction: rtl; }
+  .students-search-row input::placeholder { color: var(--muted); }
+  .students-search-row input:focus { border-color: var(--accent); }
+  .filter-results-count { font-size: 12px; color: var(--muted); margin-right: auto; }
+
+  /* DAY SECTION */
+  .day-section { margin-bottom: 2.5rem; animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+  .day-header { display: flex; align-items: center; gap: 12px; margin-bottom: 1rem; }
+  .day-name { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
+  .day-line { flex: 1; height: 1px; background: var(--border); }
+  .day-count { font-size: 11px; color: var(--muted); background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 2px 8px; }
+
+  .time-group { margin-bottom: 1rem; }
+  .time-label { font-size: 11px; color: var(--accent); font-weight: 600; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; direction: ltr; text-align: left; }
+  .time-label::before { content: ''; width: 3px; height: 3px; border-radius: 50%; background: var(--accent); }
+
+  .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 10px; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.1rem; position: relative; transition: border-color 0.2s, transform 0.15s; overflow: hidden; }
+  .card::before { content: ''; position: absolute; top: 0; right: 0; width: 3px; height: 100%; background: var(--track-color, var(--border)); border-radius: 0 12px 12px 0; }
+  .card.ai-track { --track-color: var(--ai-color); }
+  .card.web-track { --track-color: var(--web-color); }
+  .card.kids-track { --track-color: var(--kids-color); }
+  .card.private-type { border-color: rgba(240,184,64,0.3); }
+  .card:hover { border-color: var(--border2); transform: translateY(-2px); }
+
+  .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .avatar.ai { background: rgba(79,142,247,0.15); color: var(--ai-color); }
+  .avatar.web { background: rgba(56,201,142,0.15); color: var(--web-color); }
+  .avatar.kids { background: rgba(180,100,240,0.15); color: var(--kids-color); }
+
+  .card-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .card-meta { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .private-badge { position: absolute; top: 10px; left: 10px; font-size: 10px; font-weight: 700; background: rgba(240,184,64,0.15); color: var(--gold); border: 1px solid rgba(240,184,64,0.3); border-radius: 6px; padding: 2px 7px; }
+
+  .card-body { display: flex; flex-direction: column; gap: 6px; }
+  .card-row { display: flex; align-items: center; justify-content: space-between; font-size: 12px; }
+  .card-row .lbl { color: var(--muted); }
+  .card-row .val { color: var(--text); font-weight: 500; direction: ltr; text-align: left; }
+
+  .course-pill { display: inline-block; padding: 2px 9px; border-radius: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.03em; }
+  .course-py  { background: rgba(56,201,142,0.15); color: #38c98e; }
+  .course-html{ background: rgba(224,92,92,0.15); color: #e05c5c; }
+  .course-css { background: rgba(240,184,64,0.15); color: var(--gold); }
+  .course-js  { background: rgba(79,142,247,0.15); color: var(--ai-color); }
+  .course-data{ background: rgba(180,100,240,0.15); color: #b464f0; }
+  .course-default { background: var(--surface3); color: var(--text); }
+
+  .completed-chips { display: flex; gap: 4px; flex-wrap: wrap; justify-content: flex-end; }
+  .chip { font-size: 10px; padding: 1px 6px; border-radius: 5px; background: var(--surface2); color: var(--muted); border: 1px solid var(--border); }
+
+  .price-free { color: var(--red); font-weight: 700; }
+  .price-normal { color: var(--accent2); }
+
+  .card-actions { display: flex; gap: 6px; margin-top: 10px; }
+  .link-btn, .icon-btn { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 7px; border-radius: 8px; border: 1px solid var(--border2); background: transparent; font-size: 12px; font-weight: 600; color: var(--accent); cursor: pointer; text-decoration: none; transition: all 0.15s; text-align: center; }
+  .link-btn { flex: 1; }
+  .icon-btn { flex: 0 0 auto; width: 34px; color: var(--muted); }
+  .icon-btn:hover.edit { background: rgba(79,142,247,0.1); border-color: var(--accent); color: var(--accent); }
+  .icon-btn:hover.del { background: rgba(224,92,92,0.1); border-color: var(--red); color: var(--red); }
+  .link-btn:hover { background: rgba(79,142,247,0.1); border-color: var(--accent); }
+
+  .card-divider { height: 1px; background: var(--border); margin: 8px 0; }
+  .no-results { text-align: center; padding: 4rem; color: var(--muted); font-size: 14px; }
+
+  /* TABLE VIEWS */
+  .table-wrap { padding: 0 2rem 3rem; }
+  .data-table { width: 100%; border-collapse: collapse; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .data-table th { background: var(--surface2); text-align: right; font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  .data-table td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.015); }
+  .data-table .row-actions { display: flex; gap: 6px; justify-content: flex-end; }
+  .table-actions-bar { padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .table-actions-bar h2 { font-size: 15px; font-weight: 700; }
+  .table-actions-bar .count { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .tag-pill { display: inline-block; padding: 2px 9px; border-radius: 8px; font-size: 11px; font-weight: 600; background: var(--surface3); color: var(--text); margin: 1px 3px 1px 0; }
+  .mono { font-family: 'Cairo', sans-serif; direction: ltr; text-align: left; display: inline-block; color: var(--muted); font-size: 12px; }
+
+  /* STATUS BADGE */
+  .status-badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: 700; }
+  .status-active { background: rgba(56,201,142,0.15); color: var(--accent2); border: 1px solid rgba(56,201,142,0.3); }
+  .status-inactive { background: rgba(224,92,92,0.12); color: var(--red); border: 1px solid rgba(224,92,92,0.25); }
+
+  /* TIMELINE */
+  .timeline-wrap { padding: 0 2rem 3rem; }
+  .timeline-track { position: relative; padding-right: 26px; }
+  .timeline-track::before { content: ''; position: absolute; top: 4px; bottom: 4px; right: 9px; width: 2px; background: var(--border2); }
+  .lesson-day-block { margin-bottom: 2.2rem; }
+  .lesson-day-block .day-header { margin-right: -26px; padding-right: 26px; position: relative; }
+  .lesson-day-block .day-header::before { content: ''; position: absolute; right: 5px; top: 50%; transform: translateY(-50%); width: 11px; height: 11px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); z-index: 1; }
+  .lesson-node { position: relative; margin-bottom: 14px; }
+  .lesson-node::before { content: ''; position: absolute; right: 5px; top: 18px; transform: translateY(-50%); width: 9px; height: 9px; border-radius: 50%; background: var(--lesson-dot, var(--accent)); border: 2px solid var(--bg); z-index: 1; }
+  .lesson-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem 1.1rem; transition: border-color .2s; }
+  .lesson-card:hover { border-color: var(--border2); }
+  .lesson-card.ai-track { --lesson-dot: var(--ai-color); }
+  .lesson-card.web-track { --lesson-dot: var(--web-color); }
+  .lesson-card.kids-track { --lesson-dot: var(--kids-color); }
+  .lesson-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .lesson-head-left { display: flex; align-items: center; gap: 10px; }
+  .lesson-time-badge { font-size: 12px; font-weight: 700; color: var(--accent); background: rgba(79,142,247,0.1); border: 1px solid rgba(79,142,247,0.25); border-radius: 8px; padding: 4px 10px; direction: ltr; }
+  .lesson-code-badge { font-size: 11px; color: var(--muted); }
+  .lesson-meta-line { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .lesson-meta-line .sep { opacity: 0.4; }
+  .lesson-students { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .student-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 20px; padding: 4px 10px 4px 4px; font-size: 12px; color: var(--text); cursor: pointer; transition: border-color .15s; }
+  .student-chip:hover { border-color: var(--accent); }
+  .student-chip .mini-avatar { width: 20px; height: 20px; border-radius: 50%; background: var(--surface3); color: var(--muted); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+  .lesson-empty-students { font-size: 12px; color: var(--muted); margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .lesson-card.private-lesson { border-color: rgba(240,184,64,0.3); }
+  .lesson-private-tag { font-size: 10px; font-weight: 700; background: rgba(240,184,64,0.15); color: var(--gold); border: 1px solid rgba(240,184,64,0.3); border-radius: 6px; padding: 2px 7px; }
+  .lesson-link-btn { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--accent); text-decoration: none; border: 1px solid var(--border2); border-radius: 7px; padding: 4px 9px; transition: all .15s; }
+  .lesson-link-btn:hover { background: rgba(79,142,247,0.1); border-color: var(--accent); }
+
+  /* MODAL */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(5,6,10,0.65); backdrop-filter: blur(3px); z-index: 1000; align-items: center; justify-content: center; padding: 1.5rem; }
+  .modal-overlay.visible { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--border2); border-radius: 14px; width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; box-shadow: 0 24px 70px rgba(0,0,0,0.5); animation: modalIn 0.2s ease; }
+  @keyframes modalIn { from{opacity:0;transform:translateY(10px) scale(0.98)} to{opacity:1;transform:none} }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--surface); z-index: 2; }
+  .modal-head h3 { font-size: 15px; font-weight: 700; }
+  .modal-close { background: transparent; border: none; color: var(--muted); font-size: 20px; cursor: pointer; line-height: 1; padding: 4px; }
+  .modal-close:hover { color: var(--text); }
+  .modal-body { padding: 1.3rem 1.4rem; display: flex; flex-direction: column; gap: 14px; }
+  .form-row { display: flex; flex-direction: column; gap: 6px; }
+  .form-row.two-col { flex-direction: row; gap: 12px; }
+  .form-row.two-col > div { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+  .form-row label { font-size: 12px; color: var(--muted); font-weight: 600; }
+  .form-row input, .form-row select, .form-row textarea { background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 9px 11px; font-size: 13px; color: var(--text); outline: none; transition: border-color .15s; width: 100%; }
+  .form-row input:focus, .form-row select:focus, .form-row textarea:focus { border-color: var(--accent); }
+  .checkbox-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+  .check-pill { display: flex; align-items: center; gap: 6px; background: var(--surface2); border: 1px solid var(--border2); border-radius: 8px; padding: 6px 10px; font-size: 12px; cursor: pointer; user-select: none; }
+  .check-pill input { width: auto; accent-color: var(--accent); }
+  .modal-foot { display: flex; gap: 10px; padding: 1.1rem 1.4rem; border-top: 1px solid var(--border); position: sticky; bottom: 0; background: var(--surface); }
+  .btn { flex: 1; padding: 10px; border-radius: 9px; border: none; font-size: 13px; font-weight: 700; cursor: pointer; transition: opacity .15s, transform .1s; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-secondary { background: var(--surface3); color: var(--text); }
+  .btn-danger { background: rgba(224,92,92,0.15); color: var(--red); border: 1px solid rgba(224,92,92,0.3); }
+  .btn:hover { opacity: 0.9; }
+
+  .confirm-modal .modal-body { text-align: center; padding: 1.6rem 1.4rem; }
+  .confirm-icon { width: 48px; height: 48px; border-radius: 50%; background: rgba(224,92,92,0.12); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; color: var(--red); }
+  .confirm-modal p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .confirm-modal strong { color: var(--text); }
+
+  /* TOAST */
+  .toast-wrap { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000; display: flex; flex-direction: column; gap: 8px; align-items: center; }
+  .toast { background: var(--surface3); border: 1px solid var(--border2); color: var(--text); font-size: 13px; padding: 10px 18px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.4); animation: toastIn 0.2s ease; display: flex; align-items: center; gap: 8px; }
+  .toast.success { border-color: rgba(56,201,142,0.4); }
+  .toast.error { border-color: rgba(224,92,92,0.4); }
+  @keyframes toastIn { from{opacity:0; transform: translateY(8px)} to{opacity:1; transform:none} }
+
+  /* RESPONSIVE */
+  @media (max-width: 700px) { .data-table { display: block; overflow-x: auto; white-space: nowrap; } .form-row.two-col { flex-direction: column; } }
+  @media (max-width: 600px) {
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .top-bar { padding: 1rem; }
+    .main { padding: 1rem; }
+    .table-wrap { padding: 0 1rem 2rem; }
+    .timeline-wrap { padding: 0 1rem 2rem; }
+    .filters-wrap, .table-actions-bar { padding: 0.75rem 1rem; }
+    .search-wrap input { width: 130px; }
+    .students-filter-bar { padding: 0.75rem 1rem; }
+    .students-search-row { padding: 0.5rem 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">AT</div>
+    <h1>لوحة تحكم المعلم</h1>
+    <div class="sub">دخول المدير فقط</div>
+    <div class="login-field">
+      <label>كلمة المرور</label>
+      <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="off" />
+    </div>
+    <button class="login-btn" id="loginBtn">دخول</button>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+  <div class="top-bar">
+    <div>
+      <h1><span class="live-dot"></span> لوحة <span>التحكم</span></h1>
+      <div class="subtitle">إدارة الطلاب · الكورسات · المعلمين</div>
+    </div>
+    <div class="top-actions">
+      <a class="nav-link-btn report" href="report.html">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M3 2.5h7l3 3V13a.5.5 0 0 1-.5.5h-9A.5.5 0 0 1 3 13V2.5Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 8.5h5M5.5 11h3.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        التقارير
+      </a>
+      <a class="nav-link-btn timetable" href="TimeTable.html">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="2.5" y="3" width="11" height="10.5" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M2.5 6.5h11M5.5 2v2.2M10.5 2v2.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        الجدول الزمني
+      </a>
+      <button class="logout-btn" id="logoutBtn">تسجيل الخروج</button>
+    </div>
+  </div>
+
+  <!-- DOWNLOAD STRIP -->
+  <div class="download-strip">
+    <span>تحميل البيانات:</span>
+    <button class="dl-btn" id="dlStudents">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      data.json
+    </button>
+    <button class="dl-btn" id="dlCourses">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      courses.json
+    </button>
+    <button class="dl-btn" id="dlTeachers">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8m0 0L5 7m3 3 3-3M3 13h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      teacher.json
+    </button>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="schedule">المواعيد</button>
+    <button class="tab-btn" data-tab="timeline">الحصص (Timeline)</button>
+    <button class="tab-btn" data-tab="students">الطلاب</button>
+    <button class="tab-btn" data-tab="courses">الكورسات</button>
+    <button class="tab-btn" data-tab="teachers">المعلمين</button>
+  </div>
+
+  <!-- SCHEDULE VIEW -->
+  <div class="view active" id="view-schedule">
+    <div class="stats-bar" id="statsBar">
+      <div class="stat-item"><div class="stat-num" id="st-total">—</div><div class="stat-lbl">إجمالي الطلاب</div></div>
+      <div class="stat-item"><div class="stat-num" id="st-private">—</div><div class="stat-lbl">حصص خاصة</div></div>
+      <div class="stat-item"><div class="stat-num" id="st-revenue">—</div><div class="stat-lbl">الدخل الشهري (ج)</div></div>
+      <div class="stat-item"><div class="stat-num" id="st-days">—</div><div class="stat-lbl">أيام الأسبوع</div></div>
+    </div>
+    <div class="filters-wrap">
+      <label>تصفية:</label>
+      <div id="filterBtns" class="filter-group"></div>
+      <div class="search-wrap">
+        <input type="text" id="searchInput" placeholder="ابحث باسم الطالب..." />
+        <button class="add-btn" id="addStudentBtnSchedule">+ طالب جديد</button>
+      </div>
+    </div>
+    <div class="main" id="mainContent"></div>
+  </div>
+
+  <!-- TIMELINE VIEW -->
+  <div class="view" id="view-timeline">
+    <div class="stats-bar" id="lessonStatsBar">
+      <div class="stat-item"><div class="stat-num" id="lst-total">—</div><div class="stat-lbl">إجمالي الحصص</div></div>
+      <div class="stat-item"><div class="stat-num" id="lst-private">—</div><div class="stat-lbl">حصص خاصة</div></div>
+      <div class="stat-item"><div class="stat-num" id="lst-students">—</div><div class="stat-lbl">طلاب مجدولين</div></div>
+      <div class="stat-item"><div class="stat-num" id="lst-days">—</div><div class="stat-lbl">أيام الأسبوع</div></div>
+    </div>
+    <div class="filters-wrap">
+      <label>تصفية:</label>
+      <div id="lessonFilterBtns" class="filter-group"></div>
+      <div class="search-wrap">
+        <input type="text" id="lessonSearchInput" placeholder="ابحث بكود الحصة أو المعلم..." />
+      </div>
+    </div>
+    <div class="timeline-wrap" id="timelineContent"></div>
+  </div>
+
+  <!-- STUDENTS TABLE VIEW -->
+  <div class="view" id="view-students">
+    <div class="table-actions-bar">
+      <div>
+        <h2>إدارة الطلاب</h2>
+        <div class="count" id="studentsCount">—</div>
+      </div>
+      <button class="add-btn" id="addStudentBtn">+ إضافة طالب</button>
+    </div>
+
+    <!-- STUDENT FILTERS -->
+    <div class="students-filter-bar" id="studentFiltersBar">
+      <span class="section-label">اليوم</span>
+      <div id="sf-days" class="filter-group"></div>
+      <div class="filter-sep"></div>
+      <span class="section-label">المسار</span>
+      <div id="sf-tracks" class="filter-group">
+        <button class="filter-tag" data-sf="track" data-val="AI Track">AI Track</button>
+        <button class="filter-tag t-web" data-sf="track" data-val="Web Track">Web Track</button>
+        <button class="filter-tag t-kids" data-sf="track" data-val="Kids Track">Kids Track</button>
+      </div>
+      <div class="filter-sep"></div>
+      <span class="section-label">النوع</span>
+      <div class="filter-group">
+        <button class="filter-tag t-private" data-sf="type" data-val="Private">خاص</button>
+        <button class="filter-tag" data-sf="type" data-val="group">مجموعة</button>
+      </div>
+      <div class="filter-sep"></div>
+      <span class="section-label">الحالة</span>
+      <div class="filter-group">
+        <button class="filter-tag t-active" data-sf="status" data-val="1">مدفوع</button>
+        <button class="filter-tag t-inactive" data-sf="status" data-val="0">غير مدفوع</button>
+      </div>
+      <div class="filter-sep"></div>
+      <span class="section-label">السعر</span>
+      <div class="filter-group">
+        <button class="filter-tag t-free" data-sf="price" data-val="free">مجاني</button>
+        <button class="filter-tag" data-sf="price" data-val="paid">مدفوع</button>
+      </div>
+    </div>
+    <div class="students-search-row">
+      <input type="text" id="studentsSearchInput" placeholder="ابحث بالاسم أو الكود أو رقم الهاتف..." />
+      <button class="filter-tag" id="clearStudentFilters" style="border-color:var(--red);color:var(--red);">× مسح الفلاتر</button>
+      <span class="filter-results-count" id="studentFilterCount"></span>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>الكود</th>
+            <th>السن</th>
+            <th>المسار</th>
+            <th>الكورس الحالي</th>
+            <th>النوع</th>
+            <th>الحالة</th>
+            <th>السعر</th>
+            <th>اليوم</th>
+            <th>الوقت</th>
+            <th>المعلم</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="studentsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- COURSES TABLE VIEW -->
+  <div class="view" id="view-courses">
+    <div class="table-actions-bar">
+      <div>
+        <h2>إدارة الكورسات</h2>
+        <div class="count" id="coursesCount">—</div>
+      </div>
+      <button class="add-btn" id="addCourseBtn">+ إضافة كورس</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>الكود</th>
+            <th>اسم الكورس</th>
+            <th>المستوى</th>
+            <th>التخصص</th>
+            <th>المدة</th>
+            <th>الرابط</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="coursesTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- TEACHERS TABLE VIEW -->
+  <div class="view" id="view-teachers">
+    <div class="table-actions-bar">
+      <div>
+        <h2>إدارة المعلمين</h2>
+        <div class="count" id="teachersCount">—</div>
+      </div>
+      <button class="add-btn" id="addTeacherBtn">+ إضافة معلم</button>
+    </div>
+    <div class="table-wrap">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>البريد الإلكتروني</th>
+            <th>التخصصات</th>
+            <th>الكود</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="teachersTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div class="toast-wrap" id="toastWrap"></div>
+
+<script>
+/* ============================================================ CONFIG */
+const ADMIN_PASSWORD = "AMMM1111";
+const DAY_ORDER = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const DAY_AR = {Monday:"الاثنين",Tuesday:"الثلاثاء",Wednesday:"الأربعاء",Thursday:"الخميس",Friday:"الجمعة",Saturday:"السبت",Sunday:"الأحد"};
+const COURSE_COLORS = {py:"course-py",html:"course-html",css:"course-css",js:"course-js",data:"course-data"};
+const SPECIAL_OPTIONS = ["Web development","Artificial Intelligence","Kids Course"];
+
+/* ============================================================ STATE */
+let students = [];
+let courses = {};
+let teachers = [];
+let activeFilter = "all";
+let activeLessonFilter = "all";
+let activeTab = "schedule";
+let editingContext = null;
+
+// Student table filters
+let sfFilters = { day: null, track: null, type: null, status: null, price: null };
+
+/* ============================================================ LOGIN */
+function doLogin() {
+  const val = document.getElementById("loginPassword").value;
+  const errEl = document.getElementById("loginError");
+  if (val === ADMIN_PASSWORD) {
+    errEl.textContent = "";
+    document.getElementById("loginScreen").style.display = "none";
+    document.getElementById("app").classList.add("visible");
+    loadAllData();
+  } else {
+    errEl.textContent = "كلمة المرور غير صحيحة";
+  }
+}
+document.getElementById("loginBtn").addEventListener("click", doLogin);
+document.getElementById("loginPassword").addEventListener("keydown", e => { if (e.key === "Enter") doLogin(); });
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  document.getElementById("app").classList.remove("visible");
+  document.getElementById("loginScreen").style.display = "flex";
+  document.getElementById("loginPassword").value = "";
+});
+
+/* ============================================================ TOAST */
+function toast(msg, type="success") {
+  const wrap = document.getElementById("toastWrap");
+  const el = document.createElement("div");
+  el.className = `toast ${type}`;
+  el.textContent = msg;
+  wrap.appendChild(el);
+  setTimeout(() => el.remove(), 2600);
+}
+
+/* ============================================================ DOWNLOAD */
+function downloadJSON(data, filename) {
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  toast(`تم تحميل ${filename} ✓`);
+}
+
+document.getElementById("dlStudents").addEventListener("click", () => {
+  // export clean (strip _key)
+  const clean = students.map(({ _key, ...rest }) => rest);
+  downloadJSON({ students: clean }, "data.json");
+});
+
+document.getElementById("dlCourses").addEventListener("click", () => {
+  downloadJSON(courses, "courses.json");
+});
+
+document.getElementById("dlTeachers").addEventListener("click", () => {
+  const clean = teachers.map(({ _key, ...rest }) => rest);
+  downloadJSON(clean, "teacher.json");
+});
+
+/* ============================================================ DATA LOADING */
+function flattenStudents(raw) {
+  const result = [];
+  function walk(item) {
+    if (Array.isArray(item)) item.forEach(walk);
+    else if (item && typeof item === "object" && item.name) result.push(item);
+  }
+  walk(raw.students || raw);
+  return result;
+}
+
+async function loadAllData() {
+  try {
+    const [dataRes, coursesRes, teacherRes] = await Promise.all([
+      fetch("../data/data.json").then(r => { if (!r.ok) throw new Error("data.json"); return r.json(); }),
+      fetch("../data/courses.json").then(r => { if (!r.ok) throw new Error("courses.json"); return r.json(); }),
+      fetch("../data/teacher.json").then(r => { if (!r.ok) throw new Error("teacher.json"); return r.json(); }),
+    ]);
+    students = flattenStudents(dataRes).map((s, i) => ({...s, _key: s.id || `s${i}`}));
+    courses = coursesRes;
+    teachers = teacherRes.map((t, i) => ({...t, _key: t.code || `t${i}`}));
+    buildDayFilters();
+    renderAll();
+  } catch (err) {
+    document.getElementById("mainContent").innerHTML = `
+      <div class="no-results">⚠️ تعذّر تحميل البيانات (${err.message})<br>
+      <small style="font-size:12px;margin-top:8px;display:block;">تأكد أن الملفات data.json و courses.json و teacher.json موجودة في مجلد data/</small></div>`;
+  }
+}
+
+/* ============================================================ TAB SWITCHING */
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    activeTab = btn.dataset.tab;
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+    document.getElementById(`view-${activeTab}`).classList.add("active");
+    if (activeTab === "timeline") renderTimeline();
+  });
+});
+
+/* ============================================================ UTIL */
+function getInitials(name) {
+  const p = name.trim().split(" ");
+  return p.length >= 2 ? p[0][0] + p[1][0] : p[0].slice(0,2);
+}
+function toMinutes(timeStr) {
+  const m = (timeStr||"").match(/(\d+):(\d+)\s*(AM|PM)/i);
+  if (!m) return 0;
+  let h = parseInt(m[1]) % 12;
+  if (m[3].toUpperCase() === "PM") h += 12;
+  return h * 60 + parseInt(m[2]);
+}
+function trackAvatarClass(track) {
+  if (track === "AI Track") return "ai";
+  if (track === "Web Track") return "web";
+  return "kids";
+}
+function trackCardClass(track) {
+  if (track === "AI Track") return "ai-track";
+  if (track === "Web Track") return "web-track";
+  return "kids-track";
+}
+function escapeHtml(str) {
+  return String(str ?? "").replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============================================================ RENDER ALL */
+function renderAll() {
+  renderSchedule();
+  renderStudentsTable();
+  renderCoursesTable();
+  renderTeachersTable();
+  if (activeTab === "timeline") renderTimeline();
+}
+
+/* ============================================================ SCHEDULE VIEW */
+function renderStats(list) {
+  document.getElementById("st-total").textContent = list.length;
+  document.getElementById("st-private").textContent = list.filter(s=>s.type==="Private").length;
+  document.getElementById("st-revenue").textContent = list.reduce((a,s)=>a+(Number(s.monthly_price)||0),0).toLocaleString();
+  document.getElementById("st-days").textContent = new Set(list.map(s=>s.Day).filter(Boolean)).size;
+}
+
+function renderFilters() {
+  const days = [...new Set(students.map(s=>s.Day).filter(Boolean))].sort((a,b)=>DAY_ORDER.indexOf(a)-DAY_ORDER.indexOf(b));
+  const defs = [
+    {v:"all", l:"الكل", cls:""},
+    ...days.map(d=>({v:d, l:DAY_AR[d]||d, cls:""})),
+    {v:"AI Track", l:"AI Track", cls:""},
+    {v:"Web Track", l:"Web Track", cls:"web"},
+    {v:"Private", l:"خاص", cls:"gold"},
+  ];
+  document.getElementById("filterBtns").innerHTML = defs.map(d=>
+    `<button class="filter-btn${activeFilter===d.v?" active "+d.cls:""}" data-filter="${d.v}">${d.l}</button>`
+  ).join(" ");
+  document.querySelectorAll("#filterBtns .filter-btn").forEach(b => {
+    b.addEventListener("click", () => { activeFilter = b.dataset.filter; renderSchedule(); });
+  });
+}
+
+function renderSchedule() {
+  const search = (document.getElementById("searchInput")?.value||"").trim().toLowerCase();
+  let list = students.filter(s=>{
+    if (activeFilter !== "all") {
+      if (activeFilter === "AI Track" || activeFilter === "Web Track") { if (s.track !== activeFilter) return false; }
+      else if (activeFilter === "Private") { if (s.type !== "Private") return false; }
+      else { if (s.Day !== activeFilter) return false; }
+    }
+    if (search && !s.name.toLowerCase().includes(search)) return false;
+    return true;
+  });
+  renderStats(list);
+  renderFilters();
+  if (!list.length) {
+    document.getElementById("mainContent").innerHTML = '<div class="no-results">لا يوجد طلاب مطابقون للبحث</div>';
+    return;
+  }
+  const byDay = {};
+  list.forEach(s => {
+    const day = s.Day || "—"; const time = s.Time || "—";
+    if (!byDay[day]) byDay[day] = {};
+    if (!byDay[day][time]) byDay[day][time] = [];
+    byDay[day][time].push(s);
+  });
+  const sortedDays = Object.keys(byDay).sort((a,b)=>DAY_ORDER.indexOf(a)-DAY_ORDER.indexOf(b));
+  document.getElementById("mainContent").innerHTML = sortedDays.map(day => {
+    const timeGroups = byDay[day];
+    const sortedTimes = Object.keys(timeGroups).sort((a,b)=>toMinutes(a)-toMinutes(b));
+    const timeHTML = sortedTimes.map(time => {
+      const ss = timeGroups[time];
+      const cardsHTML = ss.map(s => {
+        const avClass = trackAvatarClass(s.track);
+        const trackClass = trackCardClass(s.track);
+        const isPrivate = s.type === "Private";
+        const price = (Number(s.monthly_price)||0) === 0 ? `<span class="price-free">مجاني</span>` : `<span class="price-normal">${s.monthly_price} ج</span>`;
+        const phone = s.phone_number || "—";
+        const completed = s.completed_courses && s.completed_courses.length
+          ? s.completed_courses.map(c=>`<span class="chip">${escapeHtml(c.toUpperCase())}</span>`).join("") : `<span class="chip">—</span>`;
+        const courseColor = COURSE_COLORS[s.current_course] || "course-default";
+        const link = (s.link||"").trim();
+        const courseLabel = s.current_course ? s.current_course.toUpperCase() : "—";
+        return `
+          <div class="card ${trackClass}${isPrivate?" private-type":""}">
+            ${isPrivate ? '<div class="private-badge">خاص</div>' : ""}
+            <div class="card-head">
+              <div class="avatar ${avClass}">${escapeHtml(getInitials(s.name))}</div>
+              <div>
+                <div class="card-name">${escapeHtml(s.name)}</div>
+                <div class="card-meta">${escapeHtml(s.id)} · ${escapeHtml(s.age)} سنة · ${escapeHtml(s.track)}</div>
+              </div>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-body">
+              <div class="card-row"><span class="lbl">الكورس الحالي</span><span class="val"><span class="course-pill ${courseColor}">${escapeHtml(courseLabel)}</span></span></div>
+              <div class="card-row"><span class="lbl">أتمّ</span><span class="val"><div class="completed-chips">${completed}</div></span></div>
+              <div class="card-row"><span class="lbl">الهاتف</span><span class="val" dir="ltr">${escapeHtml(phone)}</span></div>
+              <div class="card-row"><span class="lbl">السعر الشهري</span><span class="val">${price}</span></div>
+            </div>
+            <div class="card-actions">
+              ${link ? `<a class="link-btn" href="${escapeHtml(link)}" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4m0 0v4m0-4L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>فتح لينك الحصة</a>` : ""}
+              <button class="icon-btn edit" data-action="edit-student" data-key="${escapeHtml(s._key)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5a1.5 1.5 0 0 1 2.12 2.12L5 13.25l-3 .75.75-3L11.5 2.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button class="icon-btn del" data-action="delete-student" data-key="${escapeHtml(s._key)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5m1.5 0-.6 8.4a1 1 0 0 1-1 .9H5.6a1 1 0 0 1-1-.9l-.6-8.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+          </div>`;
+      }).join("");
+      return `<div class="time-group"><div class="time-label">${escapeHtml(time)}</div><div class="cards-grid">${cardsHTML}</div></div>`;
+    }).join("");
+    const total = Object.values(timeGroups).flat().length;
+    return `<div class="day-section"><div class="day-header"><div class="day-name">${DAY_AR[day]||day}</div><div class="day-line"></div><div class="day-count">${total} طالب</div></div>${timeHTML}</div>`;
+  }).join("");
+  document.querySelectorAll('[data-action="edit-student"]').forEach(b=>b.addEventListener("click",()=>openStudentModal(b.dataset.key)));
+  document.querySelectorAll('[data-action="delete-student"]').forEach(b=>b.addEventListener("click",()=>confirmDeleteStudent(b.dataset.key)));
+}
+
+document.getElementById("searchInput").addEventListener("input", renderSchedule);
+document.getElementById("addStudentBtnSchedule").addEventListener("click", ()=>openStudentModal(null));
+document.getElementById("addStudentBtn").addEventListener("click", ()=>openStudentModal(null));
+
+/* ============================================================ TIMELINE VIEW */
+function buildLessons() {
+  const groups = {};
+  students.forEach(s => {
+    const code = s.lesson_code && s.lesson_code.trim() ? s.lesson_code.trim() : `__no_code_${s._key}`;
+    if (!groups[code]) groups[code] = { lesson_code: s.lesson_code?.trim()||null, Day: s.Day||"", Time: s.Time||"", track: s.track||"", teacher: s.teacher||"", type: s.type||"group", link: s.link||"", current_course: s.current_course||"", students: [] };
+    groups[code].students.push(s);
+    if (s.type === "Private") groups[code].type = "Private";
+  });
+  return Object.values(groups);
+}
+
+function renderLessonStats(lessons) {
+  document.getElementById("lst-total").textContent = lessons.length;
+  document.getElementById("lst-private").textContent = lessons.filter(l=>l.type==="Private").length;
+  document.getElementById("lst-students").textContent = lessons.reduce((a,l)=>a+l.students.length,0);
+  document.getElementById("lst-days").textContent = new Set(lessons.map(l=>l.Day).filter(Boolean)).size;
+}
+
+function renderLessonFilters(allLessons) {
+  const days = [...new Set(allLessons.map(l=>l.Day).filter(Boolean))].sort((a,b)=>DAY_ORDER.indexOf(a)-DAY_ORDER.indexOf(b));
+  const teacherCodes = [...new Set(allLessons.map(l=>l.teacher).filter(Boolean))];
+  const defs = [
+    {v:"all", l:"الكل", cls:""},
+    ...days.map(d=>({v:"day:"+d, l:DAY_AR[d]||d, cls:""})),
+    {v:"AI Track", l:"AI Track", cls:""},
+    {v:"Web Track", l:"Web Track", cls:"web"},
+    {v:"Private", l:"خاص", cls:"gold"},
+    ...teacherCodes.map(t=>({v:"teacher:"+t, l:t, cls:""})),
+  ];
+  document.getElementById("lessonFilterBtns").innerHTML = defs.map(d=>
+    `<button class="filter-btn${activeLessonFilter===d.v?" active "+d.cls:""}" data-lfilter="${d.v}">${d.l}</button>`
+  ).join(" ");
+  document.querySelectorAll("#lessonFilterBtns .filter-btn").forEach(b => {
+    b.addEventListener("click", () => { activeLessonFilter = b.dataset.lfilter; renderTimeline(); });
+  });
+}
+
+function renderTimeline() {
+  const allLessons = buildLessons();
+  const search = (document.getElementById("lessonSearchInput")?.value||"").trim().toLowerCase();
+  let lessons = allLessons.filter(l => {
+    if (activeLessonFilter !== "all") {
+      if (activeLessonFilter.startsWith("day:")) { if (l.Day !== activeLessonFilter.slice(4)) return false; }
+      else if (activeLessonFilter.startsWith("teacher:")) { if (l.teacher !== activeLessonFilter.slice(8)) return false; }
+      else if (activeLessonFilter === "AI Track" || activeLessonFilter === "Web Track") { if (l.track !== activeLessonFilter) return false; }
+      else if (activeLessonFilter === "Private") { if (l.type !== "Private") return false; }
+    }
+    if (search) { const hay = `${l.lesson_code||""} ${l.teacher||""}`.toLowerCase(); if (!hay.includes(search)) return false; }
+    return true;
+  });
+  renderLessonStats(allLessons);
+  renderLessonFilters(allLessons);
+  if (!lessons.length) { document.getElementById("timelineContent").innerHTML = '<div class="no-results">لا يوجد حصص مطابقة</div>'; return; }
+  const byDay = {};
+  lessons.forEach(l => { const day = l.Day||"—"; if (!byDay[day]) byDay[day]=[]; byDay[day].push(l); });
+  const sortedDays = Object.keys(byDay).sort((a,b)=>DAY_ORDER.indexOf(a)-DAY_ORDER.indexOf(b));
+  document.getElementById("timelineContent").innerHTML = `<div class="timeline-track">${
+    sortedDays.map(day => {
+      const dayLessons = byDay[day].slice().sort((a,b)=>toMinutes(a.Time)-toMinutes(b.Time));
+      const nodesHTML = dayLessons.map(l => {
+        const trackClass = trackCardClass(l.track);
+        const isPrivate = l.type === "Private";
+        const studentsHTML = l.students.length
+          ? l.students.map(s=>`<span class="student-chip" data-action="edit-student" data-key="${escapeHtml(s._key)}"><span class="mini-avatar">${escapeHtml(getInitials(s.name))}</span>${escapeHtml(s.name)}</span>`).join("")
+          : `<div class="lesson-empty-students">لا يوجد طلاب مسجلين</div>`;
+        const courseLabel = l.current_course ? (courses[l.current_course]?.course_name || l.current_course.toUpperCase()) : null;
+        return `<div class="lesson-node"><div class="lesson-card ${trackClass}${isPrivate?" private-lesson":""}">
+          <div class="lesson-head">
+            <div class="lesson-head-left">
+              <span class="lesson-time-badge">${escapeHtml(l.Time||"—")}</span>
+              ${l.lesson_code?`<span class="lesson-code-badge">#${escapeHtml(l.lesson_code)}</span>`:""}
+              ${isPrivate?'<span class="lesson-private-tag">خاص</span>':""}
+            </div>
+            ${l.link?`<a class="lesson-link-btn" href="${escapeHtml(l.link)}" target="_blank" rel="noopener"><svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4m0 0v4m0-4L7 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>لينك الحصة</a>`:""}
+          </div>
+          <div class="lesson-meta-line">
+            <span>${escapeHtml(l.track||"—")}</span><span class="sep">·</span>
+            <span>المعلم: ${escapeHtml(l.teacher||"—")}</span>
+            ${courseLabel?`<span class="sep">·</span><span>الكورس: ${escapeHtml(courseLabel)}</span>`:""}
+            <span class="sep">·</span><span>${l.students.length} طالب</span>
+          </div>
+          <div class="lesson-students">${studentsHTML}</div>
+        </div></div>`;
+      }).join("");
+      return `<div class="lesson-day-block"><div class="day-header"><div class="day-name">${DAY_AR[day]||day}</div><div class="day-line"></div><div class="day-count">${dayLessons.length} حصة</div></div>${nodesHTML}</div>`;
+    }).join("")
+  }</div>`;
+  document.querySelectorAll('#timelineContent [data-action="edit-student"]').forEach(b=>b.addEventListener("click",()=>openStudentModal(b.dataset.key)));
+}
+
+document.getElementById("lessonSearchInput")?.addEventListener("input", renderTimeline);
+
+/* ============================================================ STUDENTS TABLE + FILTERS */
+function buildDayFilters() {
+  const days = [...new Set(students.map(s=>s.Day).filter(Boolean))].sort((a,b)=>DAY_ORDER.indexOf(a)-DAY_ORDER.indexOf(b));
+  const container = document.getElementById("sf-days");
+  container.innerHTML = days.map(d=>`<button class="filter-tag" data-sf="day" data-val="${escapeHtml(d)}">${DAY_AR[d]||d}</button>`).join("");
+  bindStudentFilterTags();
+}
+
+function bindStudentFilterTags() {
+  document.querySelectorAll("#studentFiltersBar [data-sf]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.sf;
+      const val = btn.dataset.val;
+      const curClass = btn.className;
+      if (sfFilters[key] === val) {
+        sfFilters[key] = null;
+        btn.classList.remove("on");
+      } else {
+        // deactivate siblings
+        document.querySelectorAll(`#studentFiltersBar [data-sf="${key}"]`).forEach(b => b.classList.remove("on","t-web","t-kids","t-private","t-active","t-inactive","t-free"));
+        sfFilters[key] = val;
+        // reapply color class
+        btn.classList.add("on");
+      }
+      renderStudentsTable();
+    });
+  });
+}
+
+document.getElementById("studentsSearchInput").addEventListener("input", renderStudentsTable);
+document.getElementById("clearStudentFilters").addEventListener("click", () => {
+  sfFilters = { day: null, track: null, type: null, status: null, price: null };
+  document.querySelectorAll("#studentFiltersBar [data-sf]").forEach(b => b.classList.remove("on"));
+  document.getElementById("studentsSearchInput").value = "";
+  renderStudentsTable();
+});
+
+function applyStudentFilters(list) {
+  const search = (document.getElementById("studentsSearchInput")?.value||"").trim().toLowerCase();
+  return list.filter(s => {
+    if (sfFilters.day && s.Day !== sfFilters.day) return false;
+    if (sfFilters.track && s.track !== sfFilters.track) return false;
+    if (sfFilters.type && s.type !== sfFilters.type) return false;
+    if (sfFilters.status !== null && sfFilters.status !== undefined) {
+      if (String(s.status) !== sfFilters.status) return false;
+    }
+    if (sfFilters.price === "free" && (Number(s.monthly_price)||0) !== 0) return false;
+    if (sfFilters.price === "paid" && (Number(s.monthly_price)||0) === 0) return false;
+    if (search) {
+      const hay = `${s.name} ${s.id} ${s.phone_number||""} ${s.parent_phone||""}`.toLowerCase();
+      if (!hay.includes(search)) return false;
+    }
+    return true;
+  });
+}
+
+function renderStudentsTable() {
+  const filtered = applyStudentFilters(students);
+  document.getElementById("studentsCount").textContent = `${students.length} طالب مسجل`;
+  document.getElementById("studentFilterCount").textContent = filtered.length < students.length
+    ? `عرض ${filtered.length} من ${students.length}` : `${students.length} طالب`;
+
+  const tbody = document.getElementById("studentsTableBody");
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="12" style="text-align:center;color:var(--muted);padding:2rem;">لا يوجد طلاب مطابقون للفلاتر</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = filtered.map(s => {
+    const courseLabel = s.current_course ? (courses[s.current_course]?.course_name || s.current_course.toUpperCase()) : "—";
+    const price = (Number(s.monthly_price)||0) === 0 ? `<span class="price-free">مجاني</span>` : `${s.monthly_price} ج`;
+    const statusBadge = s.status === 0
+      ? `<span class="status-badge status-inactive">غير مدفوع </span>`
+      : `<span class="status-badge status-active">مدفوع</span>`;
+    return `
+      <tr>
+        <td><strong>${escapeHtml(s.name)}</strong></td>
+        <td class="mono">${escapeHtml(s.id)}</td>
+        <td>${escapeHtml(s.age)}</td>
+        <td><span class="tag-pill">${escapeHtml(s.track||"—")}</span></td>
+        <td>${escapeHtml(courseLabel)}</td>
+        <td>${escapeHtml(s.type||"—")}</td>
+        <td>${statusBadge}</td>
+        <td>${price}</td>
+        <td>${DAY_AR[s.Day]||s.Day||"—"}</td>
+        <td class="mono">${escapeHtml(s.Time||"—")}</td>
+        <td>${escapeHtml(s.teacher||"—")}</td>
+        <td>
+          <div class="row-actions">
+            <button class="icon-btn edit" data-action="edit-student" data-key="${escapeHtml(s._key)}">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5a1.5 1.5 0 0 1 2.12 2.12L5 13.25l-3 .75.75-3L11.5 2.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="icon-btn del" data-action="delete-student" data-key="${escapeHtml(s._key)}">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5m1.5 0-.6 8.4a1 1 0 0 1-1 .9H5.6a1 1 0 0 1-1-.9l-.6-8.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>`;
+  }).join("");
+  tbody.querySelectorAll('[data-action="edit-student"]').forEach(b=>b.addEventListener("click",()=>openStudentModal(b.dataset.key)));
+  tbody.querySelectorAll('[data-action="delete-student"]').forEach(b=>b.addEventListener("click",()=>confirmDeleteStudent(b.dataset.key)));
+}
+
+/* ---- Student modal ---- */
+function openStudentModal(key) {
+  const s = key ? students.find(x => x._key === key) : null;
+  editingContext = {type:'student', key};
+  const courseOptions = Object.entries(courses).map(([code, c]) =>
+    `<option value="${escapeHtml(code)}" ${s && s.current_course===code ? "selected":""}>${escapeHtml(c.course_name)} (${escapeHtml(c.rank)})</option>`).join("");
+  const teacherOptions = teachers.map(t =>
+    `<option value="${escapeHtml(t.code)}" ${s && s.teacher===t.code ? "selected":""}>${escapeHtml(t.name)} (${escapeHtml(t.code)})</option>`).join("");
+  const dayOptions = DAY_ORDER.map(d => `<option value="${d}" ${s && s.Day===d ? "selected":""}>${DAY_AR[d]}</option>`).join("");
+  const completedChecks = Object.entries(courses).map(([code, c]) => {
+    const checked = s && s.completed_courses && s.completed_courses.includes(code) ? "checked" : "";
+    return `<label class="check-pill"><input type="checkbox" name="completed" value="${escapeHtml(code)}" ${checked}/> ${escapeHtml(c.course_name)}</label>`;
+  }).join("");
+
+  document.getElementById("modalContent").innerHTML = `
+    <div class="modal-head">
+      <h3>${s ? "تعديل بيانات الطالب" : "إضافة طالب جديد"}</h3>
+      <button class="modal-close" id="modalCloseBtn">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row two-col">
+        <div><label>الاسم</label><input type="text" id="f-name" value="${escapeHtml(s?.name||"")}" /></div>
+        <div><label>الكود (ID)</label><input type="text" id="f-id" value="${escapeHtml(s?.id||"")}" /></div>
+      </div>
+      <div class="form-row two-col">
+        <div><label>السن</label><input type="text" id="f-age" value="${escapeHtml(s?.age||"")}" /></div>
+        <div><label>الحالة</label><select id="f-status"><option value="1" ${!s||s.status===1?"selected":""}مدفوع</option><option value="0" ${s&&s.status===0?"selected":""}>غير مدفوع</option></select></div>
+      </div>
+      <div class="form-row two-col">
+        <div><label>نوع الحصص</label><select id="f-type"><option value="group" ${!s||s.type==="group"?"selected":""}>مجموعة</option><option value="Private" ${s&&s.type==="Private"?"selected":""}>خاص</option></select></div>
+        <div><label>السعر الشهري (ج)</label><input type="number" id="f-price" value="${s?.monthly_price ?? 0}" /></div>
+      </div>
+      <div class="form-row two-col">
+        <div><label>اليوم</label><select id="f-day"><option value="">—</option>${dayOptions}</select></div>
+        <div><label>الوقت</label><input type="text" id="f-time" placeholder="e.g. 05:00 PM" value="${escapeHtml(s?.Time||"")}" /></div>
+      </div>
+      <div class="form-row two-col">
+        <div><label>كود الحصة (lesson_code)</label><input type="text" id="f-lesson-code" dir="ltr" value="${escapeHtml(s?.lesson_code||"")}" /></div>
+        <div><label>المسار</label><select id="f-track"><option value="AI Track" ${s&&s.track==="AI Track"?"selected":""}>AI Track</option><option value="Web Track" ${!s||s.track==="Web Track"?"selected":""}>Web Track</option><option value="Kids Track" ${s&&s.track==="Kids Track"?"selected":""}>Kids Track</option></select></div>
+      </div>
+      <div class="form-row two-col">
+        <div><label>هاتف الطالب</label><input type="text" id="f-phone" dir="ltr" value="${escapeHtml(s?.phone_number||"")}" /></div>
+        <div><label>هاتف ولي الأمر</label><input type="text" id="f-pphone" dir="ltr" value="${escapeHtml(s?.parent_phone||"")}" /></div>
+      </div>
+      <div class="form-row"><label>المعلم</label><select id="f-teacher">${teacherOptions}</select></div>
+      <div class="form-row"><label>الكورس الحالي</label><select id="f-course"><option value="">—</option>${courseOptions}</select></div>
+      <div class="form-row"><label>كورسات مكتملة</label><div class="checkbox-grid">${completedChecks}</div></div>
+      <div class="form-row"><label>رابط الحصة (Google Meet)</label><input type="text" id="f-link" dir="ltr" value="${escapeHtml(s?.link||"")}" /></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" id="modalCancelBtn">إلغاء</button>
+      <button class="btn btn-primary" id="modalSaveBtn">${s ? "حفظ التعديلات" : "إضافة الطالب"}</button>
+    </div>`;
+  showModal();
+  document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+  document.getElementById("modalCancelBtn").addEventListener("click", closeModal);
+  document.getElementById("modalSaveBtn").addEventListener("click", saveStudent);
+}
+
+function saveStudent() {
+  const name = document.getElementById("f-name").value.trim();
+  const id = document.getElementById("f-id").value.trim();
+  if (!name || !id) { toast("الاسم والكود مطلوبان", "error"); return; }
+  const completed = Array.from(document.querySelectorAll('input[name="completed"]:checked')).map(c => c.value);
+  const payload = { name, id, age: document.getElementById("f-age").value.trim(), status: Number(document.getElementById("f-status").value), type: document.getElementById("f-type").value, monthly_price: Number(document.getElementById("f-price").value)||0, Day: document.getElementById("f-day").value, Time: document.getElementById("f-time").value.trim(), lesson_code: document.getElementById("f-lesson-code").value.trim(), phone_number: document.getElementById("f-phone").value.trim(), parent_phone: document.getElementById("f-pphone").value.trim(), current_course: document.getElementById("f-course").value, completed_courses: completed, track: document.getElementById("f-track").value, teacher: document.getElementById("f-teacher").value, link: document.getElementById("f-link").value.trim() };
+  if (editingContext.key) {
+    const idx = students.findIndex(x => x._key === editingContext.key);
+    students[idx] = {...students[idx], ...payload, _key: students[idx]._key};
+    toast("تم حفظ تعديلات الطالب");
+  } else {
+    students.push({...payload, _key: id || `s${Date.now()}`});
+    toast("تم إضافة الطالب بنجاح");
+  }
+  closeModal();
+  buildDayFilters();
+  renderAll();
+}
+
+function confirmDeleteStudent(key) {
+  const s = students.find(x => x._key === key);
+  if (!s) return;
+  openConfirmModal({ title: "حذف الطالب", message: `هل أنت متأكد من حذف الطالب <strong>${escapeHtml(s.name)}</strong>؟ هذا الإجراء نهائي ولا يمكن التراجع عنه.`, onConfirm: () => { students = students.filter(x => x._key !== key); toast("تم حذف الطالب"); closeModal(); buildDayFilters(); renderAll(); } });
+}
+
+/* ============================================================ COURSES TABLE */
+function renderCoursesTable() {
+  const entries = Object.entries(courses);
+  document.getElementById("coursesCount").textContent = `${entries.length} كورس`;
+  const tbody = document.getElementById("coursesTableBody");
+  if (!entries.length) { tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;color:var(--muted);padding:2rem;">لا يوجد كورسات</td></tr>`; return; }
+  tbody.innerHTML = entries.map(([code, c]) => {
+    const link = (c.link||"").trim();
+    return `
+    <tr>
+      <td class="mono">${escapeHtml(code)}</td>
+      <td><strong>${escapeHtml(c.course_name)}</strong></td>
+      <td><span class="tag-pill">${escapeHtml(c.rank)}</span></td>
+      <td>${escapeHtml(c.special)}</td>
+      <td>${escapeHtml(c.duration)}</td>
+      <td class="mono">${escapeHtml(c.link||"—")}</td>
+      <td><div class="row-actions">
+        ${link ? `<a class="icon-btn" href="${escapeHtml(link)}" target="_blank" rel="noopener" title="فتح رابط الكورس"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M6 3H3a1 1 0 00-1 1v9a1 1 0 001 1h9a1 1 0 001-1v-3M10 2h4m0 0v4m0-4L7 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ""}
+        <button class="icon-btn edit" data-action="edit-course" data-key="${escapeHtml(code)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5a1.5 1.5 0 0 1 2.12 2.12L5 13.25l-3 .75.75-3L11.5 2.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="icon-btn del" data-action="delete-course" data-key="${escapeHtml(code)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5m1.5 0-.6 8.4a1 1 0 0 1-1 .9H5.6a1 1 0 0 1-1-.9l-.6-8.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div></td>
+    </tr>`;
+  }).join("");
+  tbody.querySelectorAll('[data-action="edit-course"]').forEach(b=>b.addEventListener("click",()=>openCourseModal(b.dataset.key)));
+  tbody.querySelectorAll('[data-action="delete-course"]').forEach(b=>b.addEventListener("click",()=>confirmDeleteCourse(b.dataset.key)));
+}
+
+document.getElementById("addCourseBtn").addEventListener("click", ()=>openCourseModal(null));
+
+function openCourseModal(code) {
+  const c = code ? courses[code] : null;
+  editingContext = {type:'course', key: code};
+  const specialOptions = SPECIAL_OPTIONS.map(opt => `<option value="${escapeHtml(opt)}" ${c&&c.special===opt?"selected":""}>${escapeHtml(opt)}</option>`).join("");
+  document.getElementById("modalContent").innerHTML = `
+    <div class="modal-head"><h3>${c?"تعديل الكورس":"إضافة كورس جديد"}</h3><button class="modal-close" id="modalCloseBtn">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-row two-col">
+        <div><label>كود الكورس</label><input type="text" id="f-code" dir="ltr" value="${escapeHtml(code||"")}" ${code?"disabled":""}/></div>
+        <div><label>اسم الكورس</label><input type="text" id="f-cname" value="${escapeHtml(c?.course_name||"")}"/></div>
+      </div>
+      <div class="form-row two-col">
+        <div><label>المستوى</label><input type="text" id="f-rank" placeholder="Level 1" value="${escapeHtml(c?.rank||"")}"/></div>
+        <div><label>المدة</label><input type="text" id="f-duration" placeholder="3 month" value="${escapeHtml(c?.duration||"")}"/></div>
+      </div>
+      <div class="form-row"><label>التخصص</label><select id="f-special">${specialOptions}</select></div>
+      <div class="form-row"><label>رابط المحتوى</label><input type="text" id="f-clink" dir="ltr" value="${escapeHtml(c?.link||"")}"/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" id="modalCancelBtn">إلغاء</button>
+      <button class="btn btn-primary" id="modalSaveBtn">${c?"حفظ التعديلات":"إضافة الكورس"}</button>
+    </div>`;
+  showModal();
+  document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+  document.getElementById("modalCancelBtn").addEventListener("click", closeModal);
+  document.getElementById("modalSaveBtn").addEventListener("click", saveCourse);
+}
+
+function saveCourse() {
+  const codeInput = document.getElementById("f-code");
+  const code = (editingContext.key || codeInput.value.trim()).toLowerCase();
+  const name = document.getElementById("f-cname").value.trim();
+  if (!code || !name) { toast("كود الكورس واسمه مطلوبان", "error"); return; }
+  if (!editingContext.key && courses[code]) { toast("هذا الكود مستخدم بالفعل", "error"); return; }
+  courses[code] = { course_name: name, rank: document.getElementById("f-rank").value.trim(), special: document.getElementById("f-special").value, duration: document.getElementById("f-duration").value.trim(), link: document.getElementById("f-clink").value.trim() };
+  toast(editingContext.key ? "تم حفظ تعديلات الكورس" : "تم إضافة الكورس بنجاح");
+  closeModal(); renderAll();
+}
+
+function confirmDeleteCourse(code) {
+  const c = courses[code];
+  if (!c) return;
+  openConfirmModal({ title: "حذف الكورس", message: `هل أنت متأكد من حذف كورس <strong>${escapeHtml(c.course_name)}</strong>؟`, onConfirm: () => { delete courses[code]; toast("تم حذف الكورس"); closeModal(); renderAll(); } });
+}
+
+/* ============================================================ TEACHERS TABLE */
+function renderTeachersTable() {
+  document.getElementById("teachersCount").textContent = `${teachers.length} معلم`;
+  const tbody = document.getElementById("teachersTableBody");
+  if (!teachers.length) { tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--muted);padding:2rem;">لا يوجد معلمين</td></tr>`; return; }
+  tbody.innerHTML = teachers.map(t => `
+    <tr>
+      <td><strong>${escapeHtml(t.name)}</strong></td>
+      <td class="mono">${escapeHtml(t.email)}</td>
+      <td>${(t.special||[]).map(s=>`<span class="tag-pill">${escapeHtml(s)}</span>`).join("")}</td>
+      <td class="mono">${escapeHtml(t.code)}</td>
+      <td><div class="row-actions">
+        <button class="icon-btn edit" data-action="edit-teacher" data-key="${escapeHtml(t._key)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5a1.5 1.5 0 0 1 2.12 2.12L5 13.25l-3 .75.75-3L11.5 2.5Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button class="icon-btn del" data-action="delete-teacher" data-key="${escapeHtml(t._key)}"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5m1.5 0-.6 8.4a1 1 0 0 1-1 .9H5.6a1 1 0 0 1-1-.9l-.6-8.4" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </div></td>
+    </tr>`).join("");
+  tbody.querySelectorAll('[data-action="edit-teacher"]').forEach(b=>b.addEventListener("click",()=>openTeacherModal(b.dataset.key)));
+  tbody.querySelectorAll('[data-action="delete-teacher"]').forEach(b=>b.addEventListener("click",()=>confirmDeleteTeacher(b.dataset.key)));
+}
+
+document.getElementById("addTeacherBtn").addEventListener("click", ()=>openTeacherModal(null));
+
+function openTeacherModal(key) {
+  const t = key ? teachers.find(x => x._key === key) : null;
+  editingContext = {type:'teacher', key};
+  const specialChecks = SPECIAL_OPTIONS.map(opt => {
+    const checked = t && t.special && t.special.includes(opt) ? "checked" : "";
+    return `<label class="check-pill"><input type="checkbox" name="t-special" value="${escapeHtml(opt)}" ${checked}/> ${escapeHtml(opt)}</label>`;
+  }).join("");
+  document.getElementById("modalContent").innerHTML = `
+    <div class="modal-head"><h3>${t?"تعديل بيانات المعلم":"إضافة معلم جديد"}</h3><button class="modal-close" id="modalCloseBtn">&times;</button></div>
+    <div class="modal-body">
+      <div class="form-row two-col">
+        <div><label>الاسم</label><input type="text" id="f-tname" value="${escapeHtml(t?.name||"")}"/></div>
+        <div><label>الكود</label><input type="text" id="f-tcode" dir="ltr" value="${escapeHtml(t?.code||"")}" ${t?"disabled":""}/></div>
+      </div>
+      <div class="form-row"><label>البريد الإلكتروني</label><input type="email" id="f-temail" dir="ltr" value="${escapeHtml(t?.email||"")}"/></div>
+      <div class="form-row"><label>كلمة المرور</label><input type="text" id="f-tpass" dir="ltr" value="${escapeHtml(t?.password||"")}"/></div>
+      <div class="form-row"><label>التخصصات</label><div class="checkbox-grid">${specialChecks}</div></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" id="modalCancelBtn">إلغاء</button>
+      <button class="btn btn-primary" id="modalSaveBtn">${t?"حفظ التعديلات":"إضافة المعلم"}</button>
+    </div>`;
+  showModal();
+  document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+  document.getElementById("modalCancelBtn").addEventListener("click", closeModal);
+  document.getElementById("modalSaveBtn").addEventListener("click", saveTeacher);
+}
+
+function saveTeacher() {
+  const name = document.getElementById("f-tname").value.trim();
+  const code = document.getElementById("f-tcode").value.trim();
+  const email = document.getElementById("f-temail").value.trim();
+  if (!name || !code || !email) { toast("الاسم والكود والبريد مطلوبون", "error"); return; }
+  if (!editingContext.key && teachers.find(t => t.code === code)) { toast("هذا الكود مستخدم بالفعل", "error"); return; }
+  const special = Array.from(document.querySelectorAll('input[name="t-special"]:checked')).map(c => c.value);
+  const payload = { name, code, email, password: document.getElementById("f-tpass").value.trim(), special };
+  if (editingContext.key) {
+    const idx = teachers.findIndex(x => x._key === editingContext.key);
+    teachers[idx] = {...teachers[idx], ...payload, _key: teachers[idx]._key};
+    toast("تم حفظ تعديلات المعلم");
+  } else {
+    teachers.push({...payload, _key: code});
+    toast("تم إضافة المعلم بنجاح");
+  }
+  closeModal(); renderAll();
+}
+
+function confirmDeleteTeacher(key) {
+  const t = teachers.find(x => x._key === key);
+  if (!t) return;
+  openConfirmModal({ title: "حذف المعلم", message: `هل أنت متأكد من حذف المعلم <strong>${escapeHtml(t.name)}</strong>؟`, onConfirm: () => { teachers = teachers.filter(x => x._key !== key); toast("تم حذف المعلم"); closeModal(); renderAll(); } });
+}
+
+/* ============================================================ MODAL HELPERS */
+function showModal() { document.getElementById("modalOverlay").classList.add("visible"); }
+function closeModal() { document.getElementById("modalOverlay").classList.remove("visible"); document.getElementById("modalContent").innerHTML = ""; editingContext = null; }
+document.getElementById("modalOverlay").addEventListener("click", (e) => { if (e.target.id === "modalOverlay") closeModal(); });
+
+function openConfirmModal({title, message, onConfirm}) {
+  document.getElementById("modalContent").innerHTML = `
+    <div class="modal-head"><h3>${escapeHtml(title)}</h3><button class="modal-close" id="modalCloseBtn">&times;</button></div>
+    <div class="modal-body confirm-modal" style="display:block;">
+      <div class="confirm-icon"><svg width="22" height="22" viewBox="0 0 16 16" fill="none"><path d="M2.5 4.5h11M5.5 4.5V3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v1.5m1.5 0-.6 8.4a1 1 0 0 1-1 .9H5.6a1 1 0 0 1-1-.9l-.6-8.4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <p>${message}</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" id="modalCancelBtn">إلغاء</button>
+      <button class="btn btn-danger" id="modalConfirmBtn">حذف نهائي</button>
+    </div>`;
+  showModal();
+  document.getElementById("modalCloseBtn").addEventListener("click", closeModal);
+  document.getElementById("modalCancelBtn").addEventListener("click", closeModal);
+  document.getElementById("modalConfirmBtn").addEventListener("click", onConfirm);
+}
+</script>
+</body>
+</html>
