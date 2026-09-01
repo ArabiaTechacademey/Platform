@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grade Calculator</title>
+
+<style>
+
+body{
+    background:#1ea7d7;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.container{
+    
+    background:#1ea7d7;
+    padding:30px;
+    border-radius:10px;
+    text-align:center;
+}
+
+h2{
+    color:white;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    font-size:18px;
+    border:none;
+    border-radius:5px;
+    margin-bottom:15px;
+}
+
+button{
+    padding:10px 25px;
+    font-size:16px;
+    background:gold;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+    margin-bottom:15px;
+}
+
+#result{
+    font-size:24px;
+    font-weight:bold;
+    color: white;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h2>Enter your grade</h2>
+
+<input type="number" id="grade" placeholder="0 - 100">
+
+<button onclick="checkGrade()">Check</button>
+
+<h3 id="result"></h3>
+
+</div>
+
+<script>
+
+function checkGrade(){
+
+    let grade = Number(document.getElementById("grade").value);
+    let result = document.getElementById("result");
+
+    if(grade > 100 || grade < 0){
+        result.innerHTML = "Invalid Grade ❌";
+    }
+    else if(grade >= 90){
+        result.innerHTML = "Grade A ⭐";
+    }
+    else if(grade >= 75){
+        result.innerHTML = "Grade B 👍";
+    }
+    else if(grade >= 50){
+        result.innerHTML = "Grade C 💪";
+    }
+    else{
+        result.innerHTML = "Fail 😢";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
