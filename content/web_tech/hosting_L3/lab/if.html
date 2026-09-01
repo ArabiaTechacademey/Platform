@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArabiaTech IF Condation</title>
+     <link rel="stylesheet" href="background.css">
+       <link rel="icon" type="image/png" href="../static/image/icon3.png">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=JetBrains+Mono:wght@400;600&family=Quicksand:wght@400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #051e3d;
+            display: flex;
+            padding: 0px;
+            flex-direction: column;
+            color: #fff;
+
+        }
+        
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        
+        
+        .game-container {
+            background: rgba(255,255,255,0);
+            border-radius: 20px;
+            padding:  20px 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width:1900px;
+            width: 80%;
+            height: fit-content;
+            margin: 0px;
+        }
+        
+        .conditions-section {
+            background: #1e2530;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 25px;
+            border: 2px solid #333;
+            width: 29%;
+            min-height: 610px;
+            max-height: 610px;
+            scrollbar-width: thin;
+            border: 2px solid #0000009e;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+            color: #ffffff;
+
+        }
+        
+        .conditions-title {
+
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .condition-group {
+            margin-bottom: 2px;
+            padding-left: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            width:99%;
+           
+        }
+        
+        .condition-line {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: .9rem;
+            margin-bottom: 10px;
+            
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .code-keyword {
+           
+            font-weight: bold;
+            
+            
+        }
+        
+        .code-colon {
+           
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .code-indent {
+           
+            margin-left: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .condition-input {
+            color: white;
+            border: 2px solid #ffffffed;
+            border-radius: 8px;
+            padding: 10px 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            background-color: #00000000;
+            max-width: 235px;
+            flex-grow: 1;
+        }
+        
+        .condition-input:focus {
+            outline: none;
+            border-color: #d5c701;
+            box-shadow: 0 0 10px rgba(238, 194, 0, 0.856);
+        }
+        
+        .door-label {
+            background: rgba(0,0,0,0);
+            border: 1px solid #ffffff;
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+           color: #ffffff;
+            min-width: 100px;
+            direction: rtl;
+            margin-left: 100px;
+        }
+        
+        .door-label:focus {
+            outline: none;
+            border-color: #ffe602f1;
+        }
+        
+        .add-condition-btn {
+            display: block;
+            margin: 10px 15px 0;
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #e6e200, #ccbe00b2);
+            color: #1a1a1a;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .add-condition-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .doors-display {
+            background-image: url(room.png);
+            background-color:  rgba(0,0,0,0);;
+           background-position: -2px 20px;
+           background-repeat: no-repeat;
+           background-size: 130%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content:start;
+            gap: 10px;
+            margin: 0px 20px;
+            border-radius: 20px;
+            perspective: 1000px;
+            padding: 20px;
+            min-height: 300px;
+            height: 200px;
+       
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            border-radius: 5px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+
+        }
+        
+        .door-container {
+            width: 90px;
+            height: 160px;
+            position: relative;
+            top: 48px;
+            left: 80px;
+            border-radius: 0px;
+            margin-bottom: 50px;
+            overflow: visible;
+            transition: all 0.5s ease;
+            box-shadow: 5px 0px 5px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        
+        .door-close-btn {
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            width: 20px;
+            height: 20px;
+          
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            background-color: #00000000;
+        }
+        
+        .door-close-btn:hover {
+            
+            transform: scale(1.1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+        }
+        
+        .door-close-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .door-container.highlight {
+            
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0);
+        }
+        
+        .door-frame {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            right: 0px;
+            bottom:0px;
+            background: linear-gradient(145deg, #00000000, #8e8e8e);
+            border-radius: 0px;
+            width: 90px;
+            z-index: -1;
+            border: 2px solid #000000;
+            border-radius: 5px;
+        }
+        
+        .door {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-origin: left center;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color:  rgba(0,0,0,0.7);
+             border-radius: 0px;
+            border: 2px solid #000000;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        
+        .door.open {
+            transform: rotateY(-120deg);
+        }
+        
+        .door-panels {
+            position: absolute;
+            top: 15px;
+            left: 12px;
+            right: 12px;
+            bottom: 15px;
+        }
+        
+        .door-panel {
+            background: linear-gradient(145deg, #ffffff, rgba(0,0,0,0.7));
+            border: 2px solid #000000;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            height: calc(50% - 4px);
+            
+        }
+        
+        .door-handle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 12px;
+            height: 20px;
+            background: linear-gradient(145deg, #000000, #000000);
+            border-radius: 50%;
+            box-shadow: 2px 2px 6px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .door.open .door-handle {
+            box-shadow: -2px 2px 6px rgba(0, 0, 0, 0.4);
+        }
+        
+        .door-keyhole {
+            position: absolute;
+            right: 20px;
+            top: 60%;
+            width: 5px;
+            height: 5px;
+            background: #333;
+            border-radius: 50%;
+            
+        }
+        
+        .door-keyhole::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 1.5px;
+            width: 2px;
+            height: 6px;
+            background: #000000;
+            border-radius: 0 0 1px 1px;
+        }
+        
+        .magical-glow {
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            right: -15px;
+            bottom: -15px;
+        
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .door.open ~ .magical-glow {
+            opacity: 1;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.6; }
+        }
+        
+        .portal-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 160px;
+            background: radial-gradient(ellipse, 
+                rgba(255,255,255,0.95) 0%,
+                rgba(255,255,255,0.8) 30%,
+                rgba(255,255,255,0.4) 60%,
+                transparent 100%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 1s ease;
+            box-shadow: 0 0 30px rgba(255,255,255,0.8);
+        }
+        
+        .door.open ~ .portal-effect {
+            opacity: 1;
+        }
+        
+        .door-label-display {
+            text-align: center;
+            margin-top: 0px;
+            font-weight: bold;
+            z-index: 99;
+            font-size: 0.8rem;
+            color: #ffffff;
+            max-width: 90px;
+            word-wrap: break-word;
+            line-height: 1.2;
+        }
+        
+        .door-condition-display {
+            position: absolute;
+            top: 175px;
+            left: 5px;
+            right: 5px;
+            font-weight: normal;
+            font-size: 0.6rem;
+            color: #333;
+            font-family: 'JetBrains Mono', monospace;
+            word-wrap: break-word;
+            line-height: 1;
+            background: rgba(255,255,255,0.9);
+            padding: 3px;
+            border-radius: 3px;
+            border: 1px solid #999;
+            text-align: center;
+            z-index: 10;
+        }
+        
+        .inputs-section {
+             background:#1e2530;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            margin: 10px 20px;
+            perspective: 1000px;
+            padding: 20px;
+            min-height: 300px;
+            max-height: 300px;
+            border: 2px solid #00000099;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+            width: 100%;
+            margin-bottom: 0px;
+            overflow-y: auto;
+            color: #ffffff;
+        }
+        
+        
+        .input-group {
+            text-align: center;
+        }
+        
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            
+        }
+        
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 0px;
+            font-size: 1.1rem;
+            text-align: center;
+            background: rgba(255,255,255,0.9);
+            color: #2a2a2a;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .input-group input:focus {
+            outline: none;
+           
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            background: rgba(255,255,255,1);
+        }
+        
+        .add-input-btn {
+            padding: 10px 20px;
+            background: linear-gradient(145deg, #000000, #000000);
+            color: #ffffff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin: 0 5px;
+        }
+        
+        .add-input-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .test-button {
+            display: block;
+            width: 100%;
+            flex-direction: column;
+            padding: 5px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            background: linear-gradient(145deg, #4f4f4f, #474747);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            font-family: 'Quicksand', sans-serif;
+            margin-top: 20px;
+        }
+        
+        .close-all-button {
+            display: inline-block;
+            width: 48%;
+            flex-direction: column;
+            padding: 5px;
+            font-size: 1.1rem;
+            font-weight: 900;
+            background: linear-gradient(145deg, #dc3545, #c82333);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            font-family: 'Quicksand', sans-serif;
+            margin-top: 20px;
+            margin-left: 2%;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, #ffffff, #ffffff);
+            color: #1a1a1a;
+        }
+        
+        .close-all-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            background: linear-gradient(145deg, #ff6b6b, #ff5252);
+        }
+        
+        .result {
+            text-align: center;
+            font-size: .9rem;
+            font-weight: 600;
+            padding: 5px;
+            border-radius: 15px;
+           
+            transition: all 0.5s ease;
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #ffffff;
+
+        }
+        
+        .result.success {
+            
+            color: #228000;
+            animation: success-pulse 0.8s ease;
+        }
+        
+        .result.failure {
+            
+            color: rgb(136, 0, 0);
+            animation: shake 0.6s ease;
+        }
+        
+        .result.error {
+            background: linear-gradient(145deg, #ffa500, #ff8c00);
+            color: rgb(0,0,0);
+            animation: shake 0.6s ease;
+        }
+        
+        @keyframes success-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .examples {
+            background: rgba(0,0,0,0);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            color: #ffffff;
+            direction: rtl;
+        }
+        
+        .examples-title {
+            color: #ffffff;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .example-condition {
+            font-family: 'JetBrains Mono', monospace;
+             background: rgba(0,0,0,0.7);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        
+        .example-condition:hover {
+            background: rgba(255,255,255,0.2);
+            border-color: #00ff88;
+        }
+        
+        .sparkles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle-fall 3s linear infinite;
+        }
+        
+        @keyframes sparkle-fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) rotate(360deg);
+            }
+        }
+        
+        .remove-condition-btn {
+            background: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 0px;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-condition-btn:hover {
+            background: #ee5a24;
+            transform: scale(1.1);
+        }
+
+        .inputs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+  
+    <div class="game-container" style="width: 100%;">
+        <div style="display: flex;">
+        <div class="conditions-section">
+            <div class="conditions-title">IF Condition</div>
+            <div id="conditionsContainer">
+                <div class="condition-group">
+                    <div class="condition-line">
+                        <span class="code-keyword">if</span>
+                        <input type="text" class="condition-input" >
+                        <span class="code-colon">:</span>
+                    </div>
+                    <div class="condition-line">
+                    
+                        <input type="text" class="door-label" placeholder="الباب الأول" value="الباب الأول">
+                    </div>
+                </div>
+            </div>
+            <button class="add-condition-btn" onclick="addCondition()">+ إضافة else if</button>
+            <button class="add-condition-btn" onclick="addElseCondition()" style="background: linear-gradient(145deg, #9c27b0, #7b1fa2); margin-left: 10px;">+ إضافة else</button>
+             <div class="examples">
+            <div class="examples-title"> examples</div>
+            <div class="example-condition" onclick="loadMultiExample1()">مثال 1: تصنيف الأعمار</div>
+            <div class="example-condition" onclick="loadMultiExample2()">مثال 2: نظام الدرجات</div>
+            <div class="example-condition" onclick="loadMultiExample3()">مثال 3: نظام الأمان</div>
+        </div>
+        </div>
+        <div style="width: 70%; height: fit-content;">
+        <div class="doors-display" id="doorsDisplay">
+            
+            <img id="draggableImage" src="ro_ask.gif" style="width:17%; position: absolute; cursor: move;z-index: 999;top: 110px; left:9px">
+            <div class="door-container">
+                <button class="door-close-btn" onclick="closeSingleDoor(this)" title="إغلاق هذا الباب">🔒</button>
+                <div class="door-frame"></div>
+                <div class="door">
+                    <div class="door-condition-display">if: ...</div>
+                    <div class="door-panels">
+                        <div class="door-panel"></div>
+                        <div class="door-panel"></div>
+                    </div>
+                    <div class="door-handle"></div>
+                    <div class="door-keyhole"></div>
+                </div>
+                <div class="magical-glow"></div>
+                <div class="portal-effect"></div>
+                <div class="door-label-display" style="margin-top: 2px;">الباب الأول</div>
+            </div>
+        </div>
+        <div class="inputs-section">
+            <div class="inputs-grid" id="inputsGrid">
+             
+                
+            </div>
+            <div style="text-align: center; margin-bottom: 15px;">
+                <div style="display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                    <input type="text" id="customInputName" placeholder="اسم المتغير" style="padding: 8px 12px; border: none; border-radius: 15px; background: rgba(255,255,255,0.9); color: #333; font-weight: 600;">
+                    <select id="customInputType" style="padding: 8px 12px; border: none; border-radius: 15px; background: rgba(255,255,255,0.9); color: #333; font-weight: 600;">
+                        <option value="number">رقم</option>
+                        <option value="text">نص</option>
+                    </select>
+                    <button class="add-input-btn" onclick="addCustomInput()">+ إضافة حقل</button>
+                <button class="add-input-btn" onclick="addInput('name', 'text')">+ إضافة اسم</button>
+                <button class="add-input-btn" onclick="addInput('key', 'number')">+ إضافة مفتاح</button>
+                <button class="add-input-btn" onclick="addInput('points', 'number')">+ إضافة نقاط</button>
+            
+                </div>
+            </div>
+            
+            <button class="test-button" onclick="testAllDoors()" align="center">
+            اختبار جميع الأبواب!
+        </button>
+        <div class="result" id="result">
+            اكتب الشروط وادخل القيم واضغط اختبار! 
+        </div>
+        </div>
+        
+        </div>
+        
+    </div>
+        
+        
+        
+        
+        
+    
+    </div>
+
+    <script>
+        let conditionCounter = 1;
+        const img = document.getElementById("draggableImage");
+
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        img.addEventListener("mousedown", function (e) {
+            isDragging = true;
+            offsetX = e.clientX - img.offsetLeft;
+            offsetY = e.clientY - img.offsetTop;
+        });
+
+        document.addEventListener("mousemove", function (e) {
+            if (isDragging) {
+                img.style.left = (e.clientX - offsetX) + "px";
+                img.style.top = (e.clientY - offsetY) + "px";
+            }
+        });
+
+        document.addEventListener("mouseup", function () {
+            isDragging = false;
+        });
+
+        function addCondition() {
+            const container = document.getElementById('conditionsContainer');
+            const doorsDisplay = document.getElementById('doorsDisplay');
+            
+            // تحقق من وجود else مسبقاً
+            const hasElse = Array.from(container.children).some(group => 
+                group.querySelector('.code-keyword').textContent === 'else'
+            );
+            
+            if (hasElse) {
+                alert('لا يمكن إضافة else if بعد else! يجب أن يكون else في النهاية دائماً.');
+                return;
+            }
+            
+            conditionCounter++;
+            
+            const conditionGroup = document.createElement('div');
+            conditionGroup.className = 'condition-group';
+            
+            const defaultDoorName = `الباب ${conditionCounter}`;
+            
+            conditionGroup.innerHTML = `
+                <div class="condition-line">
+                    <span class="code-keyword">else if</span>
+                    <input type="text" class="condition-input" >
+                    <span class="code-colon">: <button class="remove-condition-btn" onclick="removeCondition(this)" title="حذف هذا الشرط">×</button></span>
+                    
+                </div>
+                <div class="condition-line">
+
+                    <input type="text" class="door-label" placeholder="${defaultDoorName}" value="${defaultDoorName}">
+                </div>
+            `;
+            
+            container.appendChild(conditionGroup);
+            
+            // إضافة الباب المقابل
+            addDoorToDisplay(defaultDoorName, 'else if: ...');
+            
+            // ربط تغيير اسم الباب مع العرض
+            const doorLabelInput = conditionGroup.querySelector('.door-label');
+            const conditionInput = conditionGroup.querySelector('.condition-input');
+            const doorLabelDisplay = doorsDisplay.children[doorsDisplay.children.length - 1].querySelector('.door-label-display');
+            const doorConditionDisplay = doorsDisplay.children[doorsDisplay.children.length - 1].querySelector('.door-condition-display');
+            
+            doorLabelInput.addEventListener('input', function() {
+                doorLabelDisplay.textContent = this.value || defaultDoorName;
+            });
+            
+            conditionInput.addEventListener('input', function() {
+                const conditionText = this.value.trim();
+                doorConditionDisplay.textContent = conditionText ? `else if: ${conditionText}` : 'else if: ...';
+            });
+        }
+        
+        function addElseCondition() {
+            const container = document.getElementById('conditionsContainer');
+            const doorsDisplay = document.getElementById('doorsDisplay');
+            
+            // تحقق من وجود else مسبقاً
+            const hasElse = Array.from(container.children).some(group => 
+                group.querySelector('.code-keyword').textContent === 'else'
+            );
+            
+            if (hasElse) {
+                alert('يمكن وجود else واحد فقط!');
+                return;
+            }
+            
+            conditionCounter++;
+            
+            const conditionGroup = document.createElement('div');
+            conditionGroup.className = 'condition-group';
+            
+            const defaultDoorName = 'الباب الافتراضي';
+            
+            conditionGroup.innerHTML = `
+                <div class="condition-line">
+                    <span class="code-keyword">else</span>
+                    <span class="code-colon">:</span>
+                    <button class="remove-condition-btn" onclick="removeCondition(this)" title="حذف هذا الشرط">×</button>
+                </div>
+                <div class="condition-line">
+                    
+                    <input type="text" class="door-label" placeholder="${defaultDoorName}" value="${defaultDoorName}">
+                </div>
+            `;
+            
+            container.appendChild(conditionGroup);
+            
+            // إضافة الباب المقابل
+            addDoorToDisplay(defaultDoorName, 'else: افتراضي');
+            
+            // ربط تغيير اسم الباب مع العرض
+            const doorLabelInput = conditionGroup.querySelector('.door-label');
+            const doorLabelDisplay = doorsDisplay.children[doorsDisplay.children.length - 1].querySelector('.door-label-display');
+            
+            doorLabelInput.addEventListener('input', function() {
+                doorLabelDisplay.textContent = this.value || defaultDoorName;
+            });
+        }
+        
+        function addDoorToDisplay(doorName, conditionText = '...') {
+            const doorsDisplay = document.getElementById('doorsDisplay');
+            
+            const doorContainer = document.createElement('div');
+            doorContainer.className = 'door-container';
+            doorContainer.innerHTML = `
+                <button class="door-close-btn" onclick="closeSingleDoor(this)" title="إغلاق هذا الباب">🔒</button>
+                <div class="door-frame"></div>
+                <div class="door">
+                    <div class="door-condition-display">${conditionText}</div>
+                    <div class="door-panels">
+                        <div class="door-panel"></div>
+                        <div class="door-panel"></div>
+                    </div>
+                    <div class="door-handle"></div>
+                    <div class="door-keyhole"></div>
+                </div>
+                <div class="magical-glow"></div>
+                <div class="portal-effect"></div>
+                <div class="door-label-display">${doorName}</div>
+            `;
+            
+            doorsDisplay.appendChild(doorContainer);
+        }
+        
+        function removeCondition(button) {
+            const conditionGroup = button.closest('.condition-group');
+            const conditionIndex = Array.from(conditionGroup.parentNode.children).indexOf(conditionGroup);
+            const doorsDisplay = document.getElementById('doorsDisplay');
+            
+            // لا تسمح بحذف الشرط الأول
+            if (conditionIndex === 0) {
+                alert('لا يمكن حذف الشرط الأول (if)!');
+                return;
+            }
+            
+            // حذف الشرط والباب المقابل
+            conditionGroup.remove();
+            if (doorsDisplay.children[conditionIndex + 1]) { // +1 للصورة المتحركة
+                doorsDisplay.children[conditionIndex + 1].remove();
+            }
+            
+            conditionCounter--;
+        }
+        
+        function closeSingleDoor(button) {
+            const doorContainer = button.parentElement;
+            const door = doorContainer.querySelector('.door');
+            const result = document.getElementById('result');
+            
+            // إغلاق الباب مع تأثير بصري
+            door.className = 'door';
+            doorContainer.classList.remove('highlight');
+            
+            // إضافة تأثير إغلاق مؤقت
+            door.style.transform = 'rotateY(10deg)';
+            setTimeout(() => {
+                door.style.transform = '';
+            }, 200);
+            
+            // رسالة قصيرة
+            const doorName = doorContainer.querySelector('.door-label-display').textContent;
+            result.textContent = `🔒 تم إغلاق ${doorName}`;
+            result.className = 'result';
+            result.style.color = '#666';
+            
+            // إعادة تعيين الرسالة بعد ثانية واحدة
+            setTimeout(() => {
+                result.textContent = 'اكتبي الشروط وادخلي القيم واضغطي اختبار!';
+                result.style.color = '#373737';
+            }, 1000);
+        }
+        
+        function closeAllDoors() {
+            const doorContainers = document.querySelectorAll('.door-container');
+            const result = document.getElementById('result');
+            
+            // إغلاق جميع الأبواب مع تأثير بصري
+            doorContainers.forEach((container, index) => {
+                setTimeout(() => {
+                    const door = container.querySelector('.door');
+                    door.className = 'door';
+                    container.classList.remove('highlight');
+                    
+                    // إضافة تأثير إغلاق مؤقت
+                    door.style.transform = 'rotateY(10deg)';
+                    setTimeout(() => {
+                        door.style.transform = '';
+                    }, 200);
+                }, index * 100); // تأخير تدريجي لكل باب
+            });
+            
+            // تحديث الرسالة
+            result.textContent = '🔒 تم إغلاق جميع الأبواب بنجاح!';
+            result.className = 'result';
+            result.style.color = '#666';
+            
+            // إعادة تعيين الرسالة بعد 2 ثانية
+            setTimeout(() => {
+                result.textContent = 'اكتب الشروط وادخل القيم واضغط اختبار!';
+                result.style.color = '#373737';
+            }, 2000);
+        }
+        
+        function addCustomInput() {
+            const nameInput = document.getElementById('customInputName');
+            const typeSelect = document.getElementById('customInputType');
+            
+            const customName = nameInput.value.trim();
+            const customType = typeSelect.value;
+            
+            if (!customName) {
+                alert('من فضلك ادخلي اسم المتغير!');
+                return;
+            }
+            
+            if (!/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(customName)) {
+                alert('اسم المتغير يجب أن يبدأ بحرف أو _ ويحتوي على أحرف وأرقام فقط');
+                return;
+            }
+            
+            if (document.getElementById(customName)) {
+                alert('هذا الاسم مستخدم بالفعل! اختار اسم آخر.');
+                return;
+            }
+            
+            addInput(customName, customType);
+            
+            nameInput.value = '';
+            typeSelect.value = 'number';
+        }
+        
+        function addInput(defaultName, type) {
+            const inputsGrid = document.getElementById('inputsGrid');
+            
+            let varName = defaultName;
+            if (['name', 'key', 'points'].includes(defaultName)) {
+                let counter = 1;
+                while (document.getElementById(varName)) {
+                    varName = defaultName + counter;
+                    counter++;
+                }
+            }
+            
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+            
+            const placeholder = type === 'number' ? 'ادخل رقم' : 'ادخل نص';
+            
+            inputGroup.innerHTML = `
+                <label>${varName} ${type === 'number' ? '🔢' : '📝'}</label>
+                <input type="${type}" id="${varName}" placeholder="${placeholder}">
+                <button onclick="removeInput(this)" style="margin-top: 5px; padding: 5px 10px; background: #ff6b6b; color: white; border: none; border-radius: 10px; cursor: pointer;">حذف</button>
+            `;
+            
+            inputsGrid.appendChild(inputGroup);
+        }
+        
+        function removeInput(button) {
+            button.parentElement.remove();
+        }
+        
+        function testAllDoors() {
+            const conditionGroups = document.querySelectorAll('.condition-group');
+            const doorContainers = document.querySelectorAll('.door-container');
+            const result = document.getElementById('result');
+            
+            if (conditionGroups.length === 0) {
+                result.textContent = '⚠️ من فضلك أضيف شرط واحد على الأقل!';
+                result.className = 'result error';
+                return;
+            }
+            
+            try {
+                // جمع كل القيم من الـ inputs
+                const allInputs = document.querySelectorAll('#inputsGrid input');
+                const variables = {};
+                
+                allInputs.forEach(input => {
+                    if (input.type === 'button') return;
+                    
+                    const name = input.id;
+                    let value = input.value;
+                    
+                    if (input.type === 'number') {
+                        value = value === '' ? 0 : parseFloat(value);
+                    } else if (input.type === 'text') {
+                        value = value || '';
+                    }
+                    
+                    variables[name] = value;
+                    window[name] = value;
+                });
+                
+                // إغلاق جميع الأبواب أولاً
+                doorContainers.forEach(container => {
+                    const door = container.querySelector('.door');
+                    door.className = 'door';
+                    container.classList.remove('highlight');
+                });
+                
+                let openedDoor = null;
+                let openedDoorName = '';
+                let executedCondition = '';
+                
+                // اختبار الشروط بالترتيب (if, else if, else if..., else)
+                for (let i = 0; i < conditionGroups.length; i++) {
+                    const keyword = conditionGroups[i].querySelector('.code-keyword').textContent;
+                    const conditionInput = conditionGroups[i].querySelector('.condition-input');
+                    const doorLabelInput = conditionGroups[i].querySelector('.door-label');
+                    const doorName = doorLabelInput.value.trim() || `الباب ${i + 1}`;
+                    
+                    let conditionResult = false;
+                    let condition = '';
+                    
+                    if (keyword === 'else') {
+                        // else يتم تنفيذه دائماً إذا لم يتحقق أي شرط سابق
+                        conditionResult = true;
+                        condition = 'else (الشرط الافتراضي)';
+                    } else {
+                        condition = conditionInput.value.trim();
+                        
+                        if (!condition) {
+                            continue; // تخطي الشروط الفارغة
+                        }
+                        
+                        // الشرط يُكتب مباشرة بصيغة JavaScript (&&, ||, !, ===, ...)
+                        let processedCondition = condition;
+                        
+                        try {
+                            conditionResult = eval(processedCondition);
+                        } catch (error) {
+                            console.error(`خطأ في الشرط ${i + 1}:`, error);
+                            continue;
+                        }
+                    }
+                    
+                    if (typeof conditionResult === 'boolean' && conditionResult) {
+                        // فتح هذا الباب وإيقاف الباقي
+                        const door = doorContainers[i].querySelector('.door');
+                        door.className = 'door open';
+                        doorContainers[i].classList.add('highlight');
+                        
+                        openedDoor = i + 1;
+                        openedDoorName = doorName;
+                        executedCondition = condition;
+                        break; // توقف عند أول شرط صحيح
+                    }
+                }
+                
+                // عرض النتيجة
+                if (openedDoor) {
+                    result.textContent = `🎉 ${openedDoorName} اتفتح! ✨\n\nالشرط المحقق: ${executedCondition}\nرقم الشرط: ${openedDoor}`;
+                    result.className = 'result success';
+                    createSparkles();
+                } else {
+                    result.textContent = `❌ لا يوجد شرط محقق! جميع الأبواب مقفولة.\n\nتأكدي من القيم والشروط.`;
+                    result.className = 'result failure';
+                    shakeAllDoors();
+                }
+                
+                // إظهار القيم المستخدمة
+                const usedVars = Object.entries(variables)
+                    .map(([name, value]) => `${name} = ${value}`)
+                    .join(', ');
+                
+                if (usedVars) {
+                    setTimeout(() => {
+                        result.textContent += `\n\nالقيم المستخدمة: ${usedVars}`;
+                    }, 1500);
+                }
+                
+            } catch (error) {
+                result.textContent = ` خطأ في التقييم: ${error.message}`;
+                result.className = 'result error';
+                shakeAllDoors();
+            }
+        }
+        
+        function shakeAllDoors() {
+            const doors = document.querySelectorAll('.door');
+            doors.forEach(door => {
+                door.style.animation = 'shake 0.6s ease';
+                setTimeout(() => {
+                    door.style.animation = '';
+                }, 600);
+            });
+        }
+        
+        function createSparkles() {
+            const sparklesContainer = document.body;
+            
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.position = 'fixed';
+                    sparkle.style.left = Math.random() * 100 + '%';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    sparkle.style.zIndex = '9999';
+                    sparklesContainer.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+        
+        // أمثلة متعددة الأبواب
+        function loadMultiExample1() {
+            // مثال تصنيف الأعمار - إزالة كل شيء وإعادة بناء
+            clearAllConditions();
+            clearAllInputs();
+            
+            // إضافة input للعمر
+            addInput('age', 'number');
+            
+            // الشرط الأول - if
+            document.querySelector('.condition-input').value = 'age < 13';
+            document.querySelector('.door-label').value = 'باب الأطفال';
+            document.querySelector('.door-label-display').textContent = 'باب الأطفال';
+            
+            // إضافة else if الأول
+            addCondition();
+            let conditions = document.querySelectorAll('.condition-input');
+            let doorLabels = document.querySelectorAll('.door-label');
+            let doorDisplays = document.querySelectorAll('.door-label-display');
+            
+            conditions[1].value = 'age >= 13 && age < 18';
+            doorLabels[1].value = 'باب المراهقين';
+            doorDisplays[1].textContent = 'باب المراهقين';
+            
+            // إضافة else
+            addElseCondition();
+            let finalDoorLabels = document.querySelectorAll('.door-label');
+            let finalDoorDisplays = document.querySelectorAll('.door-label-display');
+            
+            finalDoorLabels[finalDoorLabels.length - 1].value = 'باب البالغين';
+            finalDoorDisplays[finalDoorDisplays.length - 1].textContent = 'باب البالغين';
+            
+            // تعبئة قيمة تجريبية
+            document.getElementById('age').value = 15;
+        }
+        
+        function loadMultiExample2() {
+            // مثال نظام الدرجات
+            clearAllConditions();
+            clearAllInputs();
+            
+            // إضافة input للدرجة
+            addInput('score', 'number');
+            
+            // الشرط الأول - if
+            document.querySelector('.condition-input').value = 'score >= 90';
+            document.querySelector('.door-label').value = 'باب الامتياز';
+            document.querySelector('.door-label-display').textContent = 'باب الامتياز';
+            
+            // إضافة else if الأول
+            addCondition();
+            let conditions = document.querySelectorAll('.condition-input');
+            let doorLabels = document.querySelectorAll('.door-label');
+            let doorDisplays = document.querySelectorAll('.door-label-display');
+            
+            conditions[1].value = 'score >= 70';
+            doorLabels[1].value = 'باب الجيد';
+            doorDisplays[1].textContent = 'باب الجيد';
+            
+            // إضافة else if الثاني
+            addCondition();
+            conditions = document.querySelectorAll('.condition-input');
+            doorLabels = document.querySelectorAll('.door-label');
+            doorDisplays = document.querySelectorAll('.door-label-display');
+            
+            conditions[2].value = 'score >= 50';
+            doorLabels[2].value = 'باب المقبول';
+            doorDisplays[2].textContent = 'باب المقبول';
+            
+            // إضافة else للرسوب
+            addElseCondition();
+            let finalLabels = document.querySelectorAll('.door-label');
+            let finalDisplays = document.querySelectorAll('.door-label-display');
+            
+            finalLabels[finalLabels.length - 1].value = 'باب الرسوب';
+            finalDisplays[finalDisplays.length - 1].textContent = 'باب الرسوب';
+            
+            // تعبئة قيمة تجريبية
+            document.getElementById('score').value = 75;
+        }
+        
+        function loadMultiExample3() {
+            // مثال نظام الأمان
+            clearAllConditions();
+            clearAllInputs();
+            
+            // إضافة inputs للاسم والرقم السري
+            addInput('name', 'text');
+            addInput('key', 'number');
+            
+            // الشرط الأول - if
+            document.querySelector('.condition-input').value = 'name === "admin" && key === 123';
+            document.querySelector('.door-label').value = 'الباب السري';
+            document.querySelector('.door-label-display').textContent = 'الباب السري';
+            
+            // إضافة else if
+            addCondition();
+            const conditions = document.querySelectorAll('.condition-input');
+            const doorLabels = document.querySelectorAll('.door-label');
+            const doorDisplays = document.querySelectorAll('.door-label-display');
+            
+            conditions[1].value = 'key === 456';
+            doorLabels[1].value = 'باب الضيوف';
+            doorDisplays[1].textContent = 'باب الضيوف';
+            
+            // إضافة else
+            addElseCondition();
+            const finalLabels = document.querySelectorAll('.door-label');
+            const finalDisplays = document.querySelectorAll('.door-label-display');
+            
+            finalLabels[finalLabels.length - 1].value = 'باب مرفوض';
+            finalDisplays[finalDisplays.length - 1].textContent = 'باب مرفوض';
+            
+            // تعبئة قيم تجريبية
+            document.getElementById('name').value = 'admin';
+            document.getElementById('key').value = 123;
+        }
+        
+        function clearAllConditions() {
+            const container = document.getElementById('conditionsContainer');
+            const doorsDisplay = document.getElementById('doorsDisplay');
+            
+            // احتفظ بالشرط الأول فقط
+            while (container.children.length > 1) {
+                container.removeChild(container.lastChild);
+            }
+            
+            // احتفظ بالباب الأول والصورة المتحركة
+            while (doorsDisplay.children.length > 2) {
+                doorsDisplay.removeChild(doorsDisplay.lastChild);
+            }
+            
+            conditionCounter = 1;
+            
+            // أعد تعيين الشرط الأول
+            const firstCondition = container.querySelector('.condition-input');
+            const firstDoorLabel = container.querySelector('.door-label');
+            const firstDoorDisplay = doorsDisplay.querySelector('.door-label-display');
+            const firstConditionDisplay = doorsDisplay.querySelector('.door-condition-display');
+            
+            firstCondition.value = '';
+            firstDoorLabel.value = 'الباب الأول';
+            firstDoorDisplay.textContent = 'الباب الأول';
+            firstConditionDisplay.textContent = 'if: ...';
+        }
+        
+        function clearAllInputs() {
+            const inputsGrid = document.getElementById('inputsGrid');
+            inputsGrid.innerHTML = '';
+        }
+        
+        // ربط تغيير اسم الباب الأول
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstDoorLabel = document.querySelector('.door-label');
+            const firstDoorDisplay = document.querySelector('.door-label-display');
+            const firstConditionInput = document.querySelector('.condition-input');
+            const firstConditionDisplay = document.querySelector('.door-condition-display');
+            
+            if (firstDoorLabel && firstDoorDisplay) {
+                firstDoorLabel.addEventListener('input', function() {
+                    firstDoorDisplay.textContent = this.value || 'الباب الأول';
+                });
+            }
+            
+            if (firstConditionInput && firstConditionDisplay) {
+                firstConditionInput.addEventListener('input', function() {
+                    const conditionText = this.value.trim();
+                    firstConditionDisplay.textContent = conditionText ? `if: ${conditionText}` : 'if: ...';
+                });
+            }
+        });
+        
+        // Enter key support
+        document.addEventListener('DOMContentLoaded', function() {
+            const customInputName = document.getElementById('customInputName');
+            if (customInputName) {
+                customInputName.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        addCustomInput();
+                    }
+                });
+            }
+        });
+        
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                if (e.target.classList.contains('condition-input') || e.target.classList.contains('door-label')) {
+                    testAllDoors();
+                } else {
+                    testAllDoors();
+                }
+            }
+        });
+    </script>
+</body>
+</html>
