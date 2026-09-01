@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ArabiaTech Academy - Login</title>
+  <link rel="icon" type="image/png" href="./static/image/icon1.png">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="static/css/login.css">
+</head>
+<body>
+
+<div class="blob1"></div>
+<div class="blob2"></div>
+<a class="back-btn" onclick="history.back(); return false;" href="index.html">&#8592;</a>
+
+<div class="card">
+  <!-- Form -->
+  <div class="form-side">
+    <h1>Login</h1>
+    <p class="sub">Sign in to continue</p>
+    <label for="sid">ID</label>
+    <input type="text" id="sid" placeholder="e.g. AMAX4958" autocomplete="off" spellcheck="false"/>
+    <div class="err" id="err"></div>
+    <div class="loading-row" id="loadingRow">
+      <div class="spinner"></div>
+      <span>جارٍ التحقق...</span>
+    </div>
+    <button class="btn-login" id="loginBtn" onclick="doLogin()">Login</button>
+  </div>
+
+  <!-- Logo -->
+  <div class="logo-side">
+    <img
+      src="static/image/full_logo_light_gif.png"
+      alt="ArabiaTech Academy"
+      onerror="this.style.display='none'; document.getElementById('logoFallback').style.display='flex';"
+    />
+    <div class="logo-fallback" id="logoFallback">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="12" y="96" font-family="Arial Black,sans-serif" font-size="88" font-weight="900"
+              fill="none" stroke="#1a2744" stroke-width="3.5" stroke-linejoin="round">A</text>
+        <circle cx="14" cy="52" r="4.5" fill="#2d9fd8"/>
+        <circle cx="28" cy="22" r="3.5" fill="#1a6fbd"/>
+        <circle cx="60" cy="10" r="4.5" fill="#2d9fd8"/>
+        <circle cx="92" cy="22" r="3.5" fill="#1a6fbd"/>
+        <circle cx="108" cy="52" r="4"   fill="#2d9fd8"/>
+        <circle cx="96"  cy="86" r="3.5" fill="#1a6fbd"/>
+        <circle cx="60"  cy="98" r="4"   fill="#2d9fd8"/>
+        <circle cx="24"  cy="86" r="3.5" fill="#1a6fbd"/>
+        <line x1="14" y1="52"  x2="28"  y2="22"  stroke="#2d9fd8" stroke-width="1.2"/>
+        <line x1="28" y1="22"  x2="60"  y2="10"  stroke="#1a6fbd" stroke-width="1.2"/>
+        <line x1="60" y1="10"  x2="92"  y2="22"  stroke="#2d9fd8" stroke-width="1.2"/>
+        <line x1="92" y1="22"  x2="108" y2="52"  stroke="#1a6fbd" stroke-width="1.2"/>
+        <line x1="108" y1="52" x2="96"  y2="86"  stroke="#2d9fd8" stroke-width="1.2"/>
+        <line x1="96"  y1="86" x2="60"  y2="98"  stroke="#1a6fbd" stroke-width="1.2"/>
+        <line x1="60"  y1="98" x2="24"  y2="86"  stroke="#2d9fd8" stroke-width="1.2"/>
+        <line x1="24"  y1="86" x2="14"  y2="52"  stroke="#1a6fbd" stroke-width="1.2"/>
+      </svg>
+      <div class="brand-text">ARABIATECH</div>
+      <div class="brand-sub">ACADEMY</div>
+    </div>
+  </div>
+</div>
+<script src="./static/js/login.js"></script>
+</body>
+</html>
