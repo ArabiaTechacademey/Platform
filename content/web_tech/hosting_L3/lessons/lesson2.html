@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: black;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            padding-top: 10%;
+        }
+        div{
+            border: solid 1px white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1{
+            color: white;
+            font-size: 100px;
+        }
+        input{
+            font-size: 30px;
+            background-color: black;
+            color: white;
+            border: none;
+            margin: 30px;
+        }
+        button{
+            font-size: 30px;
+             background-color: black;
+            color: white;
+            border: solid 1px white;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+    <h1 id="d1">Welcome .....</h1>
+    <input type="text" id="d2">
+    <button onclick=ChangeName()>Enter</button>
+    </div>
+    <script>
+        h1_var=document.getElementById("d1")
+        function ChangeName(){
+            inp_var=document.getElementById("d2").value;
+            h1_var.innerHTML="Welcome " +inp_var
+        }
+    </script>
+</body>
+</html>
