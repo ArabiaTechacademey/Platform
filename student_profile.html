@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="icon" type="image/png" href="./static/image/icon1.png">
+  <title>ArabiaTech - ملف الطالب</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet"/>
+ <link rel="stylesheet" href="static/css/student_profile.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <img src="static/image/logo.png" alt="ArabiaTech"
+         onerror="this.style.display='none'; document.querySelector('.logo-fallback').style.display='block';" />
+    <span class="logo-fallback">ArabiaTech</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">الرئيسية</a></li>
+    <li><a href="#">الكورسات</a></li>
+    <li><a href="#">جدول الحصص</a></li>
+  </ul>
+  <button class="btn-contact">تواصل معنا</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="heroBand" style="display:none">
+  <div class="hero-ring"></div>
+  <div class="hero-inner">
+    <div class="avatar" id="heroAvatar"></div>
+    <div>
+      <p class="hero-label">ملف الطالب</p>
+      <h1 class="hero-name" id="heroName"></h1>
+      <div class="hero-badges" id="heroBadges"></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <div id="loadingState" class="state-box">
+    <div class="spinner"></div>
+    <h2 style="font-size:1rem;font-weight:700;color:var(--sub)">جاري تحميل البيانات…</h2>
+  </div>
+  <div id="errorState" class="state-box" style="display:none">
+    <h2 style="font-size:1rem;font-weight:700;color:var(--red)" id="errorMsg">تعذّر تحميل البيانات</h2>
+  </div>
+
+  <div class="grid" id="contentGrid" style="display:none">
+
+    <!-- LEFT -->
+    <div>
+      <div class="card" style="animation:fadeUp .35s ease both">
+        <div class="card-hd"><span class="card-hd-label">المعلومات الشخصية</span></div>
+        <div class="card-bd">
+          <ul class="info-list" id="infoRows"></ul>
+        </div>
+      </div>
+      <div class="card" style="animation:fadeUp .4s ease both .06s" id="subCard">
+        <div class="card-hd"><span class="card-hd-label">الاشتراك</span></div>
+        <div class="card-bd" id="subCardBody"></div>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div>
+      <div id="sessionSection" style="display:none"></div>
+      <div id="actionRow" style="display:none" class="action-row"></div>
+      <div id="trackSection" style="display:none"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="./static/js/student_profile.js"></script>
+</body>
+</html>
