@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كورس تطوير المواقع | أبناؤكم يستحقون المستقبل</title>
+<link rel="icon" type="image/png" href="../static/image/icon3.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #1976d2;
+    --yellow-light: #1976d2;
+    --yellow-dark: #1976d2;
+    --black: #111111;
+    --black-2: #1A1A1A;
+    --black-3: #222222;
+    --black-4: #2E2E2E;
+    --white: #FFFFFF;
+    --bg: #FFFFFF;
+    --bg-2: #F7F7F7;
+    --bg-3: #F0F0F0;
+    --bg-4: #E8E8E8;
+    --text: #111111;
+    --text-muted: #666666;
+    --border: rgba(0,0,0,0.10);
+    --yellow-glow: rgba(230,184,0,0.15);
+    --yellow-border: rgba(230,184,0,0.35);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+.pulse-btn{
+      position: fixed;
+      right: 20px;
+      top: 85%;
+    
+      text-decoration: none;
+      background: #1976d2;
+      color: #ffffff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 28px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      
+      box-shadow: 0 4px 20px #1976d2;
+      transition: background 0.2s;
+      z-index: 9999;
+    }
+  /* ===== SCROLL PROGRESS ===== */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 3px; width: 0%;
+    background: linear-gradient(90deg, var(--yellow), var(--yellow-light));
+    z-index: 999;
+    transition: width 0.1s;
+  }
+
+  /* ===== NAVBAR ===== */
+  nav {
+    position: fixed; top: 0; width: 100%;
+    z-index: 100;
+    padding: 1.2rem 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 1px 20px rgba(0,0,0,0.06);
+  }
+
+  .logo {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800; font-size: 1.5rem;
+    color: var(--yellow);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-cta {
+    background: var(--yellow);
+    border: none; color: var(--black);
+    padding: 0.6rem 1.8rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.3px;
+  }
+  .nav-cta:hover {
+    background: var(--yellow-light);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(245,196,0,0.3);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 8rem 5% 4rem;
+    background: var(--bg);
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% -10%, rgba(230,184,0,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 90% 90%, rgba(230,184,0,0.05) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
+  }
+
+  /* Diagonal accent line */
+  .hero-line {
+    position: absolute;
+    width: 2px; height: 200px;
+    background: linear-gradient(180deg, transparent, var(--yellow), transparent);
+    opacity: 0.4;
+    animation: lineFloat 4s ease-in-out infinite;
+  }
+  .hero-line:nth-child(1) { top: 20%; right: 12%; animation-delay: 0s; }
+  .hero-line:nth-child(2) { top: 50%; left: 8%; height: 120px; animation-delay: 1.5s; opacity: 0.2; }
+
+  @keyframes lineFloat {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(-30px); opacity: 0.1; }
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    text-align: center; max-width: 900px; margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: rgba(230,184,0,0.10);
+    border: 1px solid var(--yellow-border);
+    padding: 0.45rem 1.3rem;
+    border-radius: 2px;
+    font-size: 0.82rem; color: #8a6d00;
+    margin-bottom: 2rem;
+    animation: fadeDown 0.8s ease forwards;
+    letter-spacing: 0.5px;
+  }
+
+  .pulse-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    background: var(--yellow);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+
+  .hero-title {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 6.5vw, 4.8rem);
+    line-height: 1.12;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.9s ease 0.2s both;
+    color: var(--black);
+  }
+
+  .hero-title span { color: var(--yellow); }
+
+  .hero-subtitle {
+    font-size: 1.15rem; color: var(--text-muted);
+    line-height: 1.85; max-width: 640px; margin: 0 auto 2.5rem;
+    animation: fadeUp 0.9s ease 0.35s both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp 0.9s ease 0.5s both;
+  }
+
+  .btn-primary {
+    background: var(--yellow);
+    color: var(--black); border: none;
+    padding: 1rem 2.5rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 700; font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+    box-shadow: 0 8px 30px rgba(245,196,0,0.25);
+  }
+  .btn-primary:hover {
+    background: var(--yellow-light);
+    transform: translateY(-3px);
+    box-shadow: 0 14px 40px rgba(245,196,0,0.35);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--black);
+    border: 1px solid var(--border);
+    padding: 1rem 2.5rem;
+    border-radius: 4px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 600; font-size: 1.05rem;
+    cursor: pointer;
+    transition: all 0.25s;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;
+  }
+  .btn-secondary:hover {
+    border-color: var(--yellow);
+    color: var(--yellow-dark);
+    transform: translateY(-3px);
+  }
+
+  .hero-stats {
+    display: flex; justify-content: center; gap: 0; flex-wrap: wrap;
+    margin-top: 4.5rem;
+    animation: fadeUp 0.9s ease 0.7s both;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    max-width: 700px;
+    margin-left: auto; margin-right: auto;
+    background: var(--bg-2);
+  }
+
+  .stat {
+    text-align: center;
+    padding: 1.5rem 2rem;
+    flex: 1;
+    border-left: 1px solid var(--border);
+    min-width: 120px;
+  }
+  .stat:first-child { border-left: none; }
+
+  .stat-num {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 900; font-size: 2rem;
+    color: var(--yellow-dark);
+  }
+  .stat-label { color: var(--text-muted); font-size: 0.78rem; margin-top: 0.2rem; }
+
+  /* Floating code elements */
+  .float-code {
+    position: absolute;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    opacity: 0.06;
+    animation: floatAnim 6s ease-in-out infinite;
+    color: var(--black);
+    letter-spacing: 1px;
+  }
+
+  /* ===== SECTION COMMON ===== */
+  .section-tag {
+    text-align: center;
+    font-size: 0.72rem;
+    color: #8a6d00;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    font-weight: 700;
+  }
+
+  .section-title {
+    text-align: center;
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 0.9rem;
+    color: var(--black);
+  }
+
+  .section-sub {
+    text-align: center;
+    color: var(--text-muted);
+    max-width: 580px;
+    margin: 0 auto 3.5rem;
+    line-height: 1.85;
+    font-size: 1rem;
+  }
+
+  /* ===== PAIN SECTION ===== */
+  .pain-section {
+    padding: 7rem 5%;
+    background: var(--bg-2);
+    position: relative;
+  }
+
+  .pain-section::before {
+    content: '';
+    position: absolute; top: 0; left: 5%; right: 5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    opacity: 0.5;
+  }
+
+  .pain-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    max-width: 1100px; margin: 0 auto;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .pain-card {
+    background: var(--bg-2);
+    padding: 2.2rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+  }
+  .pain-card:hover { background: var(--bg-3); }
+  .pain-card:hover::after { opacity: 1; }
+  .pain-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--yellow);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .pain-icon { font-size: 1.8rem; margin-bottom: 1.2rem; }
+  .pain-card h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.7rem; color: var(--black); }
+  .pain-card p { color: var(--text-muted); line-height: 1.75; font-size: 0.9rem; }
+
+  /* ===== LEVELS SECTION ===== */
+  .levels-section {
+    padding: 7rem 5%;
+    background: var(--bg);
+  }
+
+  .levels-wrapper {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .level-card {
+    border-radius: 0;
+    overflow: hidden;
+    transition: all 0.35s;
+    position: relative;
+    border: 1px solid var(--border);
+  }
+  .level-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); border-color: rgba(230,184,0,0.4); }
+  .level-card.featured { border-color: var(--yellow-border); box-shadow: 0 4px 24px rgba(230,184,0,0.12); }
+
+  .level-header {
+    padding: 2.2rem 2rem 1.8rem;
+    position: relative;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .level-card.featured .level-header {
+    background: linear-gradient(135deg, #fffbe6, #f9f5e0);
+    border-bottom-color: var(--yellow-border);
+  }
+
+  .level-badge {
+    display: inline-block;
+    padding: 0.25rem 0.9rem;
+    border-radius: 2px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+  .level-card.featured .level-badge {
+    border-color: var(--yellow-border);
+    color: #8a6d00;
+    background: rgba(230,184,0,0.10);
+  }
+
+  .level-num {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 6rem; font-weight: 900;
+    opacity: 0.04;
+    position: absolute; top: 0.5rem; left: 1rem;
+    color: var(--black);
+    line-height: 1;
+  }
+  .level-card.featured .level-num { color: var(--yellow); opacity: 0.15; }
+
+  .level-icon { font-size: 2rem; margin-bottom: 0.7rem; display: block; }
+
+  .level-title {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2rem; font-weight: 900;
+    margin-bottom: 0.3rem;
+    color: var(--black);
+  }
+  .level-card.featured .level-title { color: var(--yellow-dark); }
+
+  .level-subtitle { color: var(--text-muted); font-size: 0.88rem; }
+
+  .level-body {
+    padding: 1.8rem 2rem 2rem;
+    background: var(--bg);
+  }
+
+  .level-topics { list-style: none; }
+  .level-topics li {
+    padding: 0.65rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.88rem; color: var(--text-muted);
+    display: flex; align-items: center; gap: 0.8rem;
+    transition: color 0.2s;
+  }
+  .level-topics li:hover { color: var(--black); }
+  .level-topics li:last-child { border-bottom: none; }
+  .level-topics li::before { content: '—'; color: var(--text-muted); flex-shrink: 0; font-size: 0.7rem; }
+  .level-card.featured .level-topics li::before { content: '✓'; color: var(--yellow-dark); font-weight: 700; }
+
+  /* ===== PLATFORM SECTION ===== */
+  .platform-section {
+    padding: 7rem 5%;
+    background: var(--bg-2);
+    position: relative;
+  }
+
+  .platform-section::before {
+    content: '';
+    position: absolute; top: 0; left: 5%; right: 5%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    opacity: 0.45;
+  }
+
+  .platform-mockup {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+  }
+  @media(max-width:768px) { .platform-mockup { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .platform-text .section-tag { text-align: right; }
+  .platform-text h2 {
+    font-family: 'Tajawal', sans-serif;
+    font-weight: 800; font-size: 2.2rem;
+    line-height: 1.3; margin-bottom: 1.2rem;
+    color: var(--black);
+  }
+  .platform-text h2 span { color: var(--yellow-dark); }
+  .platform-text p { color: var(--text-muted); line-height: 1.9; font-size: 0.97rem; margin-bottom: 2rem; }
+
+  .platform-features-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; }
+  .platform-features-list li {
+    display: flex; align-items: flex-start; gap: 1rem;
+    border: 1px solid var(--border);
+    padding: 1rem 1.2rem;
+    transition: all 0.3s;
+    background: var(--bg);
+  }
+  .platform-features-list li:hover {
+    border-color: var(--yellow-border);
+    background: #fffdf0;
+    transform: translateX(-4px);
+  }
+  .pf-icon {
+    font-size: 1.3rem; flex-shrink: 0;
+    width: 40px; height: 40px;
+    background: rgba(230,184,0,0.08);
+    border: 1px solid var(--yellow-border);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pf-text h4 { font-weight: 700; font-size: 0.92rem; margin-bottom: 0.2rem; color: var(--black); }
+  .pf-text p { color: var(--text-muted); font-size: 0.82rem; line-height: 1.55; margin: 0; }
+
+  /* Browser Mockup */
+  .browser-frame {
+    background: var(--bg-3);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04);
+  }
+  .browser-bar {
+    background: var(--bg-4);
+    padding: 0.8rem 1rem;
+    display: flex; align-items: center; gap: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .d1 { background: #FF5F57; }
+  .d2 { background: #FEBC2E; }
+  .d3 { background: #28C840; }
+  .browser-url {
+    margin-right: 1rem; flex: 1;
+    background: rgba(0,0,0,0.04);
+    padding: 0.3rem 0.8rem;
+    font-size: 0.72rem; color: var(--text-muted);
+    font-family: monospace;
+    border: 1px solid var(--border);
+  }
+
+  .platform-ui {
+    display: grid; grid-template-columns: 155px 1fr;
+    min-height: 340px;
+  }
+  .platform-sidebar {
+    background: var(--bg-2);
+    border-left: 1px solid var(--border);
+    padding: 1rem 0;
+  }
+  .sidebar-item {
+    padding: 0.58rem 1rem;
+    font-size: 0.76rem; color: var(--text-muted);
+    cursor: pointer;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: all 0.2s;
+    border-right: 2px solid transparent;
+  }
+  .sidebar-item.active {
+    background: rgba(230,184,0,0.08);
+    color: #8a6d00;
+    border-right-color: var(--yellow);
+  }
+  .sidebar-item:hover { background: var(--bg-3); color: var(--black); }
+  .sidebar-section {
+    font-size: 0.62rem; color: var(--text-muted);
+    padding: 1rem 1rem 0.4rem;
+    letter-spacing: 2.5px; text-transform: uppercase;
+    opacity: 0.5;
+  }
+
+  .platform-main { display: flex; flex-direction: column; }
+  .platform-tabs {
+    display: flex; background: var(--bg-3);
+    border-bottom: 1px solid var(--border);
+  }
+  .ptab {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.74rem; color: var(--text-muted);
+    cursor: pointer; border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+  }
+  .ptab.active { color: #8a6d00; border-bottom-color: var(--yellow); background: rgba(230,184,0,0.05); }
+
+  .code-area {
+    flex: 1; padding: 1rem 1.2rem;
+    font-family: 'Courier New', monospace;
+    font-size: 0.76rem; line-height: 1.85;
+    overflow: hidden;
+    background: #1e1e2e;
+  }
+  .code-line { display: flex; gap: 1rem; }
+  .line-num { color: rgba(255,255,255,0.12); min-width: 20px; text-align: left; user-select: none; }
+  .kw { color: #D4A0FF; }
+  .str { color: #A8D8A8; }
+  .tag { color: #F0A0A0; }
+  .attr { color: #FFD080; }
+  .val { color: #A8D8A8; }
+  .cm { color: rgba(255,255,255,0.25); font-style: italic; }
+
+  .platform-bottom {
+    border-top: 1px solid var(--border);
+    background: var(--bg-4);
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .pstat {
+    padding: 0.7rem 1.2rem;
+    border-left: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.72rem; color: var(--text-muted);
+  }
+  .pstat-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+  .platform-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; max-width: 1100px;
+    margin: 3rem auto 0;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  @media(max-width:640px) { .platform-stats { grid-template-columns: 1fr; } }
+  .pstat-box {
+    background: var(--bg-2);
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s;
+  }
+  .pstat-box:hover { background: var(--bg-3); }
+  .pstat-box .big {
+    font-family: 'Tajawal', sans-serif;
+    font-size: 2.8rem; font-weight: 900;
+    color: var(--yellow-dark);
+  }
+  .pstat-box p { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.4rem; }
+
+  /* ===== WHY SECTION ===== */
+  .why-section { padding: 7rem 5%; background: var(--bg); position: relative; }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; max-width: 1100px; margin: 0 auto; align-items: center; }
+  @media (max-width: 768px) { .why-grid { grid-template-columns: 1fr; gap: 3rem; } }
+  .why-text h2 { font-family: 'Tajawal', sans-serif; font-weight: 800; font-size: 2.2rem; line-height: 1.3; margin-bottom: 1.5rem; color: var(--black); }
+  .why-text h2 span { color: var(--yellow-dark); }
+  .why-text p { color: var(--text-muted); line-height: 1.9; font-size: 0.97rem; margin-bottom: 1rem; }
+  .why-points { margin-top: 2rem; }
+  .why-point { display: flex; gap: 1.2rem; margin-bottom: 1.5rem; align-items: flex-start; }
+  .why-point-icon { width: 42px; height: 42px; border: 1px solid var(--yellow-border); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; background: rgba(230,184,0,0.08); }
+  .why-point-text h4 { font-weight: 700; margin-bottom: 0.3rem; color: var(--black); font-size: 0.95rem; }
+  .why-point-text p { color: var(--text-muted); font-size: 0.87rem; line-height: 1.65; }
+  .stat-boxes { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .stat-box { background: var(--bg-2); padding: 2rem; text-align: center; transition: all 0.3s; }
+  .stat-box:hover { background: var(--bg-3); }
+  .stat-box:first-child { grid-column: span 2; background: linear-gradient(135deg, #fffbe6, #f9f5e0); border-bottom: 1px solid var(--yellow-border); }
+  .stat-big { font-family: 'Tajawal', sans-serif; font-size: 2.8rem; font-weight: 900; color: var(--yellow-dark); }
+  .stat-box p { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.5rem; }
+
+  /* ===== TESTIMONIALS ===== */
+  .testimonials-section { padding: 7rem 5%; background: var(--bg-2); }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1px; max-width: 1100px; margin: 0 auto; background: var(--border); border: 1px solid var(--border); }
+  .testimonial-card { background: var(--bg-2); padding: 2rem; transition: all 0.3s; position: relative; }
+  .testimonial-card:hover { background: var(--bg); }
+  .testimonial-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--yellow); opacity: 0; transition: opacity 0.3s; }
+  .testimonial-card:hover::after { opacity: 1; }
+  .testimonial-quote { font-size: 3rem; color: var(--yellow-dark); opacity: 0.3; margin-bottom: 0.8rem; font-family: Georgia, serif; line-height: 1; }
+  .testimonial-text { color: var(--text-muted); line-height: 1.8; font-size: 0.92rem; margin-bottom: 1.5rem; }
+  .testimonial-author { display: flex; align-items: center; gap: 0.9rem; }
+  .author-avatar { width: 42px; height: 42px; background: var(--yellow); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 700; color: var(--black); flex-shrink: 0; }
+  .author-name { font-weight: 700; font-size: 0.92rem; color: var(--black); }
+  .author-role { color: var(--text-muted); font-size: 0.78rem; }
+  .stars { color: var(--yellow-dark); font-size: 0.85rem; margin-bottom: 0.9rem; letter-spacing: 2px; }
+
+  /* ===== PRICING ===== */
+  .pricing-section { padding: 7rem 5%; background: var(--bg); }
+  .pricing-card { max-width: 680px; margin: 0 auto; border: 1px solid var(--yellow-border); padding: 3rem; text-align: center; position: relative; overflow: hidden; background: linear-gradient(135deg, #fffdf2, #ffffff); box-shadow: 0 4px 30px rgba(230,184,0,0.10); }
+  .pricing-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--yellow); }
+  .popular-badge { display: inline-block; background: var(--yellow); color: var(--black); padding: 0.3rem 1.5rem; font-size: 0.78rem; font-weight: 700; margin-bottom: 1.8rem; letter-spacing: 1px; }
+  .pricing-features { list-style: none; text-align: right; margin: 2rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+  .pricing-features li { display: flex; align-items: center; gap: 0.6rem; color: var(--text-muted); font-size: 0.87rem; }
+  .pricing-features li::before { content: '✓'; color: var(--yellow-dark); font-weight: 700; flex-shrink: 0; }
+  .urgency-bar { background: rgba(230,184,0,0.08); border: 1px solid var(--yellow-border); padding: 0.8rem 1.2rem; margin-bottom: 1.5rem; font-size: 0.88rem; color: #8a6d00; display: flex; align-items: center; justify-content: center; gap: 0.7rem; }
+  .guarantee { margin-top: 1.5rem; color: var(--text-muted); font-size: 0.82rem; display: flex; align-items: center; justify-content: center; gap: 0.5rem; }
+
+  /* Countdown */
+  .countdown { display: flex; gap: 1rem; justify-content: center; margin-bottom: 2.5rem; }
+  .countdown-item { border: 1px solid var(--border); padding: 0.9rem 1.2rem; min-width: 78px; text-align: center; background: var(--bg-2); }
+  .countdown-num { font-family: 'Tajawal', sans-serif; font-size: 2.2rem; font-weight: 900; color: var(--yellow-dark); display: block; }
+  .countdown-label { font-size: 0.68rem; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+
+  /* ===== FAQ ===== */
+  .faq-section { padding: 7rem 5%; background: var(--bg-2); }
+  .faq-list { max-width: 800px; margin: 0 auto; }
+  .faq-item { border: 1px solid var(--border); margin-bottom: 2px; overflow: hidden; transition: all 0.3s; }
+  .faq-item.open { border-color: var(--yellow-border); }
+  .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.3rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 0.97rem; background: var(--bg); transition: all 0.2s; user-select: none; color: var(--black); }
+  .faq-question:hover { background: var(--bg-3); }
+  .faq-item.open .faq-question { background: #fffdf0; color: #8a6d00; }
+  .faq-arrow { font-size: 0.9rem; transition: transform 0.3s; color: var(--yellow-dark); }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 1.5rem; color: var(--text-muted); line-height: 1.8; font-size: 0.92rem; background: var(--bg-2); }
+  .faq-item.open .faq-answer { max-height: 300px; padding: 1rem 1.5rem 1.3rem; }
+
+  /* ===== FINAL CTA ===== */
+  .final-cta { padding: 8rem 5%; text-align: center; background: var(--black); position: relative; overflow: hidden; }
+  .final-cta::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(230,184,0,0.07) 0%, transparent 70%); }
+  .final-cta h2 { font-family: 'Tajawal', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.2; margin-bottom: 1.5rem; position: relative; color: #ffffff; }
+  .final-cta h2 span { color: var(--yellow); }
+  .final-cta p { color: rgba(255,255,255,0.55); font-size: 1.05rem; max-width: 580px; margin: 0 auto 3rem; line-height: 1.85; position: relative; }
+
+  /* ===== FOOTER ===== */
+  footer { background: var(--bg-2); border-top: 1px solid var(--border); padding: 2rem 5%; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; color: var(--text-muted); font-size: 0.82rem; }
+
+  /* ===== WHATSAPP FIXED BUTTON ===== */
+  .wa-fixed {
+    position: fixed; bottom: 2rem; left: 2rem; z-index: 200;
+    display: flex; align-items: center; gap: 0.6rem;
+    background: #25D366; color: #fff; border: none;
+    padding: 0.85rem 1.4rem; border-radius: 50px;
+    font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 0.92rem;
+    cursor: pointer; text-decoration: none;
+    box-shadow: 0 6px 28px rgba(37,211,102,0.40);
+    transition: all 0.3s;
+    animation: waPop 0.6s ease 1s both;
+  }
+  .wa-fixed:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 12px 36px rgba(37,211,102,0.50); }
+  .wa-icon { width: 22px; height: 22px; flex-shrink: 0; }
+  @keyframes waPop {
+    from { opacity: 0; transform: scale(0.7) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-15px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes floatAnim { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-20px); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+  .scroll-reveal { opacity: 0; transform: translateY(35px); transition: all 0.65s ease; }
+  .scroll-reveal.revealed { opacity: 1; transform: translateY(0); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 640px) {
+    .hero-stats { flex-direction: column; }
+    .stat { border-left: none; border-top: 1px solid var(--border); }
+    .stat:first-child { border-top: none; }
+    .pricing-features { grid-template-columns: 1fr; }
+    .why-grid { grid-template-columns: 1fr; }
+    .wa-fixed { bottom: 1.2rem; left: 1.2rem; padding: 0.75rem 1.1rem; font-size: 0.84rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="logo">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="display:none">
+  </div>
+</nav>
+
+<!-- WHATSAPP FIXED BUTTON -->
+<a class="wa-fixed" href="https://wa.me/201080749803" target="_blank" rel="noopener">
+  <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+  </svg>
+  تواصل معنا
+</a>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-line"></div>
+  <div class="hero-line"></div>
+
+  <div class="float-code" style="top:22%;right:9%;animation-delay:0s">&lt;html&gt;</div>
+  <div class="float-code" style="top:68%;right:6%;animation-delay:1.2s">CSS { }</div>
+  <div class="float-code" style="top:38%;left:6%;animation-delay:2s">function()</div>
+  <div class="float-code" style="top:62%;left:9%;animation-delay:3s">&lt;/div&gt;</div>
+
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      التسجيل مفتوح الآن — أماكن محدودة
+    </div>
+
+    <h1 class="hero-title">
+      امنح طفلك مهارة<br>
+      <span>تصنع المستقبل</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      كورس تطوير المواقع المتكامل من الصفر للاحتراف — 3 مستويات تدريبية متخصصة تحوّل طفلك من مستخدم للإنترنت إلى صانع محتوى رقمي ومبرمج محترف
+    </p>
+
+    <div class="hero-btns">
+      <a href='https://forms.gle/ntFRTp8zNNzNbVGx6' target="_blank" rel="noopener" class="btn-primary">🚀 سجّل ابنك الآن</a>
+      <a href="#levels" class="btn-secondary"> اعرف المزيد</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">+500</div>
+        <div class="stat-label">طالب تخرج من البرنامج</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">97%</div>
+        <div class="stat-label">نسبة رضا الأولياء</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">مستويات متخصصة</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">12+</div>
+        <div class="stat-label">مشروع حقيقي</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PAIN SECTION -->
+<section class="pain-section scroll-reveal">
+  <div class="section-tag">هل تعرف ما يواجهه أبناؤنا؟</div>
+  <h2 class="section-title">سوق العمل تغيّر… هل استعدّ أبناؤنا؟</h2>
+  <p class="section-sub">نعيش في عصر رقمي متسارع وأبناؤنا يستحقون أن يكونوا صانعين لا مجرد مستهلكين</p>
+
+  <div class="pain-grid">
+    <div class="pain-card scroll-reveal">
+      <div class="pain-icon">📉</div>
+      <h3>الوظائف التقليدية تتراجع</h3>
+      <p>85% من وظائف 2030 لم تُخترع بعد — والمهارات التقنية ستكون شرطاً أساسياً في معظمها</p>
+    </div>
+    <div class="pain-card scroll-reveal">
+      <div class="pain-icon">💻</div>
+      <h3>الإنترنت يُشغّل العالم</h3>
+      <p>كل شركة، متجر، مستشفى ومدرسة تحتاج موقعاً — من يبنيه يملك مفاتيح الاقتصاد الرقمي</p>
+    </div>
+    <div class="pain-card scroll-reveal">
+      <div class="pain-icon">🌍</div>
+      <h3>العمل الحر بلا حدود</h3>
+      <p>مطور الويب يعمل من أي مكان في العالم — ابنك يمكنه تحقيق دخل حقيقي وهو في سن مبكرة</p>
+    </div>
+    <div class="pain-card scroll-reveal">
+      <div class="pain-icon">⏰</div>
+      <h3>كل سنة تأخير تكلّف</h3>
+      <p>المهارات التقنية تُبنى على بعض — البدء المبكر يعني سنوات من التقدم على أقرانه</p>
+    </div>
+  </div>
+</section>
+
+<!-- LEVELS SECTION -->
+<section class="levels-section" id="levels">
+  <div class="section-tag">هيكل الكورس</div>
+  <h2 class="section-title scroll-reveal">3 مستويات تحوّل الهاوي إلى محترف</h2>
+  <p class="section-sub scroll-reveal">كل مستوى يبني على السابق — رحلة مدروسة من أول سطر كود حتى أول موقع ويب حقيقي</p>
+
+  <div class="levels-wrapper">
+    <div class="level-card scroll-reveal">
+      <div class="level-header">
+        <div class="level-num">01</div>
+        <span class="level-badge">المستوى الأول</span>
+        <div class="level-icon">🏗️</div>
+        <div class="level-title">HTML</div>
+        <div class="level-subtitle">أساسيات بناء صفحات الويب</div>
+      </div>
+      <div class="level-body">
+        <ul class="level-topics">
+          <li>هيكل صفحة HTML الاحترافي</li>
+          <li>العناصر والوسوم الأساسية والمتقدمة</li>
+          <li>النماذج والجداول والقوائم</li>
+          <li>الروابط والصور والوسائط</li>
+          <li>HTML5 الدلالي SEO-Friendly</li>
+          <li>مشروع: موقع شخصي كامل</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="level-card featured scroll-reveal">
+      <div class="level-header">
+        <div class="level-num">02</div>
+        <span class="level-badge">المستوى الثاني</span>
+        <div class="level-icon">🎨</div>
+        <div class="level-title">CSS</div>
+        <div class="level-subtitle">تصميم واجهات احترافية وجذابة</div>
+      </div>
+      <div class="level-body">
+        <ul class="level-topics">
+          <li>خصائص CSS الأساسية والمتقدمة</li>
+          <li>Flexbox و CSS Grid للتخطيط</li>
+          <li>التصميم المتجاوب Responsive</li>
+          <li>الحركات والانتقالات Animations</li>
+          <li>متغيرات CSS والمكتبات</li>
+          <li>مشروع: متجر إلكتروني بصري</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="level-card scroll-reveal">
+      <div class="level-header">
+        <div class="level-num">03</div>
+        <span class="level-badge">المستوى الثالث</span>
+        <div class="level-icon">⚡</div>
+        <div class="level-title">JavaScript</div>
+        <div class="level-subtitle">إضافة التفاعلية والذكاء للمواقع</div>
+      </div>
+      <div class="level-body">
+        <ul class="level-topics">
+          <li>أساسيات البرمجة والمنطق</li>
+          <li>DOM Manipulation — التحكم بالصفحة</li>
+          <li>الأحداث Events والاستجابة</li>
+          <li>API والبيانات الديناميكية</li>
+          <li>ES6+ الحديثة وأفضل الممارسات</li>
+          <li>مشروع: تطبيق ويب تفاعلي كامل</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PLATFORM SECTION -->
+<section class="platform-section">
+  <div class="platform-mockup">
+    <div class="platform-text scroll-reveal">
+      <div class="section-tag">المنصة التعليمية</div>
+      <h2>منصة تعليمية <span>متكاملة</span><br>مصممة خصيصاً لهم</h2>
+      <p>ابنك لن يتعلم من فيديوهات مملة — سيتفاعل مع منصة ذكية تشرح بشكل مبسط، تتحداه بتمارين، وتجعله يبني مشاريع حقيقية من اليوم الأول</p>
+
+      <ul class="platform-features-list">
+        <li>
+          <div class="pf-icon">🎓</div>
+          <div class="pf-text">
+            <h4>دروس مرئية تفاعلية مبسطة</h4>
+            <p>كل درس يُشرح بأسلوب بسيط ومرئي مع أمثلة حية يطبقها الطالب مباشرة على المنصة</p>
+          </div>
+        </li>
+        <li>
+          <div class="pf-icon">💪</div>
+          <div class="pf-text">
+            <h4>تمارين تفاعلية بعد كل درس</h4>
+            <p>تحديات صغيرة بعد كل درس تُثبّت المعلومة — المنصة تصحح الكود فوراً وتعطي تلميحات</p>
+          </div>
+        </li>
+        <li>
+          <div class="pf-icon">🚀</div>
+          <div class="pf-text">
+            <h4>مشاريع حقيقية قابلة للنشر</h4>
+            <p>في نهاية كل مستوى يبني الطالب مشروعاً حقيقياً وينشره على الإنترنت باسمه</p>
+          </div>
+        </li>
+        <li>
+          <div class="pf-icon">📊</div>
+          <div class="pf-text">
+            <h4>لوحة تقدم لولي الأمر</h4>
+            <p>تابع تقدم ابنك لحظة بلحظة — نسبة الإنجاز، الدروس المكتملة، والتمارين المحلولة</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="scroll-reveal" style="animation-delay:0.2s">
+      <div class="browser-frame">
+        <div class="browser-bar">
+          <div class="browser-dot d1"></div>
+          <div class="browser-dot d2"></div>
+          <div class="browser-dot d3"></div>
+          <div class="browser-url">🔒 academy.webcode.learn/html/lesson-3</div>
+        </div>
+        <div class="browser-content">
+          <div class="platform-ui">
+            <div class="platform-sidebar">
+              <div class="sidebar-section">المستوى الأول</div>
+              <div class="sidebar-item">📄 ما هو HTML؟</div>
+              <div class="sidebar-item">🏷️ الوسوم الأساسية</div>
+              <div class="sidebar-item active">🔗 الروابط والصور</div>
+              <div class="sidebar-item">📋 القوائم</div>
+              <div class="sidebar-item">📝 النماذج</div>
+              <div class="sidebar-section">تمارين</div>
+              <div class="sidebar-item">✅ تمرين 1</div>
+              <div class="sidebar-item">✅ تمرين 2</div>
+              <div class="sidebar-item" style="color:var(--yellow)">🔒 تمرين 3</div>
+              <div class="sidebar-section">مشروعي</div>
+              <div class="sidebar-item">🌐 موقعي</div>
+            </div>
+            <div class="platform-main">
+              <div class="platform-tabs">
+                <div class="ptab active">index.html</div>
+                <div class="ptab">style.css</div>
+                <div class="ptab">▶ نتيجة</div>
+              </div>
+              <div class="code-area">
+                <div class="code-line"><span class="line-num">1</span><span class="cm">&lt;!-- صفحتي الأولى 🎉 --&gt;</span></div>
+                <div class="code-line"><span class="line-num">2</span><span class="tag">&lt;html&gt;</span></div>
+                <div class="code-line"><span class="line-num">3</span>&nbsp;&nbsp;<span class="tag">&lt;body&gt;</span></div>
+                <div class="code-line"><span class="line-num">4</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h1&gt;</span><span class="str">مرحباً بالعالم!</span><span class="tag">&lt;/h1&gt;</span></div>
+                <div class="code-line"><span class="line-num">5</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;a</span> <span class="attr">href=</span><span class="val">"#"</span><span class="tag">&gt;</span><span class="str">اضغط هنا</span><span class="tag">&lt;/a&gt;</span></div>
+                <div class="code-line"><span class="line-num">6</span>&nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;img</span> <span class="attr">src=</span><span class="val">"photo.jpg"</span><span class="tag">/&gt;</span></div>
+                <div class="code-line"><span class="line-num">7</span>&nbsp;&nbsp;<span class="tag">&lt;/body&gt;</span></div>
+                <div class="code-line"><span class="line-num">8</span><span class="tag">&lt;/html&gt;</span></div>
+              </div>
+              <div class="platform-bottom">
+                <div class="pstat">
+                  <div class="pstat-dot" style="background:#28C840"></div>
+                  <span>✅ الكود صحيح! أحسنت 🎉</span>
+                </div>
+                <div class="pstat">
+                  <div class="pstat-dot" style="background:var(--yellow)"></div>
+                  <span>⭐ 3/3 نقاط مكتسبة</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="platform-stats">
+    <div class="pstat-box scroll-reveal">
+      <div class="big">+200</div>
+      <p>درس تفاعلي مبسط على المنصة</p>
+    </div>
+    <div class="pstat-box scroll-reveal">
+      <div class="big">+150</div>
+      <p>تمرين وتحدي برمجي متدرج</p>
+    </div>
+    <div class="pstat-box scroll-reveal">
+      <div class="big">12</div>
+      <p>مشروع حقيقي قابل للنشر</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHY SECTION -->
+<section class="why-section" id="why">
+  <div class="why-grid">
+    <div class="why-text scroll-reveal">
+      <div class="section-tag" style="text-align:right">لماذا هذا الكورس؟</div>
+      <h2>ابنك لن يكون <span>موظفاً</span>…<br>سيكون منشئ المنصات</h2>
+      <p>نحن لا نعلّم مجرد كتابة كود — نبني عقلية حل المشكلات والتفكير المنطقي والإبداع الرقمي في شخصية طفلك</p>
+      <p>كل محاضرة مصممة لتناسب ذهن الطالب الصغير مع إخراج نتائج احترافية حقيقية يمكنه التفاخر بها</p>
+
+      <div class="why-points">
+        <div class="why-point">
+          <div class="why-point-icon">👨‍🏫</div>
+          <div class="why-point-text">
+            <h4>مدربون محترفون ومتخصصون</h4>
+            <p>خبرة تدريسية متراكمة مع إدراك كامل لاحتياجات وأسلوب تعلم هذه الفئة العمرية</p>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-point-icon">🏆</div>
+          <div class="why-point-text">
+            <h4>مشاريع حقيقية وشهادة معتمدة</h4>
+            <p>يخرج طفلك بـ portfolio كامل من المشاريع وشهادة يمكنه استخدامها للتقديم لعمل مستقل</p>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-point-icon">💬</div>
+          <div class="why-point-text">
+            <h4>متابعة شهرية مع ولي الأمر</h4>
+            <p>تقارير تقدم شهرية وتواصل مباشر مع المدرب — أنت دائماً على علم بما يتعلمه ابنك</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="why-visual scroll-reveal">
+      <div class="stat-boxes">
+        <div class="stat-box">
+          <div class="stat-big">$85,000</div>
+          <p>متوسط الراتب السنوي لمطور الويب في الغرب — وهو يعمل عن بُعد من أي مكان</p>
+        </div>
+        <div class="stat-box">
+          <div class="stat-big">3×</div>
+          <p>ثلاثة أضعاف فرص العمل في التقنية مقارنة بباقي القطاعات</p>
+        </div>
+        <div class="stat-box">
+          <div class="stat-big">#1</div>
+          <p>مطور الويب في قائمة أفضل مهن العمل الحر لـ 2024</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section scroll-reveal">
+  <div class="section-tag">آراء الأولياء</div>
+  <h2 class="section-title">ماذا قالوا عن الكورس؟</h2>
+  <p class="section-sub">آراء حقيقية من أولياء أمور سبقوك في اتخاذ هذا القرار</p>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">ابني كان يمضي وقته على اليوتيوب فقط — بعد ثلاثة أشهر من الكورس أصبح يبني مواقع لأصدقائه ويشرح لهم. التغيير كان مذهلاً</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">أ</div>
+        <div>
+          <div class="author-name">أم محمد</div>
+          <div class="author-role">ولية أمر — القاهرة</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">ابنتي (13 سنة) أنجزت موقعها الخاص في نهاية المستوى الثاني. أشركته في مسابقة مدرسية وفازت بالمركز الأول. لم أتوقع هذا المستوى</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">ف</div>
+        <div>
+          <div class="author-name">أبو فيصل</div>
+          <div class="author-role">ولي أمر — الرياض</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <div class="testimonial-quote">"</div>
+      <p class="testimonial-text">ما يميز هذا الكورس هو التقارير المنتظمة وتواصل المدرب معي شخصياً. أشعر أنني شريك في تعليم ابني لا مجرد دافع رسوم</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">خ</div>
+        <div>
+          <div class="author-name">أم خالد</div>
+          <div class="author-role">ولية أمر — دبي</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="section-tag">التسجيل الآن</div>
+  <h2 class="section-title scroll-reveal">استثمار في مستقبل ابنك</h2>
+  <p class="section-sub scroll-reveal">العرض الحالي محدود — الأماكن تُغلق عند اكتمال المجموعة</p>
+
+  <div class="countdown scroll-reveal" id="countdown">
+    <div class="countdown-item">
+      <span class="countdown-num" id="days">02</span>
+      <div class="countdown-label">يوم</div>
+    </div>
+    <div class="countdown-item">
+      <span class="countdown-num" id="hours">14</span>
+      <div class="countdown-label">ساعة</div>
+    </div>
+    <div class="countdown-item">
+      <span class="countdown-num" id="minutes">33</span>
+      <div class="countdown-label">دقيقة</div>
+    </div>
+    <div class="countdown-item">
+      <span class="countdown-num" id="seconds">00</span>
+      <div class="countdown-label">ثانية</div>
+    </div>
+  </div>
+
+  <div class="pricing-card scroll-reveal">
+    <div class="popular-badge">🔥 الأكثر طلباً</div>
+
+    <ul class="pricing-features">
+      <li>✓ المستوى الأول: HTML</li>
+      <li>✓ المستوى الثاني: CSS</li>
+      <li>✓ المستوى الثالث: JavaScript</li>
+      <li>✓ 12 مشروع تطبيقي حقيقي</li>
+      <li>✓ شهادة معتمدة رقمية</li>
+      <li>✓ تقارير شهرية لولي الأمر</li>
+      <li>✓ دعم وإجابة على الأسئلة</li>
+      <li>✓ مجتمع خاص للطلاب</li>
+    </ul>
+
+    <div class="urgency-bar">
+       تبقّى <strong style="margin:0 4px"> 7 أماكن فقط</strong> في المجموعة القادمة
+    </div>
+
+    <a href="https://wa.me/201000000000" target="_blank" rel="noopener" class="btn-primary" style="width:100%;justify-content:center;font-size:1.05rem;padding:1.1rem;display:flex">
+       سجّل ابنك الآن عبر واتساب
+    </a>
+
+    <div class="guarantee">
+       ضمان استرداد كامل خلال 7 أيام — بلا أي شروط
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-tag">أسئلة شائعة</div>
+  <h2 class="section-title scroll-reveal">كل ما تريد معرفته</h2>
+  <p class="section-sub scroll-reveal">أجوبة مباشرة لأكثر أسئلة أولياء الأمور شيوعاً</p>
+
+  <div class="faq-list scroll-reveal">
+    <div class="faq-item">
+      <div class="faq-question">ما العمر المناسب لبدء الكورس؟ <span class="faq-arrow">▼</span></div>
+      <div class="faq-answer">الكورس مصمم للطلاب من عمر 10 إلى 18 سنة. المنهج يتكيف مع مستوى كل فئة عمرية — المبتدئون الصغار يبدؤون بطريقة مبسطة والأكبر سناً يتعمقون أكثر.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">هل يحتاج ابني خبرة سابقة في البرمجة؟ <span class="faq-arrow">▼</span></div>
+      <div class="faq-answer">لا! الكورس مصمم من الصفر تماماً. المستوى الأول يبدأ من أبسط مفاهيم الويب ولا يفترض أي معرفة مسبقة. كل ما يحتاجه ابنك هو جهاز كمبيوتر ورغبة في التعلم.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">كم عدد ساعات الدراسة الأسبوعية؟ <span class="faq-arrow">▼</span></div>
+      <div class="faq-answer">حصة أسبوعياً بمدة ساعة ونصف لكل حصة، بالإضافة إلى 1-2 ساعة للتطبيق المنزلي. المجموع لا يتجاوز 5 ساعات أسبوعياً — يمكن الجمع بينه وبين الدراسة بسهولة.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">هل الكورس أونلاين أم حضوري؟ <span class="faq-arrow">▼</span></div>
+      <div class="faq-answer">الكورس مقدَّم أونلاين بالكامل عبر بيئة تعليمية تفاعلية. الطالب يمكنه المشاركة الحية مع المدرب والزملاء، مع إمكانية مشاهدة التسجيلات لاحقاً.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">ما الفرق بين هذا الكورس والكورسات المجانية على الإنترنت؟ <span class="faq-arrow">▼</span></div>
+      <div class="faq-answer">الكورسات المجانية تفتقر إلى التوجيه الشخصي والمتابعة وبناء المشاريع الحقيقية. كورسنا يوفر مدرباً يتابع كل طالب بشكل فردي، تقارير لولي الأمر، مجتمع دعم، وشهادة معتمدة.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">ماذا بعد اتمام المستويات الثلاثة؟ <span class="faq-arrow">▼</span></div>
+      <div class="faq-answer">يخرج طفلك بـ portfolio احترافي ومهارات كافية للعمل المستقل. نوفر أيضاً توجيهاً للمسارات التالية كـ React أو Backend أو تطوير التطبيقات — لمن يريد الاستمرار في بناء مستقبله التقني.</div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta scroll-reveal">
+  <h2>
+    القرار الذي يصنع <span>10 سنوات قادمة</span>
+  </h2>
+  <p>كل يوم تأخير هو يوم تقدم لطالب آخر سبق ابنك. الأماكن محدودة والدفعة القادمة تبدأ قريباً</p>
+  <a href='https://forms.gle/T35rJPySHEDhU7b36' target="_blank"  class="btn-primary" style="font-size:1.05rem;padding:1.2rem 3rem">
+    سجّل ابنك الآن — ابدأ رحلة المستقبل 
+  </a>
+</section>
+
+<a href="https://forms.gle/T35rJPySHEDhU7b36" target="_blank" class="pulse-btn">سجل الآن</a>
+
+<footer>
+  <span class="logo-f">dolphin</span>
+  <span>© 2025 WebCode Academy — جميع الحقوق محفوظة</span>
+  <span> ArabiaTech@webcode.academy |  +201080749803</span>
+</footer>
+
+<script>
+  // Scroll Progress
+  window.addEventListener('scroll', () => {
+    const progress = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollProgress').style.width = progress + '%';
+  });
+
+  // Scroll Reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('revealed'); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+
+  // FAQ
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // Countdown
+  const endTime = new Date().getTime() + (2 * 24 * 60 * 60 * 1000);
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const diff = endTime - now;
+    if (diff < 0) return;
+    const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((diff % (1000 * 60)) / 1000);
+    document.getElementById('days').textContent = String(d).padStart(2, '0');
+    document.getElementById('hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(m).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(s).padStart(2, '0');
+  }
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+</body>
+</html>
