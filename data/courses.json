@@ -1,0 +1,66 @@
+{
+    "html":{"course_name":"Html",
+    "rank":"Level 1",
+    "special":"Web development",
+"duration":"3 month",
+"link":"./content/web_tech/level1.html"},
+
+"css":{"course_name":"CSS",
+    "rank":"Level 2",
+    "special":"Web development",
+"duration":"4 month",
+"link":"./content/web_tech/level2.html"},
+
+"js":{"course_name":"JavaScript",
+    "rank":"Level 3",
+    "special":"Web development",
+"duration":"5 month",
+"link":"./content/web_tech/level3_1.html"},
+
+"py":{"course_name":"Python and GUI basics",
+    "rank":"Level 1",
+    "special":"Artificial Intelligence",
+"duration":"5 month",
+"link":"./content/AI_tech/level1/level1.html"},
+
+"data":{"course_name":"Data Analysis",
+    "rank":"Level 2",
+    "special":"Artificial Intelligence",
+"duration":"5 month",
+"link":"./content/AI_tech/level2.html"},
+
+"ma":{"course_name":"Machine Learning",
+    "rank":"Level 3",
+    "special":"Artificial Intelligence",
+"duration":"4 month",
+"link":"./content/AI_tech/level2.html"},
+
+
+"min":{"course_name":"Maincraft Education",
+    "rank":"Level 1",
+    "special":"Kids Course",
+"duration":"1 month",
+"link":"./content/kids_tech/level1.html"},
+
+"scr":{"course_name":"Scratch",
+    "rank":"Level 1",
+    "special":"Kids Course",
+"duration":"2 month",
+"link":"./content/kids_tech/level2.html"},
+
+"aik":{"course_name":"AI kids",
+    "rank":"Level 3",
+    "special":"Kids Course",
+"duration":"1 month",
+"link":"./content/kids_tech/level3.html"},
+
+"ascr":{"course_name":"Scratch With AI",
+    "rank":"Level 4",
+    "special":"Kids Course",
+"duration":"1 month",
+"link":"./content/kids_tech/level4.html"}
+
+
+
+
+}
