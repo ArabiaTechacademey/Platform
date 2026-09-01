@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>إنشاء أشكال</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial;
+      direction: rtl;
+    }
+
+    .circle {
+      display: inline-block;
+      margin: 10px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+    }
+
+    .square {
+    display: inline-block;
+    margin: 10px;
+    width: 80px;
+    height: 80px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>أنشئ أشكالك</h2>
+
+  <label>اختر الشكل:</label>
+  <select id="shape">
+    <option value="circle">دائرة</option>
+    <option value="square">مربع</option>
+  </select>
+
+
+  <label>اختر اللون:</label>
+  <input type="color" id="color">
+
+
+  <label>عدد التكرارات:</label>
+  <input type="number" id="count" min="1">
+
+
+
+  <button onclick="drawShapes()">إنشاء</button>
+
+  
+  <div id="result" ></div>
+
+  <script>
+    function drawShapes() {
+      const shape = document.getElementById("shape").value;
+      const color = document.getElementById("color").value;
+      const count = Number(document.getElementById("count").value);
+
+      let output = "";
+
+      for (let i = 0; i < count; i++) {
+        output += `
+          <div class="${shape}"
+               style="background:${color};">
+          </div>`;
+      }
+
+      document.getElementById("result").innerHTML = output;
+    }
+  </script>
+
+</body>
+</html>
