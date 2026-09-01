@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="./image/icon1.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Interactive Course</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f1f5f9;--surf:#ffffff;--card:#ffffff;--border:#e2e8f0;--border2:#cbd5e1;
+  --accent:#0284c7;--accent-g:rgba(2,132,199,.09);
+  --green:#16a34a;--green-g:rgba(22,163,74,.09);
+  --orange:#ea580c;--yellow:#b45309;--red:#dc2626;--red-g:rgba(220,38,38,.09);
+  --purple:#7c3aed;
+  --text:#1e293b;--muted:#64748b;--muted2:#475569;
+  --mono:'IBM Plex Mono',monospace;--sans:'Tajawal',sans-serif;
+  --r:12px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:var(--sans);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+.nav{position:sticky;top:0;z-index:300;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center;padding:0 20px;gap:14px;
+  box-shadow:0 1px 4px rgba(0,0,0,.06);}
+.nav-logo{width:30px;height:30px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--purple));
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.nav-title{font-weight:900;font-size:1rem;color:var(--accent);}
+.nav-right{margin-right:auto;display:flex;align-items:center;gap:10px;}
+.xp-bar-wrap{width:120px;height:5px;background:var(--border2);border-radius:99px;overflow:hidden;}
+.xp-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--green));border-radius:99px;transition:width .5s ease;width:0%;}
+.xp-label{font-family:var(--mono);font-size:.72rem;color:var(--accent);}
+
+/* Lesson number pill in nav */
+.nav-lesson-num{font-family:var(--mono);font-size:.72rem;background:var(--accent);color:#fff;
+  padding:3px 10px;border-radius:20px;letter-spacing:.05em;}
+
+.shell{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 56px);}
+
+.sidebar{background:var(--surf);border-left:1px solid var(--border);overflow-y:auto;
+  position:sticky;top:56px;height:calc(100vh - 56px);padding:12px 8px;}
+.sidebar::-webkit-scrollbar{width:3px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+.side-btn{width:100%;border:none;background:transparent;color:var(--muted);font-family:var(--sans);
+  font-size:.8rem;padding:7px 10px;border-radius:8px;cursor:pointer;display:flex;align-items:center;
+  gap:7px;transition:all .15s;text-align:right;}
+.side-btn:hover{background:var(--bg);color:var(--text);}
+.side-btn.active{background:var(--accent-g);color:var(--accent);border-right:2px solid var(--accent);}
+.side-btn.done{color:var(--green);}
+.side-btn .sn{font-family:var(--mono);font-size:.65rem;color:var(--muted);min-width:18px;text-align:center;}
+.side-btn.active .sn{color:var(--accent);}
+.side-btn.done .sn{color:var(--green);}
+.side-ck{margin-right:auto;font-size:.7rem;opacity:0;transition:opacity .2s;}
+.side-btn.done .side-ck{opacity:1;}
+
+.content{padding:28px 36px;max-width:980px;}
+
+/* Lesson number hero badge */
+.lesson-num-hero{display:inline-flex;align-items:center;justify-content:center;
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,var(--accent),var(--purple));
+  color:#fff;font-family:var(--mono);font-size:1.1rem;font-weight:700;
+  margin-bottom:10px;box-shadow:0 4px 16px rgba(2,132,199,.3);}
+
+.topic-hd{margin-bottom:22px;}
+.topic-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.1em;text-transform:uppercase;background:var(--accent-g);
+  border:1px solid rgba(2,132,199,.2);color:var(--accent);padding:3px 10px;border-radius:20px;margin-bottom:10px;}
+.topic-h{font-size:1.7rem;font-weight:900;margin-bottom:6px;color:var(--text);}
+.topic-sub{color:var(--muted2);font-size:.88rem;line-height:1.7;}
+
+/* URL display bar */
+.url-bar{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--border2);
+  border-radius:8px;padding:6px 12px;margin-bottom:18px;font-family:var(--mono);font-size:.72rem;color:var(--muted);}
+.url-bar-dot{width:8px;height:8px;border-radius:50%;background:var(--green);}
+.url-bar-text{color:var(--accent);flex:1;}
+.url-bar-num{background:var(--accent);color:#fff;border-radius:5px;padding:1px 7px;font-size:.65rem;}
+
+.theory{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);
+  padding:18px 22px;margin-bottom:22px;position:relative;overflow:hidden;
+  box-shadow:0 1px 4px rgba(0,0,0,.05);}
+.theory::after{content:'';position:absolute;top:0;right:0;width:2px;height:100%;
+  background:linear-gradient(180deg,var(--accent),transparent);}
+.theory-lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:9px;}
+.theory p{font-size:.87rem;line-height:1.8;color:var(--muted2);}
+.theory p+p{margin-top:8px;}
+.theory code{font-family:var(--mono);background:rgba(2,132,199,.07);
+  border:1px solid var(--border2);padding:1px 5px;border-radius:4px;color:var(--orange);font-size:.8rem;}
+.code-block{background:#f8fafc;border:1px solid var(--border2);border-radius:9px;
+  padding:13px 16px;margin-top:12px;font-family:var(--mono);font-size:.75rem;line-height:1.9;
+  direction:ltr;text-align:left;overflow-x:auto;color:#475569;}
+.hl-sel{color:#be185d;} .hl-prop{color:#0369a1;} .hl-val{color:#15803d;} .hl-com{color:#94a3b8;}
+
+.pg-wrap{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);
+  margin-bottom:22px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06);}
+.pg-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;background:#f8fafc;}
+.pg-dots{display:flex;gap:6px;}
+.pg-dot{width:10px;height:10px;border-radius:50%;}
+.pg-header-title{font-family:var(--mono);font-size:.68rem;color:var(--muted2);margin-right:auto;}
+.reset-pg{background:transparent;border:1px solid var(--border2);color:var(--muted2);
+  font-family:var(--sans);font-size:.72rem;padding:4px 10px;border-radius:6px;cursor:pointer;transition:all .15s;}
+.reset-pg:hover{border-color:var(--accent);color:var(--accent);}
+.pg-body{display:grid;grid-template-columns:280px 1fr;}
+.pg-controls{border-left:1px solid var(--border);padding:16px 14px;display:flex;flex-direction:column;gap:6px;
+  overflow-y:auto;max-height:420px;background:#fafbfc;}
+.pg-controls::-webkit-scrollbar{width:3px;}
+.pg-controls::-webkit-scrollbar-thumb{background:var(--border2);}
+.ctrl-row{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:7px 10px;transition:border-color .15s;}
+.ctrl-row:hover{border-color:var(--border2);}
+.ctrl-name{font-family:var(--mono);font-size:.68rem;color:var(--orange);flex-shrink:0;min-width:0;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:110px;}
+.ctrl-inp{flex:1;min-width:0;}
+.ctrl-inp select,.ctrl-inp input[type=text]{
+  background:var(--bg);border:1px solid var(--border);color:var(--text);border-radius:6px;
+  padding:5px 8px;font-size:.72rem;font-family:var(--mono);outline:none;
+  transition:border-color .2s;width:100%;direction:ltr;text-align:left;}
+.ctrl-inp select:focus,.ctrl-inp input:focus{border-color:var(--accent);}
+.ctrl-inp input[type=color]{background:var(--bg);border:2px solid var(--border);
+  border-radius:6px;width:42px;height:28px;padding:2px;cursor:pointer;outline:none;}
+.range-row{display:flex;align-items:center;gap:5px;direction:ltr;}
+.range-row input[type=range]{width:80px;accent-color:var(--accent);cursor:pointer;}
+.range-v{font-family:var(--mono);font-size:.65rem;color:var(--accent);min-width:34px;text-align:right;}
+
+.pg-output{display:flex;flex-direction:column;}
+.pg-preview{flex:1;display:flex;align-items:center;justify-content:center;padding:28px;
+  background:var(--bg);position:relative;min-height:260px;overflow:hidden;}
+.pg-preview::before{content:'';position:absolute;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:28px 28px;opacity:.6;pointer-events:none;}
+.pg-preview-inner{position:relative;z-index:1;width:100%;display:flex;align-items:center;justify-content:center;}
+.pg-css{background:#f8fafc;border-top:1px solid var(--border);padding:10px 16px;}
+.pg-css-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.pg-css-lbl{font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted2);}
+.copy-btn{background:var(--accent-g);border:1px solid rgba(2,132,199,.25);color:var(--accent);
+  font-family:var(--sans);font-size:.68rem;padding:3px 10px;border-radius:5px;cursor:pointer;transition:background .15s;}
+.copy-btn:hover{background:rgba(2,132,199,.15);}
+.copy-btn.ok{background:var(--green-g);border-color:rgba(22,163,74,.3);color:var(--green);}
+.pg-code{background:var(--surf);border:1px solid var(--border);border-radius:7px;padding:10px 14px;
+  font-family:var(--mono);font-size:.7rem;line-height:1.8;color:#475569;direction:ltr;text-align:left;
+  white-space:pre;overflow-x:auto;max-height:100px;overflow-y:auto;}
+
+.section-hd{font-size:.6rem;font-family:var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+.section-hd::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.mcq-card{background:var(--card);border:1px solid var(--border2);border-radius:var(--r);
+  padding:18px 20px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.qmeta{display:flex;align-items:center;gap:7px;margin-bottom:11px;}
+.qn{font-family:var(--mono);font-size:.65rem;color:var(--muted);background:var(--border);padding:2px 7px;border-radius:4px;}
+.qdiff{font-family:var(--mono);font-size:.6rem;font-weight:700;padding:2px 7px;border-radius:4px;}
+.qdiff.e{background:rgba(22,163,74,.1);color:var(--green);}
+.qdiff.m{background:rgba(180,83,9,.1);color:var(--yellow);}
+.qdiff.h{background:rgba(220,38,38,.1);color:var(--red);}
+.qtext{font-size:.88rem;font-weight:700;line-height:1.6;margin-bottom:12px;color:var(--text);}
+.qtext code{font-family:var(--mono);background:rgba(2,132,199,.07);border:1px solid var(--border2);
+  padding:1px 5px;border-radius:4px;color:var(--orange);font-size:.78rem;font-weight:400;}
+.opts{display:flex;flex-direction:column;gap:6px;}
+.opt{background:var(--bg);border:1px solid var(--border2);color:var(--text);font-family:var(--mono);
+  font-size:.76rem;padding:9px 14px;border-radius:7px;cursor:pointer;text-align:right;
+  direction:ltr;transition:all .15s;display:flex;align-items:center;gap:9px;}
+.opt .ol{color:var(--muted);font-size:.65rem;min-width:14px;}
+.opt:hover{border-color:var(--accent);color:var(--accent);}
+.opt.correct{border-color:var(--green);background:var(--green-g);color:var(--green);}
+.opt.wrong{border-color:var(--red);background:var(--red-g);color:var(--red);}
+.opt:disabled{cursor:default;}
+.qfb{margin-top:10px;padding:9px 13px;border-radius:7px;font-size:.78rem;line-height:1.6;display:none;}
+.qfb.show{display:block;}
+.qfb.ok{background:var(--green-g);border:1px solid rgba(22,163,74,.25);color:var(--green);}
+.qfb.err{background:var(--red-g);border:1px solid rgba(220,38,38,.25);color:var(--red);}
+
+.done-banner{margin-top:20px;padding:22px;border-radius:var(--r);
+  background:linear-gradient(135deg,rgba(22,163,74,.05),rgba(2,132,199,.05));
+  border:1px solid rgba(22,163,74,.2);text-align:center;display:none;}
+.done-banner.show{display:block;}
+.done-banner h3{font-size:1.1rem;color:var(--green);margin-bottom:5px;}
+.done-banner p{color:var(--muted2);font-size:.82rem;}
+.next-btn{margin-top:14px;background:linear-gradient(135deg,var(--green),var(--accent));
+  border:none;color:#fff;font-family:var(--sans);font-weight:900;font-size:.85rem;
+  padding:10px 28px;border-radius:9px;cursor:pointer;transition:opacity .2s;}
+.next-btn:hover{opacity:.85;}
+
+@media(max-width:740px){
+  .shell{grid-template-columns:1fr;}
+  .sidebar{position:static;height:auto;max-height:160px;border-left:none;border-bottom:1px solid var(--border);}
+  .content{padding:16px 14px;}
+  .pg-body{grid-template-columns:1fr;}
+  .pg-controls{border-left:none;border-top:1px solid var(--border);max-height:300px;}
+}
+/* Keyframes defined globally — injecting via innerHTML doesn't register @keyframes reliably */
+@keyframes pgBounce{0%,100%{transform:translateY(0)}45%,55%{transform:translateY(-40px)}}
+@keyframes pgSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes pgPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.3);opacity:.5}}
+@keyframes pgFade{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0;transform:scale(.8)}}
+@keyframes pgShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-16px) rotate(-3deg)}40%{transform:translateX(16px) rotate(3deg)}60%{transform:translateX(-8px)}80%{transform:translateX(8px)}}
+@keyframes pgSlide{0%{transform:translateX(-70px);opacity:0}60%{transform:translateX(8px);opacity:1}80%{transform:translateX(-3px)}100%{transform:translateX(0)}}
+@keyframes pgFlip{0%{transform:perspective(300px) rotateY(0deg)}100%{transform:perspective(300px) rotateY(360deg)}}
+/* Display playground classes */
+.disp-arena{background:rgba(2,132,199,.04);border:2px dashed #cbd5e1;border-radius:10px;padding:14px;font-family:monospace;font-size:13px;color:#64748b;margin-bottom:8px;line-height:2.2}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">🎨</div>
+  <div class="nav-title">CSS Course</div>
+  <div class="nav-right">
+    <div class="xp-bar-wrap"><div class="xp-bar" id="xpBar"></div></div>
+    <div class="xp-label" id="xpLabel">0 XP</div>
+    <div class="nav-lesson-num" id="navLessonNum">درس ١</div>
+  </div>
+</nav>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <main class="content" id="content"></main>
+</div>
+
+<script>
+const TOPICS = [
+
+/* 1 */ {
+  id:1, title:"Introduction", tag:"Basics",
+  desc:"CSS (Cascading Style Sheets) تُضاف على HTML لتحديد شكل العناصر وتخطيطها.",
+  theory:`CSS تُكتب كـ <code>selector { property: value; }</code>. يمكن إضافتها بـ3 طرق: <b>Inline</b> داخل العنصر، <b>Internal</b> داخل &lt;style&gt;، أو <b>External</b> ملف .css مرتبط بـ &lt;link&gt;.`,
+  code:`<span class="hl-com">/* External file */</span>\n<span class="hl-sel">&lt;link</span> <span class="hl-prop">rel</span>=<span class="hl-val">"stylesheet"</span> <span class="hl-prop">href</span>=<span class="hl-val">"style.css"</span>&gt;\n\n<span class="hl-sel">p</span> { <span class="hl-prop">color</span>: <span class="hl-val">red</span>; <span class="hl-prop">font-size</span>: <span class="hl-val">16px</span>; }`,
+  playground:{
+    label:"جرّب: عدّل شكل فقرة نصية",
+    controls:[
+      {name:"color",type:"color",default:"#1e293b",css:"color",target:"intro-p"},
+      {name:"background-color",type:"color",default:"#dbeafe",css:"background-color",target:"intro-box"},
+      {name:"font-size",type:"range",min:12,max:48,default:18,unit:"px",css:"font-size",target:"intro-p"},
+      {name:"padding",type:"range",min:0,max:48,default:16,unit:"px",css:"padding",target:"intro-box"},
+    ],
+    html:`<div id="intro-box" style="background:#dbeafe;padding:16px;border-radius:10px;display:inline-block;max-width:320px">
+      <p id="intro-p" style="color:#1e293b;font-size:18px;font-family:Tajawal,sans-serif">مرحباً! أنا فقرة CSS تحكّم في شكلي 🎨</p>
+    </div>`
+  },
+  mcq:[
+    {q:"ما معنى اختصار CSS؟",opts:["Creative Style Sheets","Cascading Style Sheets","Computer Screen Styles","Custom Style Script"],ans:1,exp:"CSS = Cascading Style Sheets — صفحات الأنماط المتتالية."},
+    {q:"ما الطريقة الأفضل لفصل CSS عن HTML؟",opts:["Inline style","&lt;style&gt; في نفس الملف","ملف .css خارجي مرتبط بـ &lt;link&gt;","داخل JavaScript"],ans:2,exp:"الملف الخارجي أفضل لأنه يُنظّم الكود ويسمح بمشاركته بين صفحات متعددة."},
+    {q:"ما الصيغة الصحيحة لكتابة قاعدة CSS؟",opts:["selector: { property = value }","selector { property: value; }","selector( property: value )","property { selector: value; }"],ans:1,exp:"الصيغة الصحيحة: selector { property: value; } — المحدد ثم أقواس تحتوي خاصية وقيمة."}
+  ]
+},
+
+/* 2 */ {
+  id:2, title:"Fonts & Text (1)", tag:"Typography",
+  desc:"التحكم في عائلة الخط وحجمه وسماكته وأسلوبه.",
+  theory:`<code>font-family</code> يحدد نوع الخط مع fallbacks. <code>font-size</code> الحجم بـ px أو rem أو em. <code>font-weight</code> السماكة من 100 إلى 900. <code>font-style: italic</code> للنص المائل.`,
+  code:`<span class="hl-sel">h1</span> {\n  <span class="hl-prop">font-family</span>: <span class="hl-val">'Cairo', sans-serif</span>;\n  <span class="hl-prop">font-size</span>: <span class="hl-val">2rem</span>;\n  <span class="hl-prop">font-weight</span>: <span class="hl-val">700</span>;\n  <span class="hl-prop">font-style</span>: <span class="hl-val">normal</span>;\n}`,
+  playground:{
+    label:"جرّب: غيّر خصائص الخط",
+    controls:[
+      {name:"font-family",type:"select",options:["Tajawal,sans-serif","Georgia,serif","'Courier New',monospace","Impact,sans-serif","Verdana,sans-serif"],default:"Tajawal,sans-serif",css:"font-family",target:"font-demo"},
+      {name:"font-size",type:"range",min:12,max:60,default:28,unit:"px",css:"font-size",target:"font-demo"},
+      {name:"font-weight",type:"select",options:["100","300","400","600","700","900"],default:"700",css:"font-weight",target:"font-demo"},
+      {name:"font-style",type:"select",options:["normal","italic","oblique"],default:"normal",css:"font-style",target:"font-demo"},
+      {name:"color",type:"color",default:"#1e293b",css:"color",target:"font-demo"},
+    ],
+    html:`<p id="font-demo" style="font-size:28px;font-weight:700;font-family:Tajawal,sans-serif;color:#1e293b;text-align:center;max-width:400px">
+      CSS يتحكم في شكل النصوص 🔤
+    </p>`
+  },
+  mcq:[
+    {q:"ما الخاصية لتغيير نوع الخط؟",opts:["text-family","font-type","font-family","type-face"],ans:2,exp:"font-family هي الخاصية الصحيحة لتحديد عائلة/نوع الخط."},
+    {q:"ما قيمة font-weight للنص العادي (Normal)؟",opts:["100","300","400","700"],ans:2,exp:"400 = normal. 700 = bold."},
+    {q:"ما الفرق بين rem وpx؟",opts:["لا فرق","rem نسبي لحجم root، px ثابت","px أكبر من rem دائماً","rem أحدث من px"],ans:1,exp:"rem نسبي لحجم خط الـ root (عادةً 16px). 1rem = 16px. px ثابت لا يتأثر بإعدادات المستخدم."}
+  ]
+},
+
+/* 3 */ {
+  id:3, title:"Fonts & Text (2)", tag:"Typography",
+  desc:"محاذاة النص وتزيينه وتحويله والتباعد بين الحروف والأسطر.",
+  theory:`<code>text-align</code>: left/right/center/justify. <code>text-decoration</code>: underline/line-through/none. <code>text-transform</code>: uppercase/lowercase/capitalize. <code>letter-spacing</code> و<code>line-height</code> للتباعد.`,
+  code:`<span class="hl-sel">p</span> {\n  <span class="hl-prop">text-align</span>: <span class="hl-val">center</span>;\n  <span class="hl-prop">text-decoration</span>: <span class="hl-val">underline</span>;\n  <span class="hl-prop">text-transform</span>: <span class="hl-val">uppercase</span>;\n  <span class="hl-prop">letter-spacing</span>: <span class="hl-val">3px</span>;\n  <span class="hl-prop">line-height</span>: <span class="hl-val">1.8</span>;\n}`,
+  playground:{
+    label:"جرّب: تنسيق النص",
+    controls:[
+      {name:"text-align",type:"select",options:["right","left","center","justify"],default:"right",css:"text-align",target:"txt-demo"},
+      {name:"text-decoration",type:"select",options:["none","underline","overline","line-through"],default:"none",css:"text-decoration",target:"txt-demo"},
+      {name:"text-transform",type:"select",options:["none","uppercase","lowercase","capitalize"],default:"none",css:"text-transform",target:"txt-demo"},
+      {name:"letter-spacing",type:"range",min:0,max:10,default:0,unit:"px",css:"letter-spacing",target:"txt-demo"},
+      {name:"line-height",type:"range",min:1,max:3,default:1.5,unit:"",step:0.1,css:"line-height",target:"txt-demo"},
+    ],
+    html:`<p id="txt-demo" style="max-width:380px;font-family:Tajawal,sans-serif;font-size:16px;color:#1e293b;line-height:1.5;text-align:right;padding:8px">
+      CSS يمنحك تحكماً كاملاً في تنسيق النصوص وطريقة عرضها. جرّب تغيير الخصائص لترى الفرق مباشرةً.
+    </p>`
+  },
+  mcq:[
+    {q:"لإزالة التسطير من روابط &lt;a&gt;:",opts:["text-decoration: off","text-decoration: none","link-style: no-underline","a-decoration: remove"],ans:1,exp:"text-decoration: none تزيل أي تزيين نصي بما فيه التسطير."},
+    {q:"ما القيمة لتحويل كل الحروف لكبيرة؟",opts:["text-case: upper","font-style: upper","text-transform: uppercase","text-style: caps"],ans:2,exp:"text-transform: uppercase تحوّل كل الحروف لأحرف كبيرة."},
+    {q:"ما القيمة المثلى لـ line-height للقراءة المريحة؟",opts:["0.8","1","1.5 - 1.8","4"],ans:2,exp:"1.5–1.8 مناسب للقراءة. أقل من 1.2 يجعل الأسطر متقاربة جداً."}
+  ]
+},
+
+/* 4 */ {
+  id:4, title:"Backgrounds (1)", tag:"Backgrounds",
+  desc:"تلوين الخلفيات باستخدام ألوان صلبة وتدرجات خطية وشعاعية.",
+  theory:`<code>background-color</code> للون الصلب. <code>linear-gradient(angle, c1, c2)</code> للتدرج الخطي. <code>radial-gradient(shape, c1, c2)</code> للتدرج الشعاعي. يمكن دمج أكثر من تدرج بفاصلة.`,
+  code:`<span class="hl-sel">.hero</span> {\n  <span class="hl-prop">background</span>: <span class="hl-val">linear-gradient(135deg, #667eea, #764ba2)</span>;\n}\n<span class="hl-sel">.orb</span> {\n  <span class="hl-prop">background</span>: <span class="hl-val">radial-gradient(circle, #ff6b6b, #ffd93d)</span>;\n}`,
+  playground:{
+    label:"جرّب: خلفيات وتدرجات",
+    controls:[
+      {name:"bg-type",type:"select",options:["solid","linear-gradient","radial-gradient"],default:"linear-gradient",css:"_bgtype",target:"bg-demo"},
+      {name:"color 1",type:"color",default:"#0284c7",css:"_c1",target:"bg-demo"},
+      {name:"color 2",type:"color",default:"#7c3aed",css:"_c2",target:"bg-demo"},
+      {name:"angle (linear)",type:"range",min:0,max:360,default:135,unit:"deg",css:"_angle",target:"bg-demo"},
+    ],
+    html:`<div id="bg-demo" style="width:260px;height:160px;border-radius:16px;background:linear-gradient(135deg,#0284c7,#7c3aed)"></div>`,
+    customUpdate: function(vals, el){
+      const t = vals['_bgtype'], c1=vals['_c1']||'#0284c7', c2=vals['_c2']||'#7c3aed', a=vals['_angle']||'135';
+      if(t==='solid') el.style.background = c1;
+      else if(t==='linear-gradient') el.style.background = `linear-gradient(${a}deg,${c1},${c2})`;
+      else el.style.background = `radial-gradient(circle,${c1},${c2})`;
+    }
+  },
+  mcq:[
+    {q:"الكود الصحيح لتدرج خطي من أزرق لبنفسجي؟",opts:["background: gradient(blue,purple)","background: linear-gradient(blue,purple)","background-gradient: linear(blue,purple)","background: line(blue to purple)"],ans:1,exp:"linear-gradient() هي الدالة الصحيحة داخل خاصية background."},
+    {q:"ما معنى 'to right' في linear-gradient؟",opts:["تدرج عمودي","تدرج من اليسار لليمين","تدرج من اليمين لليسار","تدرج قطري"],ans:1,exp:"to right = زاوية 90deg — التدرج يبدأ من اليسار وينتهي باليمين."},
+    {q:"لعمل تدرج دائري من المركز؟",opts:["linear-gradient(circle,...)","radial-gradient(circle,...)","circle-gradient(...)","background: round-gradient(...)"],ans:1,exp:"radial-gradient(circle,...) تعمل تدرجاً شعاعياً على شكل دائرة من المركز."}
+  ]
+},
+
+/* 5 */ {
+  id:5, title:"DIV", tag:"Layout",
+  desc:"الـ div هو صندوق كتلي عام يُستخدم لتجميع وتنسيق عناصر الصفحة.",
+  theory:`<code>div</code> = block element يأخذ سطراً كاملاً. <code>width</code> و<code>height</code> لتحديد الأبعاد. <code>margin: 0 auto</code> للتوسيط الأفقي. <code>padding</code> للمساحة الداخلية.`,
+  code:`<span class="hl-sel">.card</span> {\n  <span class="hl-prop">width</span>: <span class="hl-val">300px</span>;\n  <span class="hl-prop">height</span>: <span class="hl-val">180px</span>;\n  <span class="hl-prop">background</span>: <span class="hl-val">#dbeafe</span>;\n  <span class="hl-prop">margin</span>: <span class="hl-val">0 auto</span>;\n  <span class="hl-prop">padding</span>: <span class="hl-val">20px</span>;\n}`,
+  playground:{
+    label:"جرّب: عدّل صندوق الـ div",
+    controls:[
+      {name:"width",type:"range",min:80,max:380,default:200,unit:"px",css:"width",target:"div-demo"},
+      {name:"height",type:"range",min:40,max:300,default:120,unit:"px",css:"height",target:"div-demo"},
+      {name:"background",type:"color",default:"#bfdbfe",css:"background-color",target:"div-demo"},
+      {name:"padding",type:"range",min:0,max:48,default:16,unit:"px",css:"padding",target:"div-demo"},
+      {name:"margin",type:"range",min:0,max:40,default:8,unit:"px",css:"margin",target:"div-demo"},
+    ],
+    html:`<div style="display:flex;align-items:center;justify-content:center;width:100%;height:200px">
+      <div id="div-demo" style="width:200px;height:120px;background:#bfdbfe;padding:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;text-align:center">
+        أنا div! عدّل خصائصي 📦
+      </div>
+    </div>`
+  },
+  mcq:[
+    {q:"الـ div عنصر من نوع:",opts:["inline","inline-block","block","flex"],ans:2,exp:"div = block-level element يأخذ عرض الصفحة كاملاً افتراضياً."},
+    {q:"لتوسيط div أفقياً داخل أبيه:",opts:["text-align: center","float: center","margin: 0 auto","position: center"],ans:2,exp:"margin: 0 auto يوزع المساحة الفارغة بالتساوي على اليمين واليسار."},
+    {q:"ما الفرق بين padding وmargin؟",opts:["لا فرق","padding مساحة داخل العنصر، margin مساحة خارجه","margin داخلي وpadding خارجي","padding للنصوص وmargin للصور"],ans:1,exp:"padding = المسافة بين المحتوى وحدود العنصر. margin = المسافة بين العنصر والعناصر المجاورة."}
+  ]
+},
+
+/* 6 */ {
+  id:6, title:"Background Images", tag:"Backgrounds",
+  desc:"استخدام الصور كخلفيات مع التحكم الكامل في حجمها وتكرارها وموضعها.",
+  theory:`<code>background-image: url()</code> لتحديد الصورة. <code>background-size</code>: cover (تغطي كل العنصر) أو contain (تظهر كاملة). <code>background-repeat</code>: no-repeat/repeat. <code>background-position</code>: center/top/left.`,
+  code:`<span class="hl-sel">.hero</span> {\n  <span class="hl-prop">background-image</span>: <span class="hl-val">url('hero.jpg')</span>;\n  <span class="hl-prop">background-size</span>: <span class="hl-val">cover</span>;\n  <span class="hl-prop">background-repeat</span>: <span class="hl-val">no-repeat</span>;\n  <span class="hl-prop">background-position</span>: <span class="hl-val">center</span>;\n}`,
+  playground:{
+    label:"جرّب: خصائص صورة الخلفية",
+    controls:[
+      {name:"background-size",type:"select",options:["cover","contain","100% 100%","50%","auto"],default:"cover",css:"background-size",target:"bgimg-demo"},
+      {name:"background-repeat",type:"select",options:["no-repeat","repeat","repeat-x","repeat-y"],default:"no-repeat",css:"background-repeat",target:"bgimg-demo"},
+      {name:"background-position",type:"select",options:["center","top","bottom","left","right","top left"],default:"center",css:"background-position",target:"bgimg-demo"},
+      {name:"opacity",type:"range",min:10,max:100,default:100,unit:"%",css:"opacity",target:"bgimg-demo",divide:100},
+    ],
+    html:`<div id="bgimg-demo" style="width:280px;height:180px;border-radius:12px;
+      background-image:url('https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600');
+      background-size:cover;background-repeat:no-repeat;background-position:center">
+    </div>`
+  },
+  mcq:[
+    {q:"ما القيمة التي تجعل صورة الخلفية تغطي العنصر كاملاً؟",opts:["background-size: full","background-size: cover","background-size: fill","background-size: stretch"],ans:1,exp:"cover: تكبّر الصورة لتغطية العنصر كاملاً مع الحفاظ على النسبة (قد تُقطع الصورة)."},
+    {q:"ما الفرق بين cover وcontain؟",opts:["لا فرق","cover يملأ العنصر وقد يقطع الصورة، contain يظهر الصورة كاملة وقد يترك فراغ","contain أحدث","cover للصور الأفقية فقط"],ans:1,exp:"cover = يملأ كل العنصر وقد يقطع. contain = يظهر الصورة كاملة لكن قد يبقى فراغ."},
+    {q:"لمنع تكرار صورة الخلفية نستخدم:",opts:["background-repeat: stop","background-repeat: false","background-repeat: no-repeat","background-loop: none"],ans:2,exp:"no-repeat تمنع الصورة من التكرار."}
+  ]
+},
+
+/* 7 */ {
+  id:7, title:"Flexbox", tag:"Layout",
+  desc:"نظام تخطيط أحادي المحور لتوزيع ومحاذاة العناصر بسهولة.",
+  theory:`<code>display: flex</code> يُفعّل Flexbox. <code>justify-content</code> للمحور الرئيسي (أفقي). <code>align-items</code> للمحور الثانوي (عمودي). <code>flex-direction</code> يغير الاتجاه. <code>gap</code> للمسافات.`,
+  code:`<span class="hl-sel">.container</span> {\n  <span class="hl-prop">display</span>: <span class="hl-val">flex</span>;\n  <span class="hl-prop">flex-direction</span>: <span class="hl-val">row</span>;\n  <span class="hl-prop">justify-content</span>: <span class="hl-val">center</span>;\n  <span class="hl-prop">align-items</span>: <span class="hl-val">center</span>;\n  <span class="hl-prop">gap</span>: <span class="hl-val">16px</span>;\n  <span class="hl-prop">flex-wrap</span>: <span class="hl-val">wrap</span>;\n}`,
+  playground:{
+    label:"جرّب: خصائص Flexbox",
+    controls:[
+      {name:"flex-direction",type:"select",options:["row","row-reverse","column","column-reverse"],default:"row",css:"flex-direction",target:"flex-wrap-el"},
+      {name:"justify-content",type:"select",options:["flex-start","flex-end","center","space-between","space-around","space-evenly"],default:"flex-start",css:"justify-content",target:"flex-wrap-el"},
+      {name:"align-items",type:"select",options:["stretch","flex-start","flex-end","center","baseline"],default:"stretch",css:"align-items",target:"flex-wrap-el"},
+      {name:"flex-wrap",type:"select",options:["nowrap","wrap","wrap-reverse"],default:"nowrap",css:"flex-wrap",target:"flex-wrap-el"},
+      {name:"gap",type:"range",min:0,max:40,default:10,unit:"px",css:"gap",target:"flex-wrap-el"},
+    ],
+    html:`<div id="flex-wrap-el" style="display:flex;flex-direction:row;justify-content:flex-start;align-items:stretch;gap:10px;flex-wrap:nowrap;
+      background:rgba(2,132,199,.05);border:1px solid #cbd5e1;border-radius:10px;padding:16px;width:100%;min-height:140px">
+      <div style="background:#0284c7;border-radius:7px;min-width:60px;min-height:60px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;font-family:monospace">1</div>
+      <div style="background:#16a34a;border-radius:7px;min-width:60px;min-height:80px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;font-family:monospace">2</div>
+      <div style="background:#ea580c;border-radius:7px;min-width:60px;min-height:50px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:18px;font-family:monospace">3</div>
+    </div>`
+  },
+  mcq:[
+    {q:"ما الخاصية التي تُفعّل Flexbox؟",opts:["layout: flex","flex: 1","display: flex","flex-mode: on"],ans:2,exp:"display: flex تحوّل العنصر لـ flex container وتُمكّن Flexbox."},
+    {q:"justify-content: space-between تعني:",opts:["توسيط العناصر","مسافات متساوية حول كل عنصر","أول عنصر في البداية آخر في النهاية مسافات متساوية بينهم","محاذاة عمودية"],ans:2,exp:"space-between: أول عنصر عند البداية، آخر عنصر عند النهاية، ومسافات متساوية بين الباقين."},
+    {q:"ما الخاصية للمحاذاة على المحور العمودي في flex؟",opts:["justify-items","align-content","align-items","vertical-flex"],ans:2,exp:"align-items تتحكم في محاذاة العناصر على المحور العمودي (cross axis)."}
+  ]
+},
+
+/* 8 */ {
+  id:8, title:"Borders & Border Radius", tag:"Styling",
+  desc:"تحديد شكل ولون وسماكة حدود العناصر وجعل زواياها دائرية.",
+  theory:`<code>border: size style color</code> اختصار. أنواع: solid, dashed, dotted, double. <code>border-radius</code> للزوايا الدائرية — <code>50%</code> تعطي دائرة كاملة. كل جانب منفرداً: <code>border-top-left-radius</code>.`,
+  code:`<span class="hl-sel">.btn</span> {\n  <span class="hl-prop">border</span>: <span class="hl-val">2px solid #0284c7</span>;\n  <span class="hl-prop">border-radius</span>: <span class="hl-val">8px</span>;\n}\n<span class="hl-sel">.avatar</span> {\n  <span class="hl-prop">border</span>: <span class="hl-val">3px solid white</span>;\n  <span class="hl-prop">border-radius</span>: <span class="hl-val">50%</span>;\n}`,
+  playground:{
+    label:"جرّب: حدود وزوايا",
+    controls:[
+      {name:"border-width",type:"range",min:0,max:12,default:2,unit:"px",css:"border-width",target:"border-demo"},
+      {name:"border-style",type:"select",options:["solid","dashed","dotted","double","groove","ridge"],default:"solid",css:"border-style",target:"border-demo"},
+      {name:"border-color",type:"color",default:"#0284c7",css:"border-color",target:"border-demo"},
+      {name:"border-radius",type:"range",min:0,max:80,default:10,unit:"px",css:"border-radius",target:"border-demo"},
+      {name:"background",type:"color",default:"#eff6ff",css:"background-color",target:"border-demo"},
+    ],
+    html:`<div id="border-demo" style="width:180px;height:120px;border:2px solid #0284c7;border-radius:10px;background:#eff6ff;
+      display:flex;align-items:center;justify-content:center;color:#475569;font-family:Tajawal,sans-serif;font-size:14px">
+      العنصر المُنسَّق
+    </div>`
+  },
+  mcq:[
+    {q:"الكود الصحيح لحدود صلبة 2px سوداء:",opts:["border: solid 2px","border: 2px black","border: 2px solid black","border-style: 2px solid black"],ans:2,exp:"الترتيب: سماكة — نوع — لون: border: 2px solid black;"},
+    {q:"لعمل دائرة كاملة من div مربع:",opts:["border-radius: 100px","border-radius: 50%","circle: true","shape: round"],ans:1,exp:"border-radius: 50% تحوّل المربع لدائرة كاملة."},
+    {q:"ما الكود لتدوير الزاوية العلوية اليسرى فقط 10px؟",opts:["border-corner-top-left: 10px","border-radius-top: 10px","border-top-left-radius: 10px","border-left-top: 10px"],ans:2,exp:"border-top-left-radius: 10px; هو الكود الصحيح لتدوير زاوية واحدة فقط."}
+  ]
+},
+
+/* 9 */ {
+  id:9, title:"Shadows", tag:"Effects",
+  desc:"إضافة ظلال للعناصر والنصوص لمنح التصميم عمقاً وجمالية.",
+  theory:`<code>box-shadow: x y blur spread color</code>. إضافة <code>inset</code> تجعل الظل داخلياً. <code>text-shadow: x y blur color</code> لظل النص. يمكن دمج ظلال متعددة بفاصلة.`,
+  code:`<span class="hl-sel">.card</span> {\n  <span class="hl-prop">box-shadow</span>: <span class="hl-val">0 8px 32px rgba(0,0,0,.1)</span>;\n}\n<span class="hl-sel">h1</span> {\n  <span class="hl-prop">text-shadow</span>: <span class="hl-val">2px 2px 8px rgba(0,0,0,.15)</span>;\n}`,
+  playground:{
+    label:"جرّب: ظلال العناصر",
+    controls:[
+      {name:"shadow-x",type:"range",min:-30,max:30,default:0,unit:"px",css:"_sx",target:"shadow-demo"},
+      {name:"shadow-y",type:"range",min:-30,max:30,default:8,unit:"px",css:"_sy",target:"shadow-demo"},
+      {name:"blur",type:"range",min:0,max:60,default:24,unit:"px",css:"_sb",target:"shadow-demo"},
+      {name:"spread",type:"range",min:-10,max:20,default:0,unit:"px",css:"_ss",target:"shadow-demo"},
+      {name:"shadow-color",type:"color",default:"#94a3b8",css:"_sc",target:"shadow-demo"},
+      {name:"inset",type:"select",options:["false","true"],default:"false",css:"_inset",target:"shadow-demo"},
+    ],
+    html:`<div id="shadow-demo" style="width:200px;height:130px;background:#ffffff;border-radius:12px;
+      box-shadow:0 8px 24px rgba(148,163,184,.4);display:flex;align-items:center;justify-content:center;
+      color:#475569;font-family:Tajawal,sans-serif;font-size:14px">
+      ظل العنصر 🌑
+    </div>`,
+    customUpdate: function(vals, el){
+      const x=vals['_sx']||0, y=vals['_sy']||8, b=vals['_sb']||24, s=vals['_ss']||0;
+      const c=vals['_sc']||'#94a3b8', ins=vals['_inset']==='true'?'inset ':'';
+      el.style.boxShadow = `${ins}${x}px ${y}px ${b}px ${s}px ${c}`;
+    }
+  },
+  mcq:[
+    {q:"ما الخاصية لإضافة ظل لعنصر div؟",opts:["shadow","element-shadow","box-shadow","outer-shadow"],ans:2,exp:"box-shadow هي الخاصية الصحيحة لإضافة ظل لأي عنصر صندوقي."},
+    {q:"في box-shadow: 0 4px 10px 2px black — ماذا تمثل 2px؟",opts:["الإزاحة الأفقية","blur","spread (الانتشار)","اللون"],ans:2,exp:"الترتيب: x, y, blur, spread, color. القيمة الرابعة هي spread."},
+    {q:"لعمل ظل داخلي (inward):",opts:["box-shadow: inner ...","box-shadow: inset 0 4px 8px black","inner-shadow: 4px","box-shadow: inside ..."],ans:1,exp:"كلمة inset في بداية القيمة تجعل الظل داخلياً."}
+  ]
+},
+
+/* 10 */ {
+  id:10, title:"Pseudo-classes & Elements", tag:"Selectors",
+  desc:"استهداف حالات العناصر وأجزاء منها دون HTML إضافي.",
+  theory:`<b>Pseudo-classes</b> (نقطة واحدة): <code>:hover</code>, <code>:focus</code>, <code>:nth-child(n)</code>, <code>:first-child</code>, <code>:last-child</code>.<br><b>Pseudo-elements</b> (نقطتان): <code>::before</code>, <code>::after</code>, <code>::placeholder</code>, <code>::first-letter</code>.`,
+  code:`<span class="hl-sel">a:hover</span> { <span class="hl-prop">color</span>: <span class="hl-val">#16a34a</span>; }\n<span class="hl-sel">li:nth-child(2)</span> { <span class="hl-prop">color</span>: <span class="hl-val">red</span>; }\n<span class="hl-sel">.card::before</span> {\n  <span class="hl-prop">content</span>: <span class="hl-val">'★'</span>;\n  <span class="hl-prop">color</span>: <span class="hl-val">gold</span>;\n}`,
+  playground:{
+    label:"جرّب: تغيير الألوان عند hover",
+    controls:[
+      {name:"hover bg-color",type:"color",default:"#0284c7",css:"_hbg",target:"pseudo-demo"},
+      {name:"hover text-color",type:"color",default:"#ffffff",css:"_htc",target:"pseudo-demo"},
+      {name:"border-radius",type:"range",min:0,max:50,default:8,unit:"px",css:"border-radius",target:"pseudo-demo"},
+    ],
+    html:`<div style="display:flex;gap:12px;flex-wrap:wrap;padding:10px">
+      <button id="pseudo-demo" style="padding:12px 24px;background:#f1f5f9;color:#1e293b;border:1px solid #cbd5e1;border-radius:8px;cursor:pointer;font-family:Tajawal,sans-serif;font-size:15px">
+        مرّر الماوس هنا 🖱
+      </button>
+    </div>`,
+    customUpdate: function(vals, el){
+      const hbg=vals['_hbg']||'#0284c7', htc=vals['_htc']||'#fff';
+      el.style.borderRadius = (vals['border-radius']||8)+'px';
+      const styleId = 'pseudo-style-inject';
+      let s = document.getElementById(styleId);
+      if(!s){s=document.createElement('style');s.id=styleId;document.head.appendChild(s);}
+      s.textContent = `#pseudo-demo:hover { background-color: ${hbg} !important; color: ${htc} !important; }`;
+    }
+  },
+  mcq:[
+    {q:"الـ pseudo-class لتطبيق أنماط عند التمرير بالماوس؟",opts:[":focus",":hover",":active","::hover"],ans:1,exp:":hover تُطبق الأنماط عند تمرير مؤشر الماوس فوق العنصر."},
+    {q:"ما المطلوب دائماً في ::before و::after؟",opts:["display: block","position: absolute","content: ''","z-index: 1"],ans:2,exp:"خاصية content مطلوبة حتماً حتى تظهر الـ pseudo-elements — حتى لو كانت فارغة content: ''"},
+    {q:"ما الفرق بين :first-child و:first-of-type؟",opts:["لا فرق","first-child يستهدف أول ابن مهما نوعه، first-of-type أول عنصر من نفس النوع","first-of-type أحدث","first-child للنصوص فقط"],ans:1,exp:":first-child = أول ابن مباشر بغض النظر عن نوعه. :first-of-type = أول عنصر من نفس النوع داخل الأب."}
+  ]
+},
+
+/* 11 */ {
+  id:11, title:"Transform", tag:"Effects",
+  desc:"تحريك وتدوير وتكبير وتشويه العناصر بصرياً دون إزاحتها من التخطيط.",
+  theory:`<code>translate(x,y)</code> للتحريك. <code>scale(n)</code> للتكبير/التصغير. <code>rotate(deg)</code> للتدوير. <code>skew(xdeg,ydeg)</code> للإمالة. يمكن دمج عدة دوال في خاصية transform واحدة.`,
+  code:`<span class="hl-sel">.box:hover</span> {\n  <span class="hl-prop">transform</span>: <span class="hl-val">translateY(-10px) scale(1.05) rotate(3deg)</span>;\n}`,
+  playground:{
+    label:"جرّب: دوال التحويل",
+    controls:[
+      {name:"translateX",type:"range",min:-100,max:100,default:0,unit:"px",css:"_tx",target:"transform-demo"},
+      {name:"translateY",type:"range",min:-80,max:80,default:0,unit:"px",css:"_ty",target:"transform-demo"},
+      {name:"scale",type:"range",min:20,max:200,default:100,unit:"%",css:"_sc",target:"transform-demo"},
+      {name:"rotate",type:"range",min:-180,max:180,default:0,unit:"deg",css:"_ro",target:"transform-demo"},
+      {name:"skewX",type:"range",min:-45,max:45,default:0,unit:"deg",css:"_sk",target:"transform-demo"},
+    ],
+    html:`<div style="display:flex;align-items:center;justify-content:center;height:200px">
+      <div id="transform-demo" style="width:120px;height:80px;background:linear-gradient(135deg,#0284c7,#7c3aed);border-radius:10px;
+        display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:Tajawal,sans-serif;font-size:14px">
+        Transform!
+      </div>
+    </div>`,
+    customUpdate: function(vals,el){
+      const tx=vals['_tx']||0,ty=vals['_ty']||0,sc=(vals['_sc']||100)/100,ro=vals['_ro']||0,sk=vals['_sk']||0;
+      el.style.transform=`translateX(${tx}px) translateY(${ty}px) scale(${sc}) rotate(${ro}deg) skewX(${sk}deg)`;
+    }
+  },
+  mcq:[
+    {q:"الدالة لتحريك عنصر 50px لليمين؟",opts:["transform: moveX(50px)","transform: translateX(50px)","transform: shiftRight(50px)","left: 50px"],ans:1,exp:"translateX(50px) تحرك العنصر 50px على المحور الأفقي دون تأثير على التخطيط."},
+    {q:"transform: scale(0.5) تعني:",opts:["تكبير ضعفين","تصغير لنصف الحجم","تحريك 0.5px","لا تأثير"],ans:1,exp:"scale(0.5) تصغّر العنصر لنصف حجمه الأصلي."},
+    {q:"ما ميزة transform عن margin/top في التحريك؟",opts:["لا ميزة","transform لا يؤثر على تخطيط باقي العناصر","transform أبطأ","margin أدق"],ans:1,exp:"transform يحرك العنصر بصرياً دون التأثير على تدفق الصفحة، بينما margin/top تعيد ترتيب باقي العناصر."}
+  ]
+},
+
+/* 12 */ {
+  id:12, title:"Transition", tag:"Animation",
+  desc:"إضافة حركة سلسة بين حالتين للعنصر.",
+  theory:`<code>transition: property duration timing delay</code>. استخدم <code>all</code> لتشمل كل الخصائص. Timing functions: <code>ease</code>, <code>linear</code>, <code>ease-in</code>, <code>ease-out</code>, <code>cubic-bezier()</code>.`,
+  code:`<span class="hl-sel">.btn</span> {\n  <span class="hl-prop">transition</span>: <span class="hl-val">all 0.3s ease</span>;\n}\n<span class="hl-sel">.btn:hover</span> {\n  <span class="hl-prop">transform</span>: <span class="hl-val">scale(1.05)</span>;\n  <span class="hl-prop">background</span>: <span class="hl-val">#22c55e</span>;\n}`,
+  playground:{
+    label:"جرّب: سرعة وطريقة الانتقال",
+    controls:[
+      {name:"duration",type:"range",min:1,max:20,default:3,unit:"×0.1s",css:"_dur",target:"trans-demo"},
+      {name:"timing-function",type:"select",options:["ease","linear","ease-in","ease-out","ease-in-out","cubic-bezier(0.34,1.56,0.64,1)"],default:"ease",css:"_tim",target:"trans-demo"},
+      {name:"delay",type:"range",min:0,max:10,default:0,unit:"×0.1s",css:"_del",target:"trans-demo"},
+      {name:"hover scale",type:"range",min:90,max:150,default:110,unit:"%",css:"_hsc",target:"trans-demo"},
+      {name:"hover color",type:"color",default:"#16a34a",css:"_hcl",target:"trans-demo"},
+    ],
+    html:`<div style="display:flex;align-items:center;justify-content:center;gap:16px;padding:20px">
+      <button id="trans-demo" style="padding:14px 28px;background:#f1f5f9;color:#1e293b;border:1px solid #cbd5e1;border-radius:10px;cursor:pointer;font-family:Tajawal,sans-serif;font-size:16px;transition:all 0.3s ease">
+        مرّر الماوس 🚀
+      </button>
+    </div>`,
+    customUpdate: function(vals,el){
+      const dur=vals['_dur']||3, tim=vals['_tim']||'ease', del=vals['_del']||0;
+      const hsc=(vals['_hsc']||110)/100, hcl=vals['_hcl']||'#16a34a';
+      el.style.transition=`all ${dur*0.1}s ${tim} ${del*0.1}s`;
+      const sid='trans-style-inject';
+      let s=document.getElementById(sid);
+      if(!s){s=document.createElement('style');s.id=sid;document.head.appendChild(s);}
+      s.textContent=`#trans-demo:hover { transform: scale(${hsc}); background-color: ${hcl} !important; color: #fff !important; }`;
+    }
+  },
+  mcq:[
+    {q:"الخاصية لإضافة انتقال سلس بين حالتين؟",opts:["animation","transform","transition","motion"],ans:2,exp:"transition هي الخاصية المخصصة للانتقالات السلسة."},
+    {q:"في transition: bg 0.3s ease 0.1s — ماذا تعني 0.1s الأخيرة؟",opts:["مدة الانتقال","سرعة البداية","تأخير قبل البدء","نهاية الانتقال"],ans:2,exp:"الترتيب: property, duration, timing, delay. 0.1s في النهاية هو delay."},
+    {q:"ما الفرق بين ease-in وease-out؟",opts:["لا فرق","ease-in يبدأ ببطء ويسرّع، ease-out يبدأ بسرعة ويبطئ","ease-out أبطأ","ease-in للألوان فقط"],ans:1,exp:"ease-in: slow start → fast end. ease-out: fast start → slow end."}
+  ]
+},
+
+/* 13 — FIXED */ {
+  id:13, title:"Display", tag:"Layout",
+  desc:"تحديد كيفية عرض العنصر في الصفحة وكيف يتفاعل مع المحيط.",
+  theory:`<code>block</code>: سطر كامل. <code>inline</code>: لا يقبل width/height. <code>inline-block</code>: بجانب العناصر ويقبل الأبعاد. <code>none</code>: إزالة كاملة من التدفق. <code>flex</code>/<code>grid</code>: تخطيطات متقدمة.`,
+  code:`<span class="hl-sel">span</span> {\n  <span class="hl-prop">display</span>: <span class="hl-val">inline-block</span>;\n  <span class="hl-prop">width</span>: <span class="hl-val">100px</span>;\n}\n<span class="hl-sel">.hidden</span> {\n  <span class="hl-prop">display</span>: <span class="hl-val">none</span>;\n}`,
+  playground:{
+    label:"جرّب: قيم الـ display — شاهد الفرق مباشرةً",
+    controls:[
+      {name:"display",type:"select",options:["block","inline","inline-block","flex","none"],default:"inline-block",css:"_disp",target:"disp-box-a"},
+      {name:"width",type:"range",min:40,max:200,default:100,unit:"px",css:"_w",target:"disp-box-a"},
+      {name:"height",type:"range",min:20,max:100,default:50,unit:"px",css:"_h",target:"disp-box-a"},
+      {name:"background",type:"color",default:"#0284c7",css:"_bg",target:"disp-box-a"},
+    ],
+    html:`<div class="disp-arena">
+      <span style="color:#94a3b8">← نص قبل</span>
+      <span id="disp-box-a" style="display:inline-block;width:100px;height:50px;background:#0284c7;border-radius:6px;vertical-align:middle;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:50px">A</span>
+      <span id="disp-box-b" style="display:inline-block;width:80px;height:35px;background:#16a34a;border-radius:6px;vertical-align:middle;color:#fff;font-size:11px;font-weight:700;text-align:center;line-height:35px">B (ثابت)</span>
+      <span style="color:#94a3b8">نص بعد →</span>
+    </div>
+    <div id="disp-info" style="font-family:monospace;font-size:11px;color:#1e293b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;line-height:2"></div>`,
+    customUpdate: function(vals, el){
+      const disp = vals['_disp'] || 'inline-block';
+      const w = parseInt(vals['_w']) || 100;
+      const h = parseInt(vals['_h']) || 50;
+      const bg = vals['_bg'] || '#0284c7';
+
+      el.style.display = disp;
+      el.style.backgroundColor = bg;
+
+      // inline ignores width/height — show that visually
+      if(disp === 'inline'){
+        el.style.width = '';
+        el.style.height = '';
+        el.style.lineHeight = '';
+        el.textContent = 'A (inline: حجمه من المحتوى)';
+      } else if(disp === 'none'){
+        // el is hidden — nothing to style
+        el.textContent = 'A';
+      } else {
+        el.style.width = w + 'px';
+        el.style.height = h + 'px';
+        el.style.lineHeight = h + 'px';
+        el.textContent = 'A';
+      }
+
+      const info = document.getElementById('disp-info');
+      if(info){
+        const rows = {
+          block:      ['🟦 block',      'يأخذ سطراً كاملاً (عرض 100%)', 'يقبل width وheight', 'B ينزل لسطر جديد تحته'],
+          inline:     ['✏️ inline',      'يجلس مع النص في نفس السطر',   'لا يقبل width/height (حجمه = محتواه)', 'B يبقى بجانبه في نفس السطر'],
+          'inline-block':['🟩 inline-block','يجلس مع النص في نفس السطر','يقبل width وheight', 'B يبقى بجانبه في نفس السطر'],
+          flex:       ['⚡ flex',         'يأخذ سطراً كاملاً كـ block',  'أبناؤه يصطفون أفقياً تلقائياً', 'B ينزل لسطر جديد تحته'],
+          none:       ['🚫 none',         'اختفى تماماً من الصفحة',       'لا يحتل أي مساحة', 'B تحرك لمكان A']
+        };
+        const r = rows[disp] || rows['inline-block'];
+        info.innerHTML = `<b style="color:#0284c7">${r[0]}</b><br>` +
+          `• ${r[1]}<br>• ${r[2]}<br>• ${r[3]}`;
+      }
+    }
+  },
+  mcq:[
+    {q:"ما الفرق بين display:none وvisibility:hidden؟",opts:["لا فرق","none يزيل العنصر من التخطيط، hidden يخفيه ويحتفظ بمساحته","hidden أسرع","none للنصوص فقط"],ans:1,exp:"display:none كأن العنصر غير موجود. visibility:hidden يخفيه لكن مساحته تبقى."},
+    {q:"لماذا لا يقبل عنصر inline تعيين width؟",opts:["لأنه خطأ في CSS","لأن حجمه يتحدد بمحتواه فقط","لأن width للـ block فقط","لأن span أصغر"],ans:1,exp:"عناصر inline حجمها يتحدد بمحتواها ولا تقبل تعيين width أو height."},
+    {q:"display: inline-block يسمح بـ:",opts:["يجلس بجانب العناصر ويقبل width/height","يأخذ سطراً كاملاً","لا يقبل margin","مثل flex"],ans:0,exp:"inline-block = يجلس بجانب العناصر مثل inline + يقبل width/height مثل block."}
+  ]
+},
+
+/* 14 — FIXED */ {
+  id:14, title:"Position", tag:"Layout",
+  desc:"التحكم الدقيق في موضع العنصر داخل الصفحة.",
+  theory:`<code>static</code>: افتراضي. <code>relative</code>: نسبي لموقعه الأصلي ويحتفظ بمساحته. <code>absolute</code>: نسبي لأقرب أب positioned، يُزال من التدفق. <code>fixed</code>: ثابت بالنسبة للنافذة. <code>sticky</code>: يلتصق عند حد معين عند التمرير.`,
+  code:`<span class="hl-sel">.tooltip</span> {\n  <span class="hl-prop">position</span>: <span class="hl-val">absolute</span>;\n  <span class="hl-prop">top</span>: <span class="hl-val">-36px</span>;\n  <span class="hl-prop">left</span>: <span class="hl-val">50%</span>;\n}\n<span class="hl-sel">.nav</span> {\n  <span class="hl-prop">position</span>: <span class="hl-val">fixed</span>;\n  <span class="hl-prop">top</span>: <span class="hl-val">0</span>;\n}`,
+  playground:{
+    label:"جرّب: أنواع الـ position",
+    controls:[
+      {name:"position",type:"select",options:["static","relative","absolute"],default:"relative",css:"_pos",target:"pos-arena"},
+      {name:"top",type:"range",min:-60,max:80,default:0,unit:"px",css:"_top",target:"pos-arena"},
+      {name:"left",type:"range",min:-60,max:120,default:0,unit:"px",css:"_left",target:"pos-arena"},
+      {name:"color",type:"color",default:"#0284c7",css:"_bg",target:"pos-arena"},
+    ],
+    html:`<div id="pos-arena" style="position:relative;height:220px;border:2px dashed #cbd5e1;border-radius:10px;overflow:hidden;background-color:#f8fafc;background-image:linear-gradient(#e2e8f0 1px,transparent 1px),linear-gradient(90deg,#e2e8f0 1px,transparent 1px);background-size:30px 30px;">
+      <span style="position:absolute;top:6px;right:10px;font-family:monospace;font-size:9px;color:#94a3b8;">الأب — position:relative</span>
+      <div id="pos-ghost" style="position:absolute;top:90px;left:20px;width:90px;height:54px;border:2px dashed #94a3b8;border-radius:8px;z-index:1;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:9px;color:#94a3b8;transition:opacity .3s;opacity:0;">الموقع الأصلي</div>
+      <div id="pos-el" style="position:absolute;top:90px;left:20px;width:90px;height:54px;background:#0284c7;border-radius:8px;z-index:3;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:monospace;font-size:13px;transition:top .25s,left .25s,background-color .25s;box-shadow:0 4px 16px rgba(0,0,0,.2);">العنصر</div>
+      <div id="pos-sib" style="position:absolute;top:90px;left:130px;width:80px;height:54px;background:#fef9c3;border:2px solid #fbbf24;border-radius:8px;z-index:2;display:flex;align-items:center;justify-content:center;font-family:monospace;font-size:12px;color:#92400e;font-weight:700;transition:left .3s;">جار</div>
+    </div>
+    <div id="pos-info" style="margin-top:8px;font-family:monospace;font-size:11px;color:#1e293b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:9px 14px;line-height:2.2;min-height:46px;"></div>`,
+    customUpdate: function(vals, arenaEl){
+      const pos  = vals['_pos']  || 'relative';
+      const topV = Number(vals['_top'])  || 0;
+      const lefV = Number(vals['_left']) || 0;
+      const bg   = vals['_bg']   || '#0284c7';
+      const el    = document.getElementById('pos-el');
+      const ghost = document.getElementById('pos-ghost');
+      const sib   = document.getElementById('pos-sib');
+      const info  = document.getElementById('pos-info');
+      if(!el || !ghost || !sib) return;
+      const OT=90, OL=20, SL=130;
+      el.style.backgroundColor = bg;
+      el.style.boxShadow = `0 4px 16px ${bg}55`;
+      if(pos==='static'){
+        el.style.top=OT+'px'; el.style.left=OL+'px';
+        ghost.style.opacity='0'; sib.style.left=SL+'px';
+        if(info) info.innerHTML='<b style="color:#64748b">⚪ static</b> — القيمة الافتراضية<br>• top / left لا تعمل مع static — العنصر في موقعه الطبيعي';
+      } else if(pos==='relative'){
+        el.style.top=(OT+topV)+'px'; el.style.left=(OL+lefV)+'px';
+        ghost.style.opacity='1'; ghost.style.top=OT+'px'; ghost.style.left=OL+'px';
+        sib.style.left=SL+'px';
+        if(info) info.innerHTML=`<b style="color:#0284c7">🔵 relative</b><br>• تحرك <b>${topV}px</b> للأسفل و<b>${lefV}px</b> لليمين من الموقع الأصلي<br>• الإطار المنقط = الموقع الأصلي المحجوز — الجار لم يتحرك`;
+      } else {
+        const t=Math.max(5,Math.min(155,OT+topV)), l=Math.max(5,Math.min(260,OL+lefV));
+        el.style.top=t+'px'; el.style.left=l+'px';
+        ghost.style.opacity='1'; ghost.style.top=OT+'px'; ghost.style.left=OL+'px';
+        sib.style.left=OL+'px';
+        if(info) info.innerHTML=`<b style="color:#ea580c">🟠 absolute</b><br>• top:<b>${t}px</b> left:<b>${l}px</b> من حافة الأب المُحدَّد<br>• انُتُزع من التدفق ← الجار الأصفر تحرك لملء مكانه`;
+      }
+    }
+  },
+  mcq:[
+    {q:"ما الـ position الذي يثبّت العنصر عند تمرير الصفحة؟",opts:["absolute","sticky","fixed","relative"],ans:2,exp:"fixed يثبت العنصر بالنسبة لنافذة المتصفح ولا يتأثر بالتمرير."},
+    {q:"لاستخدام top/left مع absolute، يجب أن يكون الأب:",opts:["أي عنصر","position: static","position: relative أو absolute أو fixed","display: flex"],ans:2,exp:"absolute يتموضع بالنسبة لأقرب أب له position غير static."},
+    {q:"ما الفرق بين relative وabsolute؟",opts:["لا فرق","relative يتحرك من مكانه ويحتفظ بمساحته، absolute يُزال من التدفق","absolute أسرع","relative أقوى"],ans:1,exp:"relative: يتحرك ويحتفظ بالمساحة. absolute: يُنزع من تدفق الصفحة."}
+  ]
+},
+
+/* 15 */ {
+  id:15, title:"Z-Index & Overflow", tag:"Layout",
+  desc:"التحكم في ترتيب تراكب العناصر وسلوك المحتوى الزائد.",
+  theory:`<code>z-index</code> يحدد ترتيب التراكب (يعمل فقط مع positioned elements). القيمة الأعلى تظهر فوق. <code>overflow: hidden</code> يقطع الزائد. <code>scroll</code> يضيف شريط تمرير. <code>auto</code> تلقائي.`,
+  code:`<span class="hl-sel">.modal</span> {\n  <span class="hl-prop">position</span>: <span class="hl-val">fixed</span>;\n  <span class="hl-prop">z-index</span>: <span class="hl-val">1000</span>;\n}\n<span class="hl-sel">.scroll-box</span> {\n  <span class="hl-prop">height</span>: <span class="hl-val">200px</span>;\n  <span class="hl-prop">overflow</span>: <span class="hl-val">auto</span>;\n}`,
+  playground:{
+    label:"جرّب: z-index والتراكب",
+    controls:[
+      {name:"z-index (box A)",type:"range",min:0,max:10,default:2,unit:"",css:"_za",target:"z-a"},
+      {name:"z-index (box B)",type:"range",min:0,max:10,default:1,unit:"",css:"_zb",target:"z-b"},
+      {name:"overflow",type:"select",options:["visible","hidden","scroll","auto"],default:"visible",css:"overflow",target:"z-container"},
+      {name:"color A",type:"color",default:"#0284c7",css:"_ca",target:"z-a"},
+      {name:"color B",type:"color",default:"#dc2626",css:"_cb",target:"z-b"},
+    ],
+    html:`<div id="z-container" style="position:relative;height:140px;width:280px;overflow:visible;background:rgba(2,132,199,.04);border:1px solid #cbd5e1;border-radius:10px">
+      <div id="z-a" style="position:absolute;top:20px;right:20px;width:100px;height:80px;background:#0284c7;z-index:2;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:monospace">A (z:2)</div>
+      <div id="z-b" style="position:absolute;top:40px;right:60px;width:100px;height:80px;background:#dc2626;z-index:1;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:monospace">B (z:1)</div>
+    </div>`,
+    customUpdate: function(vals, el){
+      const za=vals['_za']||2, zb=vals['_zb']||1, ca=vals['_ca']||'#0284c7', cb=vals['_cb']||'#dc2626';
+      const a=document.getElementById('z-a'), b=document.getElementById('z-b');
+      if(a){a.style.zIndex=za;a.textContent=`A (z:${za})`;a.style.backgroundColor=ca;}
+      if(b){b.style.zIndex=zb;b.textContent=`B (z:${zb})`;b.style.backgroundColor=cb;}
+      if(el) el.style.overflow=vals['overflow']||'visible';
+    }
+  },
+  mcq:[
+    {q:"شرط عمل z-index على عنصر؟",opts:["لا شرط","display: flex","position غير static","font-size محدد"],ans:2,exp:"z-index يعمل فقط على العناصر التي تملك position: relative/absolute/fixed/sticky."},
+    {q:"overflow: hidden تعني:",opts:["إخفاء العنصر","قطع المحتوى الزائد عن حدود العنصر","إضافة شريط تمرير","جعل العنصر شفافاً"],ans:1,exp:"overflow: hidden يقطع ويخفي أي محتوى يتجاوز حدود العنصر."},
+    {q:"أي قيمة z-index تظهر فوق الأخرى؟",opts:["الأصغر","الأكبر","الأخيرة في CSS","لا يهم"],ans:1,exp:"القيمة الأكبر تظهر في المقدمة فوق القيم الأصغر."}
+  ]
+},
+
+/* 16 */ {
+  id:16, title:"Animations", tag:"Animation",
+  desc:"إنشاء حركات متكاملة بـ @keyframes للتحكم الكامل في كل مرحلة.",
+  theory:`<code>@keyframes name { from {} to {} }</code> أو بنسب مئوية. ثم: <code>animation: name duration timing iteration direction fill-mode</code>. <code>infinite</code> للتكرار اللانهائي. <code>forwards</code> يحتفظ بالحالة الأخيرة.`,
+  code:`<span class="hl-sel">@keyframes bounce</span> {\n  <span class="hl-sel">0%, 100%</span> { <span class="hl-prop">transform</span>: <span class="hl-val">translateY(0)</span>; }\n  <span class="hl-sel">50%</span>    { <span class="hl-prop">transform</span>: <span class="hl-val">translateY(-20px)</span>; }\n}\n<span class="hl-sel">.ball</span> {\n  <span class="hl-prop">animation</span>: <span class="hl-val">bounce 1s ease infinite</span>;\n}`,
+  playground:{
+    label:"جرّب: غيّر الحركة وكل خصائصها",
+    controls:[
+      {name:"الحركة 🎬",type:"select",options:["pgBounce — ارتداد","pgSpin — دوران","pgPulse — نبض","pgFade — تلاشي","pgShake — اهتزاز","pgSlide — انزلاق","pgFlip — قلب 3D"],default:"pgBounce — ارتداد",css:"_name",target:"anim-demo"},
+      {name:"duration ⏱",type:"range",min:1,max:40,default:8,unit:"×0.1s",css:"_dur",target:"anim-demo"},
+      {name:"timing ⚡",type:"select",options:["ease","linear","ease-in","ease-out","ease-in-out","cubic-bezier(0.34,1.56,0.64,1)"],default:"ease",css:"_tim",target:"anim-demo"},
+      {name:"iteration 🔁",type:"select",options:["1","2","3","5","infinite"],default:"infinite",css:"_iter",target:"anim-demo"},
+      {name:"direction ↩",type:"select",options:["normal","reverse","alternate","alternate-reverse"],default:"normal",css:"_dir",target:"anim-demo"},
+      {name:"fill-mode 🏁",type:"select",options:["none","forwards","backwards","both"],default:"none",css:"_fill",target:"anim-demo"},
+      {name:"play-state ▶",type:"select",options:["running","paused"],default:"running",css:"_play",target:"anim-demo"},
+    ],
+    html:`<div style="display:flex;flex-direction:column;align-items:center;gap:12px;padding:16px 8px;">
+      <div style="display:flex;align-items:center;justify-content:center;height:120px;width:100%;">
+        <div id="anim-demo" style="width:80px;height:80px;background:linear-gradient(135deg,#0284c7,#7c3aed);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:32px;">🎯</div>
+      </div>
+      <div id="anim-info" style="font-family:monospace;font-size:10px;color:#475569;background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:6px 12px;text-align:center;width:100%;line-height:1.8;"></div>
+    </div>`,
+    customUpdate: function(vals, el){
+      const rawName = vals['_name'] || 'pgBounce — ارتداد';
+      const name = rawName.split(' ')[0];
+      const dur  = (Number(vals['_dur']) || 8) * 0.1;
+      const tim  = vals['_tim']  || 'ease';
+      const iter = vals['_iter'] || 'infinite';
+      const dir  = vals['_dir']  || 'normal';
+      const fill = vals['_fill'] || 'none';
+      const play = vals['_play'] || 'running';
+
+      // Clone & replace trick — guarantees animation restarts from frame 0
+      const clone = el.cloneNode(true);
+      clone.style.animation = `${name} ${dur}s ${tim} ${iter} ${dir} ${fill}`;
+      clone.style.animationPlayState = play;
+      el.parentNode.replaceChild(clone, el);
+
+      const info = document.getElementById('anim-info');
+      if(info) info.innerHTML =
+        `<b>animation:</b> ${name} ${dur.toFixed(1)}s ${tim} ${iter} ${dir} ${fill}<br>` +
+        `<b>play-state:</b> ${play} &nbsp;${play==='paused'?'⏸ متوقفة':'▶ تشتغل'}`;
+    }
+  },
+  mcq:[
+    {q:"الـ at-rule لتعريف مراحل الحركة؟",opts:["@animation","@motion","@keyframes","@frames"],ans:2,exp:"@keyframes هو الـ at-rule الصحيح لتعريف مراحل الحركة."},
+    {q:"animation-fill-mode: forwards تعني:",opts:["تكرار الحركة للأمام","الإبقاء على الحالة الأخيرة بعد انتهاء الحركة","تسريع الحركة","بدء من اليسار"],ans:1,exp:"forwards: العنصر يحتفظ بنمط آخر frame بعد انتهاء الحركة."},
+    {q:"ما قيمة animation-direction لعكس الحركة في كل دورة؟",opts:["reverse","backward","alternate","loop"],ans:2,exp:"alternate: الحركة تسير للأمام ثم للخلف بالتناوب في كل دورة."}
+  ]
+},
+
+/* 17 — FIXED */ {
+  id:17, title:"Grid", tag:"Layout",
+  desc:"نظام تخطيط ثنائي الأبعاد (أعمدة + صفوف) للتخطيطات المعقدة.",
+  theory:`<code>display: grid</code>. <code>grid-template-columns</code> و<code>grid-template-rows</code>. وحدة <code>fr</code> نسبية مرنة. <code>repeat(n, size)</code>. <code>gap</code>. العنصر يمتد بـ <code>grid-column: span 2</code>.`,
+  code:`<span class="hl-sel">.grid</span> {\n  <span class="hl-prop">display</span>: <span class="hl-val">grid</span>;\n  <span class="hl-prop">grid-template-columns</span>: <span class="hl-val">repeat(3, 1fr)</span>;\n  <span class="hl-prop">gap</span>: <span class="hl-val">16px</span>;\n}`,
+  playground:{
+    label:"جرّب: تخطيط الـ Grid",
+    controls:[
+      {name:"columns",type:"select",options:["1fr","1fr 1fr","repeat(3,1fr)","repeat(4,1fr)","200px 1fr","1fr 2fr 1fr"],default:"repeat(3,1fr)",css:"_cols",target:"grid-demo"},
+      {name:"row height",type:"range",min:60,max:180,default:100,unit:"px",css:"_rh",target:"grid-demo"},
+      {name:"gap",type:"range",min:0,max:32,default:10,unit:"px",css:"_gap",target:"grid-demo"},
+      {name:"justify-items",type:"select",options:["stretch","start","end","center"],default:"stretch",css:"_ji",target:"grid-demo"},
+      {name:"align-items",type:"select",options:["stretch","start","end","center"],default:"stretch",css:"_ai",target:"grid-demo"},
+    ],
+    html:`<div id="grid-demo" style="display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:100px;gap:10px;width:100%;padding:4px">
+      <div class="grid-cell" style="background:linear-gradient(135deg,#eff6ff,#dbeafe);border:2px solid #bfdbfe;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#1e40af;font-family:monospace;font-size:15px;font-weight:700;min-height:30px">1</div>
+      <div class="grid-cell" style="background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:2px solid #86efac;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#166534;font-family:monospace;font-size:15px;font-weight:700;min-height:30px">2</div>
+      <div class="grid-cell" style="background:linear-gradient(135deg,#fff7ed,#fed7aa);border:2px solid #fdba74;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#9a3412;font-family:monospace;font-size:15px;font-weight:700;min-height:30px">3</div>
+      <div class="grid-cell" style="background:linear-gradient(135deg,#fdf4ff,#e9d5ff);border:2px solid #c4b5fd;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#6b21a8;font-family:monospace;font-size:15px;font-weight:700;min-height:30px">4</div>
+      <div class="grid-cell" style="background:linear-gradient(135deg,#fefce8,#fef08a);border:2px solid #fde047;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#854d0e;font-family:monospace;font-size:15px;font-weight:700;min-height:30px">5</div>
+      <div class="grid-cell" style="background:linear-gradient(135deg,#fff1f2,#fecdd3);border:2px solid #fda4af;border-radius:7px;display:flex;align-items:center;justify-content:center;color:#9f1239;font-family:monospace;font-size:15px;font-weight:700;min-height:30px">6</div>
+    </div>
+    <div id="grid-info" style="margin-top:8px;font-family:monospace;font-size:11px;color:#64748b;text-align:center;background:rgba(2,132,199,.05);border:1px solid #e2e8f0;border-radius:6px;padding:5px 10px"></div>`,
+    customUpdate: function(vals, el){
+      const cols = vals['_cols'] || 'repeat(3,1fr)';
+      const rh   = parseInt(vals['_rh'])  || 100;
+      const gap  = parseInt(vals['_gap']) || 10;
+      const ji   = vals['_ji'] || 'stretch';
+      const ai   = vals['_ai'] || 'stretch';
+
+      el.style.gridTemplateColumns = cols;
+      // Use grid-auto-rows so the row has a defined height → align-items is visible
+      el.style.gridAutoRows = rh + 'px';
+      el.style.gap = gap + 'px';
+      el.style.justifyItems = ji;
+      el.style.alignItems   = ai;
+
+      // Cells must NOT have a fixed height — let the row define it
+      el.querySelectorAll('.grid-cell').forEach(c => { c.style.height = ''; });
+
+      const info = document.getElementById('grid-info');
+      if(info){
+        const aiNote = {stretch:'يمتد العنصر ليملأ ارتفاع الصف كاملاً',start:'ينجذب للأعلى',end:'ينجذب للأسفل',center:'يتوسط عمودياً داخل الصف'};
+        const jiNote = {stretch:'يمتد العنصر ليملأ عرض العمود كاملاً',start:'ينجذب لليسار',end:'ينجذب لليمين',center:'يتوسط أفقياً داخل العمود'};
+        info.textContent = `align-items: ${ai} → ${aiNote[ai]||''}  |  justify-items: ${ji} → ${jiNote[ji]||''}`;
+      }
+    }
+  },
+  mcq:[
+    {q:"الخاصية لتعريف أعمدة الـ Grid؟",opts:["grid-columns","column-count","grid-template-columns","flex-columns"],ans:2,exp:"grid-template-columns تحدد عدد وعرض الأعمدة في الشبكة."},
+    {q:"ماذا يعني repeat(3, 1fr)؟",opts:["3 أعمدة بعرض 1px","3 أعمدة متساوية تقسم المساحة","عمود واحد يتكرر 3 مرات","3 صفوف"],ans:1,exp:"repeat(3, 1fr): 3 أعمدة تتقاسم المساحة المتاحة بالتساوي."},
+    {q:"لجعل عنصر يمتد على عمودين:",opts:["grid-column: 2","grid-span: 2","grid-column: span 2","column-span: 2"],ans:2,exp:"grid-column: span 2 يجعل العنصر يمتد على عمودين."}
+  ]
+},
+
+/* 18 */ {
+  id:18, title:"Table Styling", tag:"Styling",
+  desc:"تنسيق الجداول لتحسين مظهرها وقابلية قراءتها.",
+  theory:`<code>border-collapse: collapse</code> يدمج الحدود المزدوجة. <code>tr:nth-child(even)</code> للصفوف الزوجية. <code>th, td</code> للتباعد الداخلي. <code>table-layout: fixed</code> لأعمدة متساوية.`,
+  code:`<span class="hl-sel">table</span> { <span class="hl-prop">border-collapse</span>: <span class="hl-val">collapse</span>; <span class="hl-prop">width</span>: <span class="hl-val">100%</span>; }\n<span class="hl-sel">th</span> { <span class="hl-prop">background</span>: <span class="hl-val">#1e40af</span>; <span class="hl-prop">padding</span>: <span class="hl-val">10px</span>; }\n<span class="hl-sel">tr:nth-child(even)</span> { <span class="hl-prop">background</span>: <span class="hl-val">rgba(2,132,199,.05)</span>; }`,
+  playground:{
+    label:"جرّب: تنسيق الجدول",
+    controls:[
+      {name:"border-collapse",type:"select",options:["collapse","separate"],default:"collapse",css:"border-collapse",target:"table-demo"},
+      {name:"header bg",type:"color",default:"#1e40af",css:"_hbg",target:"table-demo"},
+      {name:"cell padding",type:"range",min:4,max:24,default:10,unit:"px",css:"_cp",target:"table-demo"},
+      {name:"stripe color",type:"color",default:"#eff6ff",css:"_sc",target:"table-demo"},
+      {name:"border color",type:"color",default:"#cbd5e1",css:"_bc",target:"table-demo"},
+    ],
+    html:`<div style="overflow-x:auto">
+      <table id="table-demo" style="width:100%;border-collapse:collapse;font-family:Tajawal,sans-serif;font-size:14px">
+        <thead><tr>
+          <th style="background:#1e40af;color:white;padding:10px;text-align:right;border:1px solid #cbd5e1">الاسم</th>
+          <th style="background:#1e40af;color:white;padding:10px;text-align:right;border:1px solid #cbd5e1">الدرجة</th>
+          <th style="background:#1e40af;color:white;padding:10px;text-align:right;border:1px solid #cbd5e1">التقييم</th>
+        </tr></thead>
+        <tbody>
+          <tr class="trow"><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">أحمد</td><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">95</td><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">ممتاز</td></tr>
+          <tr class="trow trow-even" style="background:#eff6ff"><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">سارة</td><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">88</td><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">جيد جداً</td></tr>
+          <tr class="trow"><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">محمد</td><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">72</td><td style="padding:10px;border:1px solid #cbd5e1;color:#1e293b">جيد</td></tr>
+        </tbody>
+      </table>
+    </div>`,
+    customUpdate: function(vals,el){
+      const hbg=vals['_hbg']||'#1e40af', cp=vals['_cp']||10, sc=vals['_sc']||'#eff6ff', bc=vals['_bc']||'#cbd5e1';
+      el.style.borderCollapse = vals['border-collapse'] || 'collapse';
+      el.querySelectorAll('th').forEach(th=>{th.style.backgroundColor=hbg;th.style.padding=cp+'px';th.style.borderColor=bc;});
+      el.querySelectorAll('td').forEach(td=>{td.style.padding=cp+'px';td.style.borderColor=bc;});
+      el.querySelectorAll('.trow-even').forEach(tr=>tr.style.backgroundColor=sc);
+    }
+  },
+  mcq:[
+    {q:"الخاصية التي تدمج الحدود المزدوجة في الجدول؟",opts:["border: merge","border-collapse: collapse","table-border: single","border-style: collapse"],ans:1,exp:"border-collapse: collapse تدمج حدود الخلايا المتجاورة في حد واحد."},
+    {q:"لتلوين الصفوف الزوجية:",opts:["tr.even","tr:nth-child(even)","tr:second","table tr:even"],ans:1,exp:"tr:nth-child(even) يستهدف الصفوف ذات الأرقام الزوجية (2، 4، 6...)."},
+    {q:"ما الفرق بين padding على td وborder-spacing على table؟",opts:["لا فرق","padding مساحة داخل الخلية، border-spacing مسافة بين الخلايا","padding للعرض فقط","border-spacing أحدث"],ans:1,exp:"padding: مساحة داخل الخلية. border-spacing: مسافة بين الخلايا (مع border-collapse: separate)."}
+  ]
+},
+
+/* 19 — FIXED */ {
+  id:19, title:"Width & Height", tag:"Box Model",
+  desc:"التحكم في أبعاد العناصر بوحدات مختلفة وحدود قصوى ودنيا.",
+  theory:`<code>width/height</code>: px, %, vw, vh. <code>min-width</code>: الحد الأدنى للعرض. <code>max-width</code>: الحد الأقصى للعرض. <code>min-height</code>: الحد الأدنى للارتفاع. <code>max-height</code>: الحد الأقصى للارتفاع. <code>box-sizing: border-box</code>: الـ width يشمل padding وborder.`,
+  code:`<span class="hl-sel">.box</span> {\n  <span class="hl-prop">width</span>: <span class="hl-val">60%</span>;\n  <span class="hl-prop">min-width</span>: <span class="hl-val">200px</span>;\n  <span class="hl-prop">max-width</span>: <span class="hl-val">500px</span>;\n  <span class="hl-prop">min-height</span>: <span class="hl-val">100px</span>;\n  <span class="hl-prop">max-height</span>: <span class="hl-val">300px</span>;\n  <span class="hl-prop">box-sizing</span>: <span class="hl-val">border-box</span>;\n}`,
+  playground:{
+    label:"جرّب: الأبعاد وحدودها الدنيا والقصوى",
+    controls:[
+      {name:"width",      type:"range",min:50,  max:380,default:200,unit:"px",css:"_w",  target:"wh-demo"},
+      {name:"height",     type:"range",min:40,  max:220,default:100,unit:"px",css:"_h",  target:"wh-demo"},
+      {name:"min-width",  type:"range",min:0,   max:200,default:0,  unit:"px",css:"_mnw",target:"wh-demo"},
+      {name:"max-width",  type:"range",min:100, max:380,default:380,unit:"px",css:"_mxw",target:"wh-demo"},
+      {name:"min-height", type:"range",min:0,   max:150,default:0,  unit:"px",css:"_mnh",target:"wh-demo"},
+      {name:"max-height", type:"range",min:50,  max:250,default:250,unit:"px",css:"_mxh",target:"wh-demo"},
+      {name:"padding",    type:"range",min:0,   max:40, default:12, unit:"px",css:"_p",  target:"wh-demo"},
+      {name:"box-sizing", type:"select",options:["content-box","border-box"],default:"border-box",css:"_bs",target:"wh-demo"},
+    ],
+    html:`<div style="display:flex;align-items:flex-start;justify-content:center;padding:20px;flex-direction:column;gap:10px;align-items:center">
+      <div id="wh-demo" style="width:200px;height:100px;background:#bfdbfe;padding:12px;box-sizing:border-box;border-radius:8px;
+        display:flex;align-items:center;justify-content:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:13px;text-align:center;
+        border:2px dashed #93c5fd;transition:all 0.25s ease;max-width:380px;min-height:0px;max-height:250px;overflow:hidden;">
+        📦 العنصر
+      </div>
+      <div id="wh-info" style="width:100%;max-width:420px;font-family:monospace;font-size:11px;color:#1e293b;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 14px;line-height:2.2">—</div>
+    </div>`,
+    customUpdate: function(vals, el){
+      const w   = parseInt(vals['_w'])   || 200;
+      const h   = parseInt(vals['_h'])   || 100;
+      const mnw = parseInt(vals['_mnw']) || 0;
+      const mxw = parseInt(vals['_mxw']) || 380;
+      const mnh = parseInt(vals['_mnh']) || 0;
+      const mxh = parseInt(vals['_mxh']) || 250;
+      const p   = parseInt(vals['_p'])   || 12;
+      const bs  = vals['_bs'] || 'border-box';
+
+      el.style.width     = w   + 'px';
+      el.style.height    = h   + 'px';
+      el.style.minWidth  = mnw + 'px';
+      el.style.maxWidth  = mxw + 'px';
+      el.style.minHeight = mnh + 'px';
+      el.style.maxHeight = mxh + 'px';
+      el.style.padding   = p   + 'px';
+      el.style.boxSizing = bs;
+
+      // Compute what the browser actually renders
+      const actualW = Math.max(mnw, Math.min(mxw, w));
+      const actualH = Math.max(mnh, Math.min(mxh, h));
+      const contentW = bs === 'border-box' ? Math.max(0, actualW - p*2) : actualW;
+      const contentH = bs === 'border-box' ? Math.max(0, actualH - p*2) : actualH;
+
+      // Color the constraint that's "active"
+      const wActive  = w < mnw ? '🔴 min-width يطغى' : w > mxw ? '🔴 max-width يطغى' : '🟢 width مقبول';
+      const hActive  = h < mnh ? '🔴 min-height يطغى' : h > mxh ? '🔴 max-height يطغى' : '🟢 height مقبول';
+
+      const info = document.getElementById('wh-info');
+      if(info){
+        info.innerHTML =
+          `<b>العرض:</b>  width: ${w}px  |  min-width: ${mnw}px  |  max-width: ${mxw}px  →  <b>${actualW}px</b>  ${wActive}<br>` +
+          `<b>الارتفاع:</b> height: ${h}px  |  min-height: ${mnh}px  |  max-height: ${mxh}px  →  <b>${actualH}px</b>  ${hActive}<br>` +
+          `<b>box-sizing: ${bs}</b>  |  padding: ${p}px  →  محتوى فعلي: <b>${contentW}px × ${contentH}px</b>`;
+      }
+    }
+  },
+  mcq:[
+    {q:"ما معنى height: 100vh؟",opts:["100 بكسل","100% من الصفحة كلها","100% من ارتفاع نافذة المتصفح","100 سطر نص"],ans:2,exp:"vh = viewport height. 100vh = ارتفاع نافذة المتصفح كاملاً."},
+    {q:"الفرق بين content-box وborder-box؟",opts:["لا فرق","content-box: width للمحتوى فقط. border-box: width يشمل padding وborder","border-box أحدث","content-box أسرع"],ans:1,exp:"border-box الأفضل — width = محتوى + padding + border. يجعل حساب الأبعاد أبسط."},
+    {q:"لعنصر بـ width:300px وpadding:20px وbox-sizing:border-box — عرض المحتوى؟",opts:["300px","340px","260px","280px"],ans:2,exp:"300 - 20(يمين) - 20(يسار) = 260px للمحتوى."}
+  ]
+},
+
+/* 20 */ {
+  id:20, title:"Responsive Design", tag:"Responsive",
+  desc:"تكييف الموقع مع جميع أحجام الشاشات باستخدام Media Queries.",
+  theory:`<code>@media (max-width: 768px) { ... }</code>. نهج Mobile-First يستخدم <code>min-width</code>. نقاط التوقف الشائعة: 480px (موبايل)، 768px (تابلت)، 1024px (ديسكتوب). الوحدات المرنة: %, vw, rem.`,
+  code:`<span class="hl-sel">.grid</span> { <span class="hl-prop">grid-template-columns</span>: <span class="hl-val">repeat(3,1fr)</span>; }\n\n<span class="hl-sel">@media (max-width: 768px)</span> {\n  <span class="hl-sel">.grid</span> { <span class="hl-prop">grid-template-columns</span>: <span class="hl-val">1fr</span>; }\n}`,
+  playground:{
+    label:"جرّب: حاكي الشاشات المختلفة",
+    controls:[
+      {name:"حجم الشاشة",type:"select",options:["320px — موبايل صغير","480px — موبايل كبير","768px — تابلت","1024px — ديسكتوب"],default:"768px — تابلت",css:"_vw",target:"resp-viewport"},
+      {name:"columns (desktop)",type:"select",options:["1fr","1fr 1fr","repeat(3,1fr)","repeat(4,1fr)"],default:"repeat(3,1fr)",css:"_dc",target:"resp-viewport"},
+      {name:"font-size",type:"range",min:11,max:20,default:14,unit:"px",css:"_fs",target:"resp-viewport"},
+      {name:"gap",type:"range",min:4,max:24,default:10,unit:"px",css:"_gap",target:"resp-viewport"},
+      {name:"card color",type:"color",default:"#dbeafe",css:"_bg",target:"resp-viewport"},
+    ],
+    html:`<div style="width:100%;overflow:hidden;display:flex;flex-direction:column;align-items:center;gap:8px">
+      <!-- Device frame wrapper: fixed size, scales down the inner content -->
+      <div id="resp-scale-wrap"
+           style="position:relative;width:100%;height:260px;display:flex;align-items:center;justify-content:center;overflow:hidden;">
+        <!-- The simulated viewport frame -->
+        <div id="resp-viewport"
+             style="position:absolute;transform-origin:top center;
+               width:768px;background:#fff;border-radius:10px;
+               border:3px solid #334155;box-shadow:0 8px 32px rgba(0,0,0,.18);
+               overflow:hidden;transition:width .3s ease;">
+          <!-- Browser chrome bar -->
+          <div style="background:#334155;padding:6px 10px;display:flex;align-items:center;gap:6px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:#ff5f57"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#febc2e"></div>
+            <div style="width:8px;height:8px;border-radius:50%;background:#28c840"></div>
+            <div id="resp-urlbar" style="flex:1;background:#1e293b;border-radius:4px;height:18px;margin:0 8px;
+              display:flex;align-items:center;padding:0 8px;font-family:monospace;font-size:9px;color:#94a3b8;">
+              example.com — 768px
+            </div>
+          </div>
+          <!-- Page content -->
+          <div style="padding:10px;">
+            <div id="resp-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+              <div class="resp-card" style="background:#dbeafe;border-radius:6px;padding:10px;text-align:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;font-weight:600">الرئيسية</div>
+              <div class="resp-card" style="background:#dbeafe;border-radius:6px;padding:10px;text-align:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;font-weight:600">من نحن</div>
+              <div class="resp-card" style="background:#dbeafe;border-radius:6px;padding:10px;text-align:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;font-weight:600">خدماتنا</div>
+              <div class="resp-card" style="background:#dbeafe;border-radius:6px;padding:10px;text-align:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;font-weight:600">المدونة</div>
+              <div class="resp-card" style="background:#dbeafe;border-radius:6px;padding:10px;text-align:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;font-weight:600">الأسعار</div>
+              <div class="resp-card" style="background:#dbeafe;border-radius:6px;padding:10px;text-align:center;color:#1e40af;font-family:Tajawal,sans-serif;font-size:14px;font-weight:600">اتصل بنا</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Info bar -->
+      <div id="resp-info"
+           style="width:100%;font-family:monospace;font-size:11px;color:#1e293b;
+             background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;
+             padding:8px 14px;line-height:2;text-align:center;"></div>
+    </div>`,
+    customUpdate: function(vals, el){
+      const vwStr = vals['_vw'] || '768px — تابلت';
+      const dc    = vals['_dc'] || 'repeat(3,1fr)';
+      const fs    = parseInt(vals['_fs'])  || 14;
+      const gap   = parseInt(vals['_gap']) || 10;
+      const bg    = vals['_bg'] || '#dbeafe';
+
+      const vw = parseInt(vwStr); // e.g. 320, 480, 768, 1024
+
+      const viewport  = document.getElementById('resp-viewport');
+      const scaleWrap = document.getElementById('resp-scale-wrap');
+      const grid      = document.getElementById('resp-grid');
+      const urlbar    = document.getElementById('resp-urlbar');
+      const info      = document.getElementById('resp-info');
+
+      if(!viewport || !grid) return;
+
+      // Set the simulated width
+      viewport.style.width = vw + 'px';
+
+      // Scale to fit inside the preview area (always ~440px wide available)
+      const availW = scaleWrap ? (scaleWrap.offsetWidth || 440) : 440;
+      const scale  = Math.min(1, availW / vw);
+      viewport.style.transform = `scale(${scale})`;
+      viewport.style.transformOrigin = 'top center';
+
+      // Adjust wrapper height so it doesn't collapse
+      const contentH = 200; // approx content height
+      if(scaleWrap) scaleWrap.style.height = (contentH * scale + 20) + 'px';
+
+      // Responsive column logic — mimics @media breakpoints
+      let cols, breakpointLabel;
+      if(vw <= 480){
+        cols = '1fr';
+        breakpointLabel = '@media (max-width: 480px) → عمود واحد';
+      } else if(vw <= 768){
+        cols = '1fr 1fr';
+        breakpointLabel = '@media (max-width: 768px) → عمودان';
+      } else {
+        cols = dc;
+        breakpointLabel = `@media (min-width: 1024px) → ${dc}`;
+      }
+
+      grid.style.gridTemplateColumns = cols;
+      grid.style.gap = gap + 'px';
+      grid.querySelectorAll('.resp-card').forEach(c => {
+        c.style.fontSize = fs + 'px';
+        c.style.backgroundColor = bg;
+        c.style.color = '#1e40af';
+      });
+
+      if(urlbar) urlbar.textContent = `example.com — ${vw}px`;
+
+      const deviceIcon = vw <= 480 ? '📱' : vw <= 768 ? '📱' : '🖥️';
+      const deviceName = vw <= 480 ? 'موبايل صغير' : vw <= 768 ? 'تابلت / موبايل كبير' : 'ديسكتوب';
+      if(info) info.innerHTML =
+        `${deviceIcon} <b>${vw}px</b> — ${deviceName} &nbsp;|&nbsp; <b style="color:#0284c7">${breakpointLabel}</b>`;
+    }
+  },
+  mcq:[
+    {q:"الـ at-rule المستخدم لـ Responsive Design؟",opts:["@responsive","@screen","@breakpoint","@media"],ans:3,exp:"@media تُطبق أنماطاً مشروطة بحجم الشاشة أو خصائص أخرى."},
+    {q:"الفرق بين Mobile-First وDesktop-First؟",opts:["لا فرق","Mobile-First يبدأ بالموبايل ويستخدم min-width، Desktop-First يبدأ بالديسكتوب ويستخدم max-width","Desktop-First أفضل دائماً","Mobile-First أقدم"],ans:1,exp:"Mobile-First: تصميم أساسي للموبايل ثم تعديل للشاشات الأكبر بـ min-width — هو النهج الأفضل حالياً."},
+    {q:"ما الـ meta tag المطلوب للـ Responsive Design؟",opts:["<meta name='screen' content='fluid'>","<meta name='viewport' content='width=device-width, initial-scale=1'>","<meta responsive='true'>","<meta name='mobile' content='yes'>"],ans:1,exp:"هذا الـ meta tag يخبر المتصفح بعرض الصفحة بحجم الجهاز الحقيقي بدلاً من 980px الافتراضي."}
+  ]
+}
+
+];
+
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let cur=0, xp=0, mcqState={}, topicDone={};
+
+// Arabic numerals map
+const arNums = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
+function toAr(n){ return String(n).split('').map(d=>arNums[+d]||d).join(''); }
+
+function buildSidebar(){
+  document.getElementById('sidebar').innerHTML = TOPICS.map((t,i)=>`
+    <button class="side-btn ${i===cur?'active':''} ${topicDone[t.id]?'done':''}" onclick="goTo(${i})">
+      <span class="sn">${t.id}</span>
+      <span style="flex:1;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.title}</span>
+      <span class="side-ck">✓</span>
+    </button>`).join('');
+}
+
+function buildPlayground(t, idx){
+  const pg=t.playground; if(!pg) return '';
+  const controls=pg.controls.map((c,ci)=>{
+    let inp='';
+    if(c.type==='select') inp=`<select id="ctrl-${idx}-${ci}" onchange="updatePG(${idx})">${c.options.map(o=>`<option value="${o}"${o===c.default?' selected':''}>${o}</option>`).join('')}</select>`;
+    else if(c.type==='color') inp=`<input type="color" id="ctrl-${idx}-${ci}" value="${c.default}" oninput="updatePG(${idx})">`;
+    else if(c.type==='range') inp=`<div class="range-row"><input type="range" id="ctrl-${idx}-${ci}" min="${c.min}" max="${c.max}" step="${c.step||1}" value="${c.default}" oninput="updatePG(${idx});document.getElementById('rv-${idx}-${ci}').textContent=this.value+'${c.unit}'"><span class="range-v" id="rv-${idx}-${ci}">${c.default}${c.unit}</span></div>`;
+    else inp=`<input type="text" id="ctrl-${idx}-${ci}" value="${c.default}" oninput="updatePG(${idx})">`;
+    return `<div class="ctrl-row"><span class="ctrl-name">${c.name}</span><div class="ctrl-inp">${inp}</div></div>`;
+  }).join('');
+  return `<div class="pg-wrap">
+    <div class="pg-header">
+      <div class="pg-dots"><div class="pg-dot" style="background:#ff5f57"></div><div class="pg-dot" style="background:#febc2e"></div><div class="pg-dot" style="background:#28c840"></div></div>
+      <span class="pg-header-title">⚡ ${pg.label}</span>
+      <button class="reset-pg" onclick="resetPG(${idx})">↺ إعادة تعيين</button>
+    </div>
+    <div class="pg-body">
+      <div class="pg-controls">${controls}</div>
+      <div class="pg-output">
+        <div class="pg-preview"><div class="pg-preview-inner" id="pg-preview-${idx}">${pg.html}</div></div>
+        <div class="pg-css">
+          <div class="pg-css-hd"><span class="pg-css-lbl">⟨/⟩ CSS المُولَّد</span><button class="copy-btn" id="copy-btn-${idx}" onclick="copyPG(${idx})">نسخ</button></div>
+          <pre class="pg-code" id="pg-code-${idx}"></pre>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function getVals(idx){
+  const vals={};
+  TOPICS[idx].playground.controls.forEach((c,ci)=>{
+    const el=document.getElementById(`ctrl-${idx}-${ci}`);
+    if(el) vals[c.css]=el.value;
+  });
+  return vals;
+}
+
+function updatePG(idx){
+  const t=TOPICS[idx], pg=t.playground, vals=getVals(idx);
+  // Always get the primary target element
+  const primaryTarget = pg.controls[0] ? document.getElementById(pg.controls[0].target) : null;
+  if(pg.customUpdate){
+    pg.customUpdate(vals, primaryTarget);
+    generateCSS(idx,vals);
+    return;
+  }
+  pg.controls.forEach((c,ci)=>{
+    if(c.css.startsWith('_')) return;
+    const targetEl=document.getElementById(c.target); if(!targetEl) return;
+    const val=document.getElementById(`ctrl-${idx}-${ci}`)?.value; if(val===undefined) return;
+    const prop=c.css.replace(/-([a-z])/g,g=>g[1].toUpperCase());
+    targetEl.style[prop]=c.divide?val/c.divide:(c.unit&&!['select','color'].includes(c.type)?val+c.unit:val);
+  });
+  generateCSS(idx,vals);
+}
+
+function generateCSS(idx,vals){
+  const pg=TOPICS[idx].playground, targets={};
+  pg.controls.forEach((c,ci)=>{
+    if(c.css.startsWith('_')) return;
+    const el=document.getElementById(`ctrl-${idx}-${ci}`); if(!el) return;
+    const unit=(c.type==='range'&&c.unit&&c.unit!=='×0.1s'&&c.unit!=='%')?c.unit:'';
+    const display=c.divide?(el.value/c.divide).toFixed(2):el.value+(unit||'');
+    if(!targets[c.target]) targets[c.target]=[];
+    targets[c.target].push(`  ${c.css}: ${display};`);
+  });
+  let out='';
+  for(const [tgt,props] of Object.entries(targets)) out+=`.${tgt} {\n${props.join('\n')}\n}\n`;
+  const codeEl=document.getElementById(`pg-code-${idx}`);
+  if(codeEl) codeEl.textContent=out||'/* عدّل القيم لترى الكود */';
+}
+
+function resetPG(idx){
+  TOPICS[idx].playground.controls.forEach((c,ci)=>{
+    const el=document.getElementById(`ctrl-${idx}-${ci}`); if(el) el.value=c.default;
+    const rv=document.getElementById(`rv-${idx}-${ci}`); if(rv) rv.textContent=c.default+(c.unit||'');
+  });
+  updatePG(idx);
+}
+
+function copyPG(idx){
+  const code=document.getElementById(`pg-code-${idx}`)?.textContent; if(!code) return;
+  navigator.clipboard.writeText(code).then(()=>{
+    const btn=document.getElementById(`copy-btn-${idx}`);
+    btn.textContent='✓ تم';btn.classList.add('ok');
+    setTimeout(()=>{btn.textContent='نسخ';btn.classList.remove('ok');},2000);
+  });
+}
+
+function buildMCQ(t,idx){
+  const letters=['A','B','C','D'];
+  return t.mcq.map((q,qi)=>{
+    const key=`${t.id}_${qi}`, answered=mcqState[key];
+    const opts=q.opts.map((o,oi)=>{
+      let cls='';
+      if(answered!==undefined){ if(oi===q.ans) cls='correct'; else if(oi===answered) cls='wrong'; }
+      return `<button class="opt ${cls}" ${answered!==undefined?'disabled':''} onclick="answerQ('${t.id}',${qi},${oi},${idx})"><span class="ol">${letters[oi]}</span> ${o}</button>`;
+    }).join('');
+    const ok=answered===q.ans;
+    const diffCls=['e','m','h'][qi]||'m', diffTxt=['سهل','متوسط','صعب'][qi]||'متوسط';
+    return `<div class="mcq-card">
+      <div class="qmeta"><span class="qn">س${qi+1}</span><span class="qdiff ${diffCls}">${diffTxt}</span></div>
+      <div class="qtext">${q.q}</div>
+      <div class="opts">${opts}</div>
+      ${answered!==undefined?`<div class="qfb show ${ok?'ok':'err'}">${ok?'✅':'❌'} ${q.exp}</div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function answerQ(tid,qi,chosen,idx){
+  const key=`${tid}_${qi}`; if(mcqState[key]!==undefined) return;
+  const t=TOPICS.find(t=>t.id==tid);
+  mcqState[key]=chosen;
+  if(chosen===t.mcq[qi].ans){xp+=10;updateXP();}
+  const wrap=document.getElementById(`mcq-wrap-${tid}`);
+  if(wrap) wrap.innerHTML=buildMCQ(t,idx);
+  checkDone(tid,idx);
+}
+
+function checkDone(tid,idx){
+  const t=TOPICS.find(t=>t.id==tid);
+  if(t.mcq.every((_,qi)=>mcqState[`${tid}_${qi}`]!==undefined)&&!topicDone[tid]){
+    topicDone[tid]=true; xp+=20; updateXP(); buildSidebar();
+    const b=document.getElementById(`done-${tid}`); if(b) b.classList.add('show');
+  }
+}
+
+// ─── URL hash helpers ──────────────────────────────────────────────
+function updateHash(idx){
+  const lessonNum = TOPICS[idx].id;
+  // Update URL hash without triggering a scroll
+  history.replaceState(null, '', `#lesson-${lessonNum}`);
+  // Update nav badge
+  const badge = document.getElementById('navLessonNum');
+  if(badge) badge.textContent = `درس ${toAr(lessonNum)}`;
+}
+
+function readHashIndex(){
+  const hash = location.hash; // e.g. #lesson-7
+  const m = hash.match(/#lesson-(\d+)/);
+  if(m){
+    const id = parseInt(m[1]);
+    const idx = TOPICS.findIndex(t => t.id === id);
+    if(idx >= 0) return idx;
+  }
+  return 0;
+}
+
+// ─── render ───────────────────────────────────────────────────────
+function render(){
+  const t=TOPICS[cur], pg=buildPlayground(t,cur), mcq=buildMCQ(t,cur);
+  const nextIdx=cur<TOPICS.length-1?cur+1:null;
+  const lessonNum = t.id;
+  const urlDisplay = `lesson-${lessonNum}`;
+
+  document.getElementById('content').innerHTML=`
+    <!-- URL display bar -->
+    <div class="url-bar">
+      <div class="url-bar-dot"></div>
+      <span class="url-bar-text">css-course.html<strong>#${urlDisplay}</strong></span>
+      <span class="url-bar-num">درس ${toAr(lessonNum)} / ${toAr(TOPICS.length)}</span>
+    </div>
+
+    <div class="topic-hd">
+      <div class="lesson-num-hero">${lessonNum < 10 ? '0'+lessonNum : lessonNum}</div>
+      <div class="topic-badge">${t.id<10?'0'+t.id:t.id} · ${t.tag}</div>
+      <h1 class="topic-h">${t.title}</h1>
+      <p class="topic-sub">${t.desc}</p>
+    </div>
+    <div class="theory">
+      <div class="theory-lbl">📚 الشرح النظري</div>
+      <p>${t.theory}</p>
+      <div class="code-block">${t.code}</div>
+    </div>
+    ${pg}
+    <div class="section-hd">✏️ اختبر فهمك</div>
+    <div id="mcq-wrap-${t.id}">${mcq}</div>
+    <div class="done-banner ${topicDone[t.id]?'show':''}" id="done-${t.id}">
+      <h3>🎉 أتممت الدرس!</h3>
+      <p>حللت جميع الأسئلة — أحسنت!</p>
+      ${nextIdx!==null?`<button class="next-btn" onclick="goTo(${nextIdx})">التالي: ${TOPICS[nextIdx].title} →</button>`:`<button class="next-btn" style="background:linear-gradient(135deg,#f59e0b,#ea580c)">🏆 أنهيت الكورس!</button>`}
+    </div>`;
+
+  updateHash(cur);
+  setTimeout(()=>updatePG(cur), 120);
+}
+
+function goTo(idx){
+  cur=idx;
+  buildSidebar();
+  render();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function updateXP(){
+  const max=TOPICS.length*50,pct=Math.min(100,Math.round(xp/max*100));
+  document.getElementById('xpBar').style.width=pct+'%';
+  document.getElementById('xpLabel').textContent=xp+' XP';
+}
+
+// Handle browser back/forward
+window.addEventListener('popstate', ()=>{
+  const idx = readHashIndex();
+  if(idx !== cur){ cur = idx; buildSidebar(); render(); }
+});
+
+// ─── Init ─────────────────────────────────────────────────────────
+cur = readHashIndex();
+buildSidebar();
+render();
+</script>
+</body>
+</html>
