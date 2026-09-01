@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Password Checker</title>
+
+    <style>
+        body {
+            font-family: Arial;
+            background: #f2f2f2;
+            text-align: center;
+            padding: 80px;
+        }
+
+        .box {
+            background: white;
+            width: 350px;
+            margin: auto;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        input {
+            width: 90%;
+            padding: 12px;
+            margin: 15px 0;
+        }
+
+        button {
+            padding: 10px 25px;
+            cursor: pointer;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h1>🔐 Password Checker</h1>
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+        >
+
+        <br>
+
+        <button onclick="checkPassword()">
+            Check Password
+        </button>
+
+        <p id="result"></p>
+
+    </div>
+
+    <script>
+
+        function checkPassword() {
+
+            let password = document.getElementById("password").value;
+            let result = document.getElementById("result");
+
+            let hasNumber = false;
+            let hasLetter = false;
+
+            for (let i = 0; i < password.length; i++) {
+
+                if (password[i] >= "0" && password[i] <= "9") {
+                    hasNumber = true;
+                }
+
+                if (
+                    (password[i] >= "a" && password[i] <= "z") ||
+                    (password[i] >= "A" && password[i] <= "Z")    ) 
+                    {
+                    hasLetter = true; }
+            }
+
+
+
+            if (!hasNumber || !hasLetter) {
+
+                result.innerHTML =
+                    "❌ Password must contain letters and numbers";
+
+            }
+
+           else if (password.length < 6) {
+
+                result.innerHTML = "🔴 Weak Password";
+
+            }
+          
+            else if (password.length < 10) {
+
+                result.innerHTML = "🟠 Medium Password";
+
+            }
+            else {
+
+                result.innerHTML = "🟢 Strong Password";
+
+            }
+        }
+
+    </script>
+
+</body>
+</html>
