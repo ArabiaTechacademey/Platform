@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArabiaTech Input Function</title>
+    <link rel="stylesheet" href="css_file.css">
+    <link rel="stylesheet" href="background.css">
+      <link rel="icon" type="image/png" href="../image/icon1.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/0.11.1/skulpt.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/skulpt/0.11.1/skulpt-stdlib.js"></script>
+   <script src="java_file.js"></script>
+</head>
+<body>
+
+
+    <div class="container">
+        <div class="editor-section">
+            
+            <button class="run-button" onclick="runCode()">
+                <span style="font-size: 15px;">▶</span>
+            </button>
+            <textarea class="code-editor" id="codeEditor" ></textarea>
+            
+            
+
+            <div class="examples">
+                <h3>📚 أمثلة للتجربة:</h3>
+                <div class="example-code" onclick="loadExample('name = input(\'What is your name?\')\\nprint(\'Hello\', name)')">
+                    name = input('What is your name?')<br>print('Hello', name)
+                </div>
+                <div class="example-code" onclick="loadExample('age = int(input(\'How old are you?\'))\\nprint(\'You are\', age, \'years old\')\\nprint(\'Next year you will be\', age + 1)')">
+                    age = int(input('How old are you?'))<br>print('You are', age, 'years old')<br>print('Next year:', age + 1)
+                </div>
+                <div class="example-code" onclick="loadExample('num1 = input(\'Enter first number: \')\\nnum2 = input(\'Enter second number: \')\\nresult = num1 + num2\\nprint(\'Sum is:\', result)')">
+                    num1 = input('Enter first number: ')<br>num2 = input('Enter second number: ')<br>result = num1 + num2<br>print('Sum is:', result)
+                </div>
+                <div class="example-code" onclick="loadExample('price = float(input(\'Enter price: \'))\\ntax = price * 0.1\\ntotal = price + tax\\nprint(\'Price:\', price)\\nprint(\'Tax:\', tax)\\nprint(\'Total:\', total)')">
+                    price = float(input('Enter price: '))<br>tax = price * 0.1<br>total = price + tax<br>print('Total:', total)
+                </div>
+            </div>
+        </div>
+ <div class="memory-section">
+            <div class="memory-header">
+                <span class="memory-title">الذاكرة</span>
+                <img src="image/1.gif" alt="" width="50%">
+                
+            </div>
+            
+            <div class="memory-container" id="memoryContainer">
+                <div class="welcome-message">
+                    المتغيرات ستظهر هنا...
+                </div>
+            </div>
+        </div>
+
+        <div class="computer-section">
+            <div class="computer-container">
+                <svg class="computer-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Computer Base -->
+                    <rect x="50" y="200" width="300" height="80" rx="10" fill="#2c3e50"/>
+                    <rect x="60" y="210" width="280" height="60" rx="5" fill="#34495e"/>
+                    
+                    <!-- Computer Screen -->
+                    <rect x="80" y="50" width="240" height="160" rx="15" fill="#1a1a1a"/>
+                    <rect x="90" y="60" width="220" height="140" rx="8" fill="#000"/>
+                    
+                    <!-- Screen Bezel -->
+                    <rect x="85" y="55" width="230" height="150" rx="12" fill="none" stroke="#333" stroke-width="2"/>
+                    
+                    <!-- Power Button -->
+                    <circle cx="200" cy="235" r="8" fill="#e74c3c"/>
+                    <circle cx="200" cy="235" r="5" fill="#c0392b"/>
+                    
+                    <!-- LED Indicators -->
+                    <circle cx="180" cy="235" r="3" fill="#27ae60" opacity="0.8"/>
+                    <circle cx="220" cy="235" r="3" fill="#3498db" opacity="0.6"/>
+                    
+                    <!-- Keyboard suggestion -->
+                    <rect x="100" y="250" width="200" height="20" rx="3" fill="#7f8c8d"/>
+                    
+                    <!-- Brand Logo -->
+                    <text x="200" y="225" text-anchor="middle" fill="#95a5a6" font-size="8" font-family="Arial">PyKids</text>
+                </svg>
+                
+                <div class="screen-output" id="output">
+                    <div class="welcome-message">
+                        مرحباً بك! اكتب كودك وشاهد النتيجة هنا...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+    </div>
+
+</body>
+</html>
