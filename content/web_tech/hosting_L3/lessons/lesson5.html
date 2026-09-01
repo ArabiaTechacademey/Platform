@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Country Flags</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    transition:0.5s;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+select{
+    padding:10px;
+    font-size:18px;
+    margin-top:20px;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Select a Country</h1>
+
+<select id="country">
+    <option value="">Choose Country</option>
+    <option value="egypt">Egypt</option>
+    <option value="germany">Germany</option>
+    <option value="france">France</option>
+    <option value="italy">Italy</option>
+    <option value="russia">Russia</option>
+</select>
+
+<script>
+
+const country = document.getElementById("country");
+
+
+function changeflag(){
+
+    switch(country.value){
+
+        case "egypt":
+            document.body.style.background =
+            "linear-gradient(to bottom, red 33%, white 33%, white 66%, black 66%)";
+            break;
+
+        case "germany":
+            document.body.style.background =
+            "linear-gradient(to bottom, black 33%, red 33%, red 66%, gold 66%)";
+            break;
+
+        case "france":
+            document.body.style.background =
+            "linear-gradient(to right, blue 33%, white 33%, white 66%, red 66%)";
+            break;
+
+        case "italy":
+            document.body.style.background =
+            "linear-gradient(to right, green 33%, white 33%, white 66%, red 66%)";
+            break;
+
+        case "russia":
+            document.body.style.background =
+            "linear-gradient(to bottom, white 33%, blue 33%, blue 66%, red 66%)";
+            break;
+
+        default:
+            document.body.style.background="#ffffff";
+    }
+
+}
+country.addEventListener("change", changeflag);
+</script>
+
+</body>
+</html>
