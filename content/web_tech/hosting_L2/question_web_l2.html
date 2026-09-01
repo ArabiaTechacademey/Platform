@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="html-root">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../image/icon.png">
+<title>اختبار CSS — كورس كامل</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Tajawal:wght@400;500;700;900&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: #f0f4f8;
+  color: #1a202c;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.lang-en {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ─── TOP BAR ─── */
+.topbar {
+  background: #ffffff;
+  color: rgb(44, 44, 44);
+  padding: 0 24px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: sticky; top:0; z-index:200;
+  gap: 16px;
+}
+
+.topbar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-title span {
+  background: rgba(21,101,192,0.12);
+  color: #1565c0;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ─── LANG SWITCH ─── */
+.lang-switch {
+  display: flex;
+  background: #f0f4f8;
+  border: 1px solid #e2e8f0;
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.lang-btn {
+  border: none;
+  background: transparent;
+  font-family: 'Tajawal', 'Poppins', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  color: #718096;
+  transition: all 0.2s;
+}
+
+.lang-btn.active {
+  background: #1565c0;
+  color: white;
+  box-shadow: 0 2px 6px rgba(21,101,192,0.35);
+}
+
+/* ─── LAYOUT ─── */
+.layout {
+  display: flex;
+  flex: 1;
+  gap: 0;
+}
+
+/* ─── SIDEBAR ─── */
+.sidebar {
+  width: 280px;
+  background: white;
+  flex-shrink: 0;
+  position: sticky;
+  top: 100px;
+  height: calc(100vh - 100px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+html[dir="rtl"] .sidebar { border-right: 1px solid #e2e8f0; }
+html[dir="ltr"] .sidebar { border-left: 1px solid #e2e8f0; }
+
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 4px; }
+
+.sidebar-header {
+  background: #1565c0;
+  color: white;
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.sidebar-header h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.sidebar-header p {
+  font-size: 0.78rem;
+  opacity: 0.8;
+}
+
+.topic-list {
+  flex: 1;
+  padding: 8px;
+}
+
+.topic-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-bottom: 2px;
+  border: 1px solid transparent;
+}
+
+.topic-item:hover {
+  background: #f0f7ff;
+  border-color: #bee3f8;
+}
+
+.topic-item.active {
+  background: #ebf4ff;
+  border-color: #1565c0;
+}
+
+.topic-item.done .topic-num-badge {
+  background: #38a169;
+}
+
+.topic-item.done .topic-name {
+  color: #38a169;
+}
+
+.topic-num-badge {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #1565c0;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.topic-item.active .topic-num-badge {
+  background: #1565c0;
+  box-shadow: 0 0 0 3px rgba(21,101,192,0.25);
+}
+
+.topic-info {
+  flex: 1;
+  text-align: start;
+}
+
+.topic-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 2px;
+}
+
+.topic-item.active .topic-name {
+  color: #1565c0;
+}
+
+.topic-count {
+  font-size: 0.72rem;
+  color: #718096;
+}
+
+/* ─── MAIN ─── */
+.main {
+  flex: 1;
+  padding: 28px 32px;
+  max-width: 900px;
+}
+
+/* ─── QUIZ HEADER ─── */
+.quiz-header {
+  background: white;
+  border-radius: 14px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.quiz-header h1 {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #1a202c;
+  margin-bottom: 6px;
+}
+
+.quiz-header p {
+  color: #718096;
+  font-size: 0.9rem;
+}
+
+/* ─── PROGRESS BAR ─── */
+.progress-card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-label {
+  font-size: 0.82rem;
+  color: #718096;
+  white-space: nowrap;
+}
+
+.progress-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1565c0, #42a5f5);
+  border-radius: 99px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+.progress-count {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #2d3748;
+  white-space: nowrap;
+}
+
+/* ─── QUESTION CARD ─── */
+.question-card {
+  background: white;
+  border-radius: 14px;
+  padding: 28px 32px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  margin-bottom: 20px;
+}
+
+.q-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.q-badge {
+  background: #1565c0;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 16px;
+  border-radius: 20px;
+}
+
+.q-diff-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+
+.q-diff-badge.easy { background: #c6f6d5; color: #276749; }
+.q-diff-badge.med  { background: #fefcbf; color: #744210; }
+.q-diff-badge.hard { background: #fed7d7; color: #742a2a; }
+
+.q-text {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1a202c;
+  text-align: start;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.q-text code {
+  font-family: 'IBM Plex Mono', monospace;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  padding: 2px 7px;
+  border-radius: 5px;
+  color: #dd6b20;
+  font-size: 0.85rem;
+  font-weight: 400;
+}
+
+/* ─── OPTIONS ─── */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-btn {
+  background: #f7fafc;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px 20px;
+  text-align: start;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: #2d3748;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-direction: row-reverse;
+}
+
+html[dir="ltr"] .option-btn { flex-direction: row; }
+
+.option-btn:hover:not(:disabled) {
+  border-color: #1565c0;
+  background: #ebf4ff;
+  color: #1565c0;
+}
+
+.option-btn.correct {
+  border-color: #38a169;
+  background: #f0fff4;
+  color: #276749;
+}
+
+.option-btn.wrong {
+  border-color: #e53e3e;
+  background: #fff5f5;
+  color: #742a2a;
+}
+
+.option-btn:disabled { cursor: default; }
+
+.opt-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #cbd5e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #718096;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.option-btn:hover:not(:disabled) .opt-icon {
+  border-color: #1565c0;
+  color: #1565c0;
+}
+
+.option-btn.correct .opt-icon {
+  border-color: #38a169;
+  background: #38a169;
+  color: white;
+}
+
+.option-btn.wrong .opt-icon {
+  border-color: #e53e3e;
+  background: #e53e3e;
+  color: white;
+}
+
+/* ─── FEEDBACK ─── */
+.feedback {
+  margin-top: 14px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  display: none;
+  text-align: start;
+}
+
+.feedback.show { display: block; }
+.feedback.ok  { background: #f0fff4; border: 1px solid #9ae6b4; color: #276749; }
+.feedback.err { background: #fff5f5; border: 1px solid #feb2b2; color: #742a2a; }
+
+/* ─── NAV BUTTONS ─── */
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.nav-btn {
+  background: white;
+  border: 2px solid #e2e8f0;
+  color: #2d3748;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-btn:hover {
+  border-color: #1565c0;
+  color: #1565c0;
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.nav-btn.primary {
+  background: #1565c0;
+  border-color: #1565c0;
+  color: white;
+}
+
+.nav-btn.primary:hover {
+  background: #1251a3;
+  color: white;
+}
+
+.q-counter {
+  font-size: 0.88rem;
+  color: #718096;
+  font-weight: 500;
+}
+
+/* ─── RESULT CARD ─── */
+.result-card {
+  background: white;
+  border-radius: 14px;
+  padding: 40px 32px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  text-align: center;
+  display: none;
+}
+
+.result-card.show { display: block; }
+
+.result-score-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1565c0, #42a5f5);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 24px rgba(21,101,192,0.35);
+}
+
+.result-score-num {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.result-score-label {
+  font-size: 0.72rem;
+  opacity: 0.85;
+}
+
+.result-card h2 {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.result-card p {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.result-stats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-num {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #1565c0;
+}
+
+.stat-lbl {
+  font-size: 0.75rem;
+  color: #718096;
+}
+
+.result-btns {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-retry {
+  background: white;
+  border: 2px solid #1565c0;
+  color: #1565c0;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-retry:hover { background: #ebf4ff; }
+
+.btn-next-topic {
+  background: #1565c0;
+  border: 2px solid #1565c0;
+  color: white;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 12px 28px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-next-topic:hover { background: #1251a3; }
+
+/* ─── DOTS ─── */
+.q-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.q-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.q-dot.answered { background: #48bb78; }
+.q-dot.wrong-dot { background: #fc8181; }
+.q-dot.current { background: #1565c0; transform: scale(1.3); }
+
+@media (max-width: 760px) {
+  .layout { flex-direction: column; }
+  .sidebar { width: 100%; height: auto; position: static; max-height: 220px; }
+  .main { padding: 16px; }
+  .topbar-title span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">
+     <img src="../image/logo.png" alt="" width="15%" ; >
+  </div>
+  <div class="topbar-right">
+    <span id="total-score-display">0 نقطة</span>
+    <div class="lang-switch">
+      <button class="lang-btn" id="btn-lang-ar" onclick="setLang('ar')">AR</button>
+      <button class="lang-btn" id="btn-lang-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <h3 id="sidebar-title">قائمة المواضيع</h3>
+      <p id="sidebar-subtitle">20 موضوعاً تعليمياً</p>
+    </div>
+    <div class="topic-list" id="topic-list"></div>
+  </aside>
+
+  <main class="main">
+    <div class="quiz-header" id="quiz-header">
+      <h1 id="quiz-title">اختبار: المقدمة</h1>
+      <p id="quiz-subtitle">10 أسئلة</p>
+    </div>
+
+    <div class="progress-card">
+      <span class="progress-label" id="progress-label">التقدم في الاختبار</span>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+      <span class="progress-count" id="progress-count">0 / 10</span>
+    </div>
+
+    <div class="q-dots" id="q-dots"></div>
+
+    <div class="question-card" id="question-card">
+      <div class="q-header">
+        <div class="q-badge" id="q-badge">السؤال 1 من 10</div>
+        <div class="q-diff-badge easy" id="q-diff">سهل</div>
+      </div>
+      <div class="q-text" id="q-text"></div>
+      <div class="options" id="options"></div>
+      <div class="feedback" id="feedback"></div>
+    </div>
+
+    <div class="nav-row" id="nav-row">
+      <button class="nav-btn" id="btn-prev" onclick="prevQ()">→ السابق</button>
+      <span class="q-counter" id="q-counter">1 / 10</span>
+      <button class="nav-btn primary" id="btn-next" onclick="nextQ()">التالي ←</button>
+    </div>
+
+    <div class="result-card" id="result-card">
+      <div class="result-score-circle">
+        <div class="result-score-num" id="res-pct">0%</div>
+        <div class="result-score-label" id="res-score-label">نتيجتك</div>
+      </div>
+      <h2 id="res-title">أحسنت!</h2>
+      <p id="res-desc">لقد أتممت الاختبار</p>
+      <div class="result-stats">
+        <div class="stat-item">
+          <div class="stat-num" id="res-correct">0</div>
+          <div class="stat-lbl" id="res-correct-lbl">إجابة صحيحة</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="res-wrong">0</div>
+          <div class="stat-lbl" id="res-wrong-lbl">إجابة خاطئة</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" id="res-pts">0</div>
+          <div class="stat-lbl" id="res-pts-lbl">نقطة مكتسبة</div>
+        </div>
+      </div>
+      <div class="result-btns">
+        <button class="btn-retry" id="btn-retry" onclick="retryTopic()">↺ إعادة المحاولة</button>
+        <button class="btn-next-topic" id="btn-next-topic" onclick="nextTopic()">الموضوع التالي ←</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+//  UI STRINGS
+// ════════════════════════════════════════════
+const UI = {
+  ar: {
+    brand: "منصة الاختبارات التعليمية",
+    score: n => `${n} نقطة`,
+    sidebarTitle: "قائمة المواضيع",
+    sidebarSubtitle: n => `${n} موضوعاً تعليمياً`,
+    topicCount: n => `${n} سؤال`,
+    quizTitle: t => `اختبار: ${t}`,
+    quizSubtitle: n => `${n} أسئلة`,
+    progressLabel: "التقدم في الاختبار",
+    qBadge: (i,n) => `السؤال ${i} من ${n}`,
+    diff: {easy:'سهل', med:'متوسط', hard:'صعب'},
+    prev: "→ السابق",
+    next: "التالي ←",
+    finish: "إنهاء الاختبار ✓",
+    counter: (i,n) => `${i} / ${n}`,
+    resultScoreLabel: "نتيجتك",
+    resultTitle: pct => pct >= 80 ? '🎉 أحسنت!' : pct >= 50 ? '👍 جيد، يمكنك التحسن!' : '📚 راجع الموضوع مرة أخرى',
+    resultDesc: (c,n) => `أجبت على ${c} من ${n} أسئلة بشكل صحيح`,
+    correctLbl: "إجابة صحيحة",
+    wrongLbl: "إجابة خاطئة",
+    ptsLbl: "نقطة مكتسبة",
+    retry: "↺ إعادة المحاولة",
+    nextTopic: t => `الموضوع التالي: ${t} ←`,
+    courseDone: "🏆 أنهيت الكورس!",
+    correctPrefix: "✅ ",
+    wrongPrefix: " ❌ ",
+  },
+  en: {
+    brand: "Learning Quiz Platform",
+    score: n => `${n} pts`,
+    sidebarTitle: "Topics",
+    sidebarSubtitle: n => `${n} lessons`,
+    topicCount: n => `${n} questions`,
+    quizTitle: t => `Quiz: ${t}`,
+    quizSubtitle: n => `${n} questions`,
+    progressLabel: "Quiz progress",
+    qBadge: (i,n) => `Question ${i} of ${n}`,
+    diff: {easy:'Easy', med:'Medium', hard:'Hard'},
+    prev: "← Previous",
+    next: "Next →",
+    finish: "Finish Quiz ✓",
+    counter: (i,n) => `${i} / ${n}`,
+    resultScoreLabel: "Your score",
+    resultTitle: pct => pct >= 80 ? '🎉 Great job!' : pct >= 50 ? '👍 Good, keep improving!' : '📚 Review this topic again',
+    resultDesc: (c,n) => `You answered ${c} out of ${n} questions correctly`,
+    correctLbl: "Correct",
+    wrongLbl: "Wrong",
+    ptsLbl: "Points earned",
+    retry: "↺ Retry",
+    nextTopic: t => `Next topic: ${t} →`,
+    courseDone: "🏆 Course completed!",
+    correctPrefix: "✅ ",
+    wrongPrefix: " ❌ ",
+  }
+};
+
+let currentLang = 'ar';
+
+// ════════════════════════════════════════════
+//  DATA — each q/opts/exp/title has ar & en
+// ════════════════════════════════════════════
+const topics = [
+{
+  id:1, title:{ar:"المقدمة", en:"Introduction"},
+  questions:[
+    {diff:"easy", ans:1,
+      q:{ar:"ما اختصار كلمة CSS؟", en:"What does CSS stand for?"},
+      opts:{ar:["Creative Style Sheets","Cascading Style Sheets","Custom Style Script","Computer Style Sheets"], en:["Creative Style Sheets","Cascading Style Sheets","Custom Style Script","Computer Style Sheets"]},
+      exp:{ar:"CSS تعني Cascading Style Sheets — صحيفات الأنماط المتتالية.", en:"CSS stands for Cascading Style Sheets."}},
+    {diff:"easy", ans:2,
+      q:{ar:"أي طريقة تُعدّ الأفضل لتنظيم الكود؟", en:"Which method is best for organizing your code?"},
+      opts:{ar:["Inline style","داخل &lt;style&gt; في نفس الصفحة","ملف .css خارجي مربوط بـ &lt;link&gt;","داخل JavaScript"], en:["Inline style","Inside a &lt;style&gt; tag on the same page","An external .css file linked with &lt;link&gt;","Inside JavaScript"]},
+      exp:{ar:"الملف الخارجي أفضل لأنه يفصل HTML عن CSS ويسهّل الصيانة.", en:"An external file is best because it separates HTML from CSS and makes maintenance easier."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية الصحيحة لتلوين نص فقرة بالأحمر؟", en:"What is the correct property to color a paragraph's text red?"},
+      opts:{ar:["font-color: red","text-color: red","color: red","style: red"], en:["font-color: red","text-color: red","color: red","style: red"]},
+      exp:{ar:"الخاصية الصحيحة هي color: red", en:"The correct property is color: red"}},
+    {diff:"easy", ans:2,
+      q:{ar:"كيف يُكتب تعليق في CSS؟", en:"How do you write a comment in CSS?"},
+      opts:{ar:["// تعليق","<!-- تعليق -->","/* تعليق */","# تعليق"], en:["// comment","<!-- comment -->","/* comment */","# comment"]},
+      exp:{ar:"تعليقات CSS تُكتب بين /* و */", en:"CSS comments are written between /* and */"}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الطريقة الصحيحة لتحديد عنصر بـ id في CSS؟", en:"What is the correct way to select an element by id in CSS?"},
+      opts:{ar:[".myId",":myId","#myId","id=myId"], en:[".myId",":myId","#myId","id=myId"]},
+      exp:{ar:"الـ # يُستخدم لاستهداف عناصر الـ id.", en:"The # symbol is used to target an element by its id."}},
+    {diff:"easy", ans:0,
+      q:{ar:"ما الطريقة الصحيحة لتحديد عنصر بـ class في CSS؟", en:"What is the correct way to select an element by class in CSS?"},
+      opts:{ar:[".myClass","#myClass",":myClass","*myClass"], en:[".myClass","#myClass",":myClass","*myClass"]},
+      exp:{ar:"النقطة . تُستخدم لاستهداف عناصر الـ class.", en:"The dot . is used to target elements by class."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الخاصية التي تحدد شفافية العنصر كاملاً؟", en:"Which property controls the transparency of an entire element?"},
+      opts:{ar:["transparency","visibility","opacity","alpha"], en:["transparency","visibility","opacity","alpha"]},
+      exp:{ar:"opacity تتحكم في شفافية العنصر من 0 (شفاف) إلى 1 (معتم).", en:"opacity controls an element's transparency from 0 (fully transparent) to 1 (fully opaque)."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما معنى الـ Cascade في CSS؟", en:"What does 'Cascade' mean in CSS?"},
+      opts:{ar:["ترتيب الملفات الخارجية","الأولوية والتتالي في تطبيق الأنماط","سرعة تحميل الصفحة","ترتيب العناصر في HTML"], en:["The order of external files","The priority and order in which styles are applied","Page load speed","The order of elements in HTML"]},
+      exp:{ar:"Cascade تعني تتالي الأنماط — عند تعارض قواعد، تُطبَّق الأكثر خصوصية أو الأحدث.", en:"Cascade means the order styles apply — when rules conflict, the more specific or more recent one wins."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما الـ selector الذي يستهدف جميع عناصر الصفحة؟", en:"Which selector targets every element on the page?"},
+      opts:{ar:["all","*","body","html"], en:["all","*","body","html"]},
+      exp:{ar:"* (النجمة) تستهدف جميع عناصر الصفحة — تُسمى Universal Selector.", en:"The asterisk * targets every element on the page — it's called the Universal Selector."}},
+    {diff:"hard", ans:2,
+      q:{ar:"أي من هذه الأنماط لها أعلى خصوصية (Specificity)؟", en:"Which of these styles has the highest specificity?"},
+      opts:{ar:["p { color: red }",".text { color: red }","#title { color: red }","* { color: red }"], en:["p { color: red }",".text { color: red }","#title { color: red }","* { color: red }"]},
+      exp:{ar:"الـ id له أعلى خصوصية من class من tag. الترتيب: inline > id > class > tag.", en:"An id has higher specificity than a class, which has higher specificity than a tag. Order: inline > id > class > tag."}},
+  ]
+},
+{
+  id:2, title:{ar:"Fonts (1)", en:"Fonts (1)"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية المستخدمة لتغيير نوع الخط؟", en:"Which property is used to change the font type?"},
+      opts:{ar:["text-family","font-type","font-family","font-name"], en:["text-family","font-type","font-family","font-name"]},
+      exp:{ar:"font-family هي الخاصية الصحيحة لتحديد نوع/عائلة الخط.", en:"font-family is the correct property for setting the font type/family."}},
+    {diff:"easy", ans:3,
+      q:{ar:"ما قيمة font-weight للنص الغامق (Bold)؟", en:"What font-weight value makes text bold?"},
+      opts:{ar:["100","400","600","700"], en:["100","400","600","700"]},
+      exp:{ar:"700 تعني bold. 400 هي العادي normal.", en:"700 means bold. 400 is normal weight."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين rem وpx في font-size؟", en:"What is the difference between rem and px in font-size?"},
+      opts:{ar:["لا فرق بينهما","rem نسبي بالنسبة للعنصر الجذر، px ثابت","rem ثابت وpx نسبي","rem أكبر دائماً من px"], en:["No difference","rem is relative to the root element, px is fixed","rem is fixed and px is relative","rem is always larger than px"]},
+      exp:{ar:"rem نسبي لحجم خط الـ root (html)، بينما px ثابت ولا يتأثر.", en:"rem is relative to the root (html) font size, while px is fixed and unaffected by it."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما القيمة التي تجعل الخط مائلاً؟", en:"Which value makes the font italic?"},
+      opts:{ar:["font-weight: italic","font-style: oblique","font-style: italic","text-style: italic"], en:["font-weight: italic","font-style: oblique","font-style: italic","text-style: italic"]},
+      exp:{ar:"font-style: italic تجعل الخط مائلاً.", en:"font-style: italic makes the font italic."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الوحدة النسبية التي تعتمد على حجم خط العنصر الأب؟", en:"Which relative unit depends on the parent element's font size?"},
+      opts:{ar:["rem","vw","em","px"], en:["rem","vw","em","px"]},
+      exp:{ar:"em تعتمد على حجم خط العنصر الأب، بعكس rem التي تعتمد على الجذر.", en:"em depends on the parent's font size, unlike rem which depends on the root."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما خاصية CSS لتحميل خط خارجي مخصص؟", en:"Which CSS at-rule is used to load a custom external font?"},
+      opts:{ar:["@import-font","font-face","@font-face","@custom-font"], en:["@import-font","font-face","@font-face","@custom-font"]},
+      exp:{ar:"@font-face تُستخدم لتحميل وتسجيل خطوط مخصصة.", en:"@font-face is used to load and register custom fonts."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما قيمة font-style للنص العادي غير المائل؟", en:"What font-style value is used for regular, non-italic text?"},
+      opts:{ar:["regular","normal","default","straight"], en:["regular","normal","default","straight"]},
+      exp:{ar:"font-style: normal هي القيمة الافتراضية للنص العادي.", en:"font-style: normal is the default value for regular text."}},
+    {diff:"med", ans:0,
+      q:{ar:"ما الخاصية لجعل النص صغيراً جداً (thin)؟", en:"Which property makes text very thin?"},
+      opts:{ar:["font-weight: 100","font-size: thin","font-weight: light","font-thin: true"], en:["font-weight: 100","font-size: thin","font-weight: light","font-thin: true"]},
+      exp:{ar:"font-weight: 100 هي أدق سماكة متاحة للخط.", en:"font-weight: 100 is the thinnest available font weight."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما خاصية CSS للتحكم في الحروف الصغيرة/الكبيرة (small caps)؟", en:"Which CSS property controls small caps letters?"},
+      opts:{ar:["text-transform: small-caps","font-variant: small-caps","font-style: caps","letter-case: small"], en:["text-transform: small-caps","font-variant: small-caps","font-style: caps","letter-case: small"]},
+      exp:{ar:"font-variant: small-caps تحوّل الحروف الصغيرة إلى نسخة صغيرة من الكبيرة.", en:"font-variant: small-caps converts lowercase letters to a smaller version of capitals."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما وحدة القياس المرتبطة بعرض نافذة المتصفح؟", en:"Which unit is tied to the width of the browser viewport?"},
+      opts:{ar:["em","vh","vw","rem"], en:["em","vh","vw","rem"]},
+      exp:{ar:"vw = viewport width، حيث 1vw = 1% من عرض نافذة المتصفح.", en:"vw = viewport width, where 1vw equals 1% of the browser window's width."}},
+  ]
+},
+{
+  id:3, title:{ar:"Fonts (2) — Text", en:"Fonts (2) — Text"},
+  questions:[
+    {diff:"easy", ans:1,
+      q:{ar:"ما القيمة التي تجعل النص كبيراً كله (UPPERCASE)؟", en:"Which value makes all text UPPERCASE?"},
+      opts:{ar:["text-transform: bold","text-transform: uppercase","font-case: upper","text-style: caps"], en:["text-transform: bold","text-transform: uppercase","font-case: upper","text-style: caps"]},
+      exp:{ar:"text-transform: uppercase تحول كل الحروف لكبيرة.", en:"text-transform: uppercase converts all letters to capitals."}},
+    {diff:"easy", ans:0,
+      q:{ar:"لإزالة تسطير الـ links، نستخدم:", en:"To remove the underline from links, we use:"},
+      opts:{ar:["text-decoration: none","text-underline: remove","link-style: none","decoration: off"], en:["text-decoration: none","text-underline: remove","link-style: none","decoration: off"]},
+      exp:{ar:"text-decoration: none تزيل التسطير وأي تزيين آخر.", en:"text-decoration: none removes the underline and any other decoration."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما القيمة الموصى بها لـ line-height لقراءة مريحة؟", en:"What is the recommended line-height value for comfortable reading?"},
+      opts:{ar:["0.5","1","1.5 إلى 1.8","3"], en:["0.5","1","1.5 to 1.8","3"]},
+      exp:{ar:"قيمة 1.5–1.8 توفر مسافة مريحة بين الأسطر للقراءة.", en:"A value of 1.5–1.8 provides comfortable spacing between lines for reading."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما خاصية CSS لمحاذاة النص؟", en:"Which CSS property aligns text?"},
+      opts:{ar:["text-position","text-align","font-align","align"], en:["text-position","text-align","font-align","align"]},
+      exp:{ar:"text-align تحدد محاذاة النص: right, left, center, justify.", en:"text-align sets text alignment: right, left, center, justify."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما قيمة text-decoration لشطب النص؟", en:"What text-decoration value strikes through text?"},
+      opts:{ar:["text-decoration: strike","text-decoration: line-through","text-decoration: strikethrough","text-decoration: cross"], en:["text-decoration: strike","text-decoration: line-through","text-decoration: strikethrough","text-decoration: cross"]},
+      exp:{ar:"line-through تضع خطاً في منتصف النص (شطب).", en:"line-through draws a line through the middle of the text."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما خاصية التباعد بين الحروف؟", en:"Which property controls spacing between letters?"},
+      opts:{ar:["word-spacing","char-spacing","letter-spacing","font-spacing"], en:["word-spacing","char-spacing","letter-spacing","font-spacing"]},
+      exp:{ar:"letter-spacing تتحكم في المسافة بين كل حرف وآخر.", en:"letter-spacing controls the space between individual characters."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين text-align: justify وtext-align: center؟", en:"What's the difference between text-align: justify and text-align: center?"},
+      opts:{ar:["لا فرق","justify يمدد النص ليملأ السطر، center يوسّطه","center يشبه justify","justify للعربية فقط"], en:["No difference","justify stretches text to fill the line, center centers it","center behaves like justify","justify only works for Arabic"]},
+      exp:{ar:"justify يمدد المسافات بين الكلمات ليملأ السطر. center يوسّط النص.", en:"justify stretches word spacing to fill the line. center simply centers the text."}},
+    {diff:"med", ans:2,
+      q:{ar:"text-transform: capitalize تعني:", en:"text-transform: capitalize means:"},
+      opts:{ar:["كل الحروف كبيرة","كل الحروف صغيرة","أول حرف من كل كلمة كبير","أول حرف من الجملة كبير"], en:["All letters uppercase","All letters lowercase","The first letter of every word is capitalized","Only the first letter of the sentence is capitalized"]},
+      exp:{ar:"capitalize تجعل الحرف الأول من كل كلمة كبيراً.", en:"capitalize makes the first letter of each word uppercase."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما خاصية CSS للمسافة بين الكلمات؟", en:"Which CSS property controls spacing between words?"},
+      opts:{ar:["letter-spacing","word-spacing","text-spacing","font-spacing"], en:["letter-spacing","word-spacing","text-spacing","font-spacing"]},
+      exp:{ar:"word-spacing تتحكم في المسافة بين الكلمات.", en:"word-spacing controls the space between words."}},
+    {diff:"hard", ans:1,
+      q:{ar:"text-indent تُستخدم لـ:", en:"text-indent is used to:"},
+      opts:{ar:["محاذاة النص","مسافة بادئة للسطر الأول","تباعد بين الأسطر","إخفاء النص"], en:["Align text","Indent the first line","Space between lines","Hide text"]},
+      exp:{ar:"text-indent تضيف مسافة بادئة لأول سطر في الفقرة.", en:"text-indent adds an indent to the first line of a paragraph."}},
+  ]
+},
+{
+  id:4, title:{ar:"Background Color", en:"Background Color"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية لتعيين لون خلفية صلب؟", en:"Which property sets a solid background color?"},
+      opts:{ar:["color","bg","background-color","fill"], en:["color","bg","background-color","fill"]},
+      exp:{ar:"background-color هي الخاصية الصحيحة لتعيين لون خلفية.", en:"background-color is the correct property for setting a background color."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الكود الصحيح لتدرج خطي من أحمر لأزرق؟", en:"What is the correct code for a linear gradient from red to blue?"},
+      opts:{ar:["background: gradient(red, blue)","background: linear-gradient(red, blue)","background-gradient: linear(red, blue)","background: line-gradient(red to blue)"], en:["background: gradient(red, blue)","background: linear-gradient(red, blue)","background-gradient: linear(red, blue)","background: line-gradient(red to blue)"]},
+      exp:{ar:"linear-gradient() هي الدالة الصحيحة، وتأتي داخل خاصية background.", en:"linear-gradient() is the correct function, used inside the background property."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما معنى الزاوية 135deg في linear-gradient؟", en:"What does an angle of 135deg mean in linear-gradient?"},
+      opts:{ar:["من أعلى لأسفل","من يسار لأيمن","بزاوية قطرية من أعلى اليسار","من أسفل لأعلى"], en:["Top to bottom","Left to right","Diagonally from the top-left","Bottom to top"]},
+      exp:{ar:"135deg تعني تدرج قطري بزاوية 135 درجة من أعلى اليسار لأسفل اليمين.", en:"135deg means a diagonal gradient running from the top-left toward the bottom-right."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما دالة CSS للتدرج الشعاعي؟", en:"Which CSS function creates a radial gradient?"},
+      opts:{ar:["circle-gradient()","sphere-gradient()","radial-gradient()","round-gradient()"], en:["circle-gradient()","sphere-gradient()","radial-gradient()","round-gradient()"]},
+      exp:{ar:"radial-gradient() تنشئ تدرجاً يبدأ من مركز ويتمدد للخارج.", en:"radial-gradient() creates a gradient that starts from a center point and expands outward."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين linear-gradient وradial-gradient؟", en:"What's the difference between linear-gradient and radial-gradient?"},
+      opts:{ar:["لا فرق","linear خطي، radial شعاعي من المركور للخارج","radial أسرع","linear للألوان فقط"], en:["No difference","linear runs in a straight line, radial expands outward from a center point","radial renders faster","linear only works with colors"]},
+      exp:{ar:"linear-gradient تدرج على خط مستقيم، radial-gradient يبدأ من نقطة مركزية ويتمدد دائرياً.", en:"linear-gradient runs along a straight line; radial-gradient starts from a center point and expands in a circular shape."}},
+    {diff:"med", ans:1,
+      q:{ar:"كيف تضع لون خلفية نصف شفافية؟", en:"How do you set a semi-transparent background color?"},
+      opts:{ar:["background-color: transparent","background-color: rgba(0,0,0,0.5)","background-color: half","background: 50%"], en:["background-color: transparent","background-color: rgba(0,0,0,0.5)","background-color: half","background: 50%"]},
+      exp:{ar:"rgba() تتيح تحديد اللون مع قيمة الشفافية (alpha) من 0 إلى 1.", en:"rgba() lets you set a color plus an alpha (transparency) value from 0 to 1."}},
+    {diff:"easy", ans:2,
+      q:{ar:"background: #ff0000 تعني:", en:"background: #ff0000 means:"},
+      opts:{ar:["لون أخضر","لون أزرق","لون أحمر","لون أصفر"], en:["Green","Blue","Red","Yellow"]},
+      exp:{ar:"#ff0000 هو الكود الهيكسيديسيمال للون الأحمر الكامل.", en:"#ff0000 is the hex code for pure red."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين background وbackground-color؟", en:"What's the difference between background and background-color?"},
+      opts:{ar:["لا فرق","background اختصار يشمل color وimage وغيرها، background-color للون فقط","background-color أحدث","background للصور فقط"], en:["No difference","background is a shorthand including color, image, etc.; background-color only sets the color","background-color is newer","background is only for images"]},
+      exp:{ar:"background خاصية اختصارية تجمع: color, image, size, repeat, position, attachment.", en:"background is a shorthand property combining: color, image, size, repeat, position, attachment."}},
+    {diff:"easy", ans:2,
+      q:{ar:"linear-gradient(to right, red, blue) تعني:", en:"linear-gradient(to right, red, blue) means:"},
+      opts:{ar:["من أعلى لأسفل","من اليمين لليسار","من اليسار لليمين","دائري"], en:["Top to bottom","Right to left","Left to right","Circular"]},
+      exp:{ar:"to right تعني التدرج يبدأ من اليسار وينتهي لليمين.", en:"to right means the gradient starts on the left and ends on the right."}},
+    {diff:"easy", ans:2,
+      q:{ar:"كم لون يمكن استخدامه في linear-gradient؟", en:"How many colors can be used in a linear-gradient?"},
+      opts:{ar:["لونين فقط","3 ألوان كحد أقصى","لا حد — يمكن استخدام ألوان متعددة","لون واحد فقط"], en:["Only two colors","A maximum of 3 colors","No limit — multiple colors can be used","Only one color"]},
+      exp:{ar:"يمكن استخدام أي عدد من الألوان في linear-gradient مفصولة بفواصل.", en:"Any number of colors, separated by commas, can be used in a linear-gradient."}},
+  ]
+},
+{
+  id:5, title:{ar:"DIV & Box Model", en:"DIV & Box Model"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"الـ div هو عنصر من نوع:", en:"The div element is of type:"},
+      opts:{ar:["inline","inline-block","block","flex"], en:["inline","inline-block","block","flex"]},
+      exp:{ar:"div هو block-level element — يأخذ عرض الصفحة كاملاً بشكل افتراضي.", en:"div is a block-level element — it takes up the full width by default."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما الفرق الأساسي بين div وspan؟", en:"What's the basic difference between div and span?"},
+      opts:{ar:["لا فرق","div كتلي (block) وspan سطري (inline)","div للتنسيق وspan للنصوص","span أحدث من div"], en:["No difference","div is block-level, span is inline","div is for layout, span is only for text","span is newer than div"]},
+      exp:{ar:"div = block ياخد سطر كامل، span = inline يجلس بجانب العناصر.", en:"div = block, takes a full line. span = inline, sits alongside other elements."}},
+    {diff:"med", ans:2,
+      q:{ar:"لتوسيط div أفقياً، نستخدم:", en:"To center a div horizontally, we use:"},
+      opts:{ar:["text-align: center","float: center","margin: 0 auto","position: center"], en:["text-align: center","float: center","margin: 0 auto","position: center"]},
+      exp:{ar:"margin: 0 auto يوزع المساحة المتبقية بالتساوي على اليمين واليسار.", en:"margin: 0 auto distributes the remaining space equally on both sides."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما ترتيب Box Model من الداخل للخارج؟", en:"What is the Box Model order from inside out?"},
+      opts:{ar:["content → border → padding → margin","content → margin → padding → border","content → padding → border → margin","border → content → padding → margin"], en:["content → border → padding → margin","content → margin → padding → border","content → padding → border → margin","border → content → padding → margin"]},
+      exp:{ar:"الترتيب الصحيح: content (المحتوى) → padding (الحشو) → border (الحدود) → margin (الهامش).", en:"The correct order: content → padding → border → margin."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما الفرق بين padding وmargin؟", en:"What's the difference between padding and margin?"},
+      opts:{ar:["لا فرق","padding داخل العنصر، margin خارجه","margin داخل العنصر، padding خارجه","padding للنصوص فقط"], en:["No difference","padding is inside the element, margin is outside","margin is inside, padding is outside","padding is only for text"]},
+      exp:{ar:"padding مسافة داخلية بين المحتوى والحد، margin مسافة خارجية بين العنصر وجيرانه.", en:"padding is internal space between the content and border; margin is external space between the element and its neighbors."}},
+    {diff:"hard", ans:0,
+      q:{ar:"margin: 10px 20px 30px 40px — القيم بالترتيب:", en:"margin: 10px 20px 30px 40px — the values in order are:"},
+      opts:{ar:["أعلى يمين أسفل يسار","يمين أعلى يسار أسفل","أعلى يسار أسفل يمين","أعلى يمين أسفل يسار بالعقارب"], en:["top right bottom left","right top left bottom","top left bottom right","top right bottom left clockwise"]},
+      exp:{ar:"الترتيب: أعلى → يمين → أسفل → يسار (عكس عقارب الساعة).", en:"Order: top → right → bottom → left (clockwise)."}},
+    {diff:"med", ans:0,
+      q:{ar:"padding: 10px 20px يعني:", en:"padding: 10px 20px means:"},
+      opts:{ar:["أعلى وأسفل 10px، يمين ويسار 20px","يمين 10px، يسار 20px","أعلى 10px، باقي 20px","لا معنى له"], en:["Top and bottom 10px, right and left 20px","Right 10px, left 20px","Top 10px, rest 20px","Invalid syntax"]},
+      exp:{ar:"قيمتان: الأولى للأعلى/الأسفل، الثانية لليمين/اليسار.", en:"Two values: the first is for top/bottom, the second for left/right."}},
+    {diff:"med", ans:1,
+      q:{ar:"box-sizing: border-box يعني:", en:"box-sizing: border-box means:"},
+      opts:{ar:["حساب الحجم بدون padding","width تشمل padding وborder","margin تُضاف للـ width","لا تأثير"], en:["Size is calculated without padding","width includes padding and border","margin is added to width","No effect"]},
+      exp:{ar:"border-box: width تشمل padding وborder معاً، بخلاف content-box الافتراضي.", en:"border-box: width includes both padding and border, unlike the default content-box."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما وظيفة outline في CSS؟", en:"What does outline do in CSS?"},
+      opts:{ar:["نفس border","خط خارج الـ border لا يؤثر على الحجم","تغيير حجم العنصر","مثل margin"], en:["Same as border","A line outside the border that doesn't affect the box size","Changes the element's size","Behaves like margin"]},
+      exp:{ar:"outline خط خارجي لا يأخذ مساحة في الصفحة، يُستخدم غالباً للـ focus.", en:"outline is an external line that doesn't take up page space, often used for focus states."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما قيمة margin لتوسيط عنصر أفقياً مع تعيين عرض؟", en:"What margin value centers an element horizontally when a width is set?"},
+      opts:{ar:["margin: auto auto","margin: 0 auto","margin: auto","margin-center: true"], en:["margin: auto auto","margin: 0 auto","margin: auto","margin-center: true"]},
+      exp:{ar:"margin: 0 auto يتطلب تعيين عرض للعنصر ثم يوزع الهامش بالتساوي.", en:"margin: 0 auto requires a defined width, then it distributes the margin equally."}},
+  ]
+},
+{
+  id:6, title:{ar:"Background Image", en:"Background Image"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الطريقة الصحيحة لتحديد صورة خلفية؟", en:"What is the correct way to set a background image?"},
+      opts:{ar:["background-image: 'img.jpg'","background: img.jpg","background-image: url('img.jpg')","background-src: url('img.jpg')"], en:["background-image: 'img.jpg'","background: img.jpg","background-image: url('img.jpg')","background-src: url('img.jpg')"]},
+      exp:{ar:"background-image: url('...') هي الطريقة الصحيحة لتعيين صورة خلفية.", en:"background-image: url('...') is the correct way to set a background image."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما القيمة التي تجعل صورة الخلفية تغطي العنصر كاملاً؟", en:"Which value makes the background image cover the entire element?"},
+      opts:{ar:["background-size: fill","background-size: cover","background-size: stretch","background-size: full"], en:["background-size: fill","background-size: cover","background-size: stretch","background-size: full"]},
+      exp:{ar:"cover تجعل الصورة تغطي العنصر كاملاً مع الحفاظ على النسب.", en:"cover makes the image fully cover the element while preserving aspect ratio."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين background-size: cover وcontain؟", en:"What's the difference between background-size: cover and contain?"},
+      opts:{ar:["لا فرق","cover يغطي العنصر وقد يقطع الصورة، contain يظهرها كاملة وقد يترك فراغ","contain أسرع من cover","cover للصور العمودية فقط"], en:["No difference","cover fills the element and may crop the image; contain fits the whole image and may leave gaps","contain is faster than cover","cover only works with vertical images"]},
+      exp:{ar:"cover: يكبّر الصورة لتملأ العنصر (قد تُقطع). contain: يصغّرها لتظهر كاملة.", en:"cover: scales the image up to fill the element (may crop). contain: scales it down to show it fully."}},
+    {diff:"easy", ans:1,
+      q:{ar:"لمنع تكرار صورة الخلفية:", en:"To prevent a background image from repeating:"},
+      opts:{ar:["background-repeat: none","background-repeat: no-repeat","background-repeat: stop","background-loop: off"], en:["background-repeat: none","background-repeat: no-repeat","background-repeat: stop","background-loop: off"]},
+      exp:{ar:"no-repeat تمنع تكرار الصورة.", en:"no-repeat prevents the image from repeating."}},
+    {diff:"hard", ans:0,
+      q:{ar:"background-attachment: fixed تعني:", en:"background-attachment: fixed means:"},
+      opts:{ar:["الخلفية ثابتة ولا تتحرك عند التمرير","الخلفية متصلة بالعنصر","الخلفية محاذية لليسار","لا فرق"], en:["The background stays fixed and doesn't move when scrolling","The background is attached to the element","The background is aligned to the left","No effect"]},
+      exp:{ar:"fixed تثبت الصورة بالنسبة للنافذة، فتبدو ثابتة عند التمرير (Parallax effect).", en:"fixed anchors the image to the viewport, so it appears fixed while scrolling (Parallax effect)."}},
+    {diff:"med", ans:1,
+      q:{ar:"background-position: center center تعني:", en:"background-position: center center means:"},
+      opts:{ar:["الصورة في أعلى اليسار","الصورة في الوسط أفقياً وعمودياً","الصورة في الأسفل","الصورة ممتدة بالكامل"], en:["Image at top-left","Image centered both horizontally and vertically","Image at the bottom","Image stretched fully"]},
+      exp:{ar:"center center تضع الصورة في منتصف العنصر أفقياً وعمودياً.", en:"center center places the image at the center of the element, both axes."}},
+    {diff:"med", ans:1,
+      q:{ar:"background-repeat: repeat-x تعني:", en:"background-repeat: repeat-x means:"},
+      opts:{ar:["تكرار في كل الاتجاهات","تكرار أفقي فقط","تكرار عمودي فقط","لا تكرار"], en:["Repeat in all directions","Repeat horizontally only","Repeat vertically only","No repeat"]},
+      exp:{ar:"repeat-x تكرر الصورة أفقياً فقط على المحور X.", en:"repeat-x repeats the image horizontally only, along the X axis."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما الفرق بين background-size: cover وbackground-size: 100%؟", en:"What's the difference between background-size: cover and background-size: 100%?"},
+      opts:{ar:["لا فرق","cover يحافظ على نسب الصورة، 100% قد يمدد الصورة","100% أحدث","cover أسرع"], en:["No difference","cover preserves aspect ratio, 100% may stretch and distort the image","100% is newer","cover is faster"]},
+      exp:{ar:"cover يكبّر الصورة ويحافظ على نسبها. 100% يمدد الصورة لتملأ العرض وقد يشوه النسب.", en:"cover scales the image up while preserving its ratio. 100% stretches the image to fill the width and may distort it."}},
+    {diff:"easy", ans:1,
+      q:{ar:"background-position: top right تعني:", en:"background-position: top right means:"},
+      opts:{ar:["الصورة في المنتصف","الصورة في أعلى اليمين","الصورة في أسفل اليسار","الصورة ممتدة"], en:["Image centered","Image at the top-right corner","Image at the bottom-left","Image stretched"]},
+      exp:{ar:"top right تضع الصورة في الزاوية العلوية اليمنى.", en:"top right places the image in the top-right corner."}},
+    {diff:"hard", ans:1,
+      q:{ar:"لجعل الخلفية تغطي الصفحة كاملاً مع التثبيت عند التمرير:", en:"To make a background cover the whole page and stay fixed while scrolling:"},
+      opts:{ar:["background-size: cover فقط","background-size: cover; background-attachment: fixed","background: full fixed","background-repeat: no-repeat فقط"], en:["background-size: cover only","background-size: cover; background-attachment: fixed","background: full fixed","background-repeat: no-repeat only"]},
+      exp:{ar:"الجمع بين cover وfixed يجعل الخلفية تغطي الشاشة وتبقى ثابتة (Parallax).", en:"Combining cover and fixed makes the background cover the screen and stay fixed (Parallax)."}},
+  ]
+},
+{
+  id:7, title:{ar:"Flexbox", en:"Flexbox"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية التي تُفعّل Flexbox؟", en:"Which property activates Flexbox?"},
+      opts:{ar:["layout: flex","flex: enable","display: flex","position: flex"], en:["layout: flex","flex: enable","display: flex","position: flex"]},
+      exp:{ar:"display: flex هي التي تحوّل الحاوية لـ flex container.", en:"display: flex turns the container into a flex container."}},
+    {diff:"med", ans:1,
+      q:{ar:"justify-content: space-between تعني:", en:"justify-content: space-between means:"},
+      opts:{ar:["توسيط العناصر","أول عنصر في البداية وآخر في النهاية ومسافات متساوية","مسافات متساوية حول كل عنصر","توزيع عمودي"], en:["Centers all items","First item at start, last at end, equal gaps between the rest","Equal space around every item","Vertical distribution"]},
+      exp:{ar:"space-between: أول عنصر في البداية، آخر عنصر في النهاية، ومسافات متساوية بين الباقين.", en:"space-between: first item at the start, last item at the end, with equal gaps between the rest."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الخاصية لمحاذاة العناصر على المحور العمودي في flex؟", en:"Which property aligns items along the cross axis in flex?"},
+      opts:{ar:["justify-content","align-self","align-items","vertical-align"], en:["justify-content","align-self","align-items","vertical-align"]},
+      exp:{ar:"align-items تتحكم في المحور العمودي (cross axis) في flex.", en:"align-items controls the cross axis in flex."}},
+    {diff:"easy", ans:1,
+      q:{ar:"flex-direction: column تعني:", en:"flex-direction: column means:"},
+      opts:{ar:["العناصر تُرتب أفقياً","العناصر تُرتب عمودياً","العناصر في دائرة","العناصر متداخلة"], en:["Items are laid out horizontally","Items are laid out vertically","Items are laid out in a circle","Items overlap"]},
+      exp:{ar:"column: يجعل العناصر تتراص عمودياً واحدة تحت الأخرى.", en:"column: stacks items vertically, one below the other."}},
+    {diff:"med", ans:0,
+      q:{ar:"ما الخاصية لجعل عناصر flex تلتف لسطر جديد؟", en:"Which property lets flex items wrap onto a new line?"},
+      opts:{ar:["flex-wrap: wrap","flex-flow: wrap","flex-break: true","overflow: wrap"], en:["flex-wrap: wrap","flex-flow: wrap","flex-break: true","overflow: wrap"]},
+      exp:{ar:"flex-wrap: wrap يسمح للعناصر بالالتفاف لسطر جديد عند امتلاء المساحة.", en:"flex-wrap: wrap allows items to wrap onto a new line once space runs out."}},
+    {diff:"hard", ans:1,
+      q:{ar:"align-self تختلف عن align-items في:", en:"How does align-self differ from align-items?"},
+      opts:{ar:["لا فرق","align-self تطبق على عنصر واحد، align-items على الحاوية كلها","align-self للأفقي","align-items أحدث"], en:["No difference","align-self applies to a single item, align-items applies to the whole container","align-self is for horizontal only","align-items is newer"]},
+      exp:{ar:"align-self يتحكم في محاذاة عنصر flex واحد، بغض النظر عن align-items للحاوية.", en:"align-self overrides alignment for a single flex item, regardless of the container's align-items."}},
+    {diff:"med", ans:1,
+      q:{ar:"justify-content: space-around تعني:", en:"justify-content: space-around means:"},
+      opts:{ar:["مسافة متساوية بين العناصر فقط","مسافات متساوية حول كل عنصر بما في ذلك الجوانب","توسيط كامل","لا مسافات"], en:["Equal spacing between items only","Equal spacing around every item, including the edges","Full centering","No spacing"]},
+      exp:{ar:"space-around: مسافة متساوية حول كل عنصر — المسافة الخارجية نصف المسافة الداخلية.", en:"space-around: equal space around each item — the outer gap is half the inner gap."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما القيمة الافتراضية لـ flex-direction؟", en:"What is the default value of flex-direction?"},
+      opts:{ar:["column","column-reverse","row","row-reverse"], en:["column","column-reverse","row","row-reverse"]},
+      exp:{ar:"row هي القيمة الافتراضية — العناصر تتراص أفقياً.", en:"row is the default — items are laid out horizontally."}},
+    {diff:"easy", ans:1,
+      q:{ar:"خاصية gap في flex تُستخدم لـ:", en:"The gap property in flex is used for:"},
+      opts:{ar:["حجم العناصر","المسافة بين العناصر","لون الخلفية","الحدود"], en:["The size of items","The space between items","Background color","Borders"]},
+      exp:{ar:"gap تحدد المسافة بين عناصر الـ flex (اختصار لـ row-gap و column-gap).", en:"gap sets the spacing between flex items (shorthand for row-gap and column-gap)."}},
+    {diff:"hard", ans:1,
+      q:{ar:"flex: 1 تعني:", en:"flex: 1 means:"},
+      opts:{ar:["عرض العنصر 1px","العنصر يأخذ حصة واحدة من المساحة المتاحة","ارتفاع 1 وحدة","لا تأثير"], en:["The item's width is 1px","The item takes one share of the available space","Height of 1 unit","No effect"]},
+      exp:{ar:"flex: 1 يجعل العنصر ينمو ليملأ المساحة المتاحة نسبياً مع باقي العناصر.", en:"flex: 1 makes the item grow to fill the available space proportionally with siblings."}},
+  ]
+},
+{
+  id:8, title:{ar:"Borders & Radius", en:"Borders & Radius"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الكود الصحيح لحدود صلبة 2px باللون الأسود؟", en:"What is the correct code for a solid 2px black border?"},
+      opts:{ar:["border: solid 2px","border: 2px black solid","border: 2px solid black","border-style: 2px solid black"], en:["border: solid 2px","border: 2px black solid","border: 2px solid black","border-style: 2px solid black"]},
+      exp:{ar:"الترتيب الصحيح: السماكة ثم النوع ثم اللون.", en:"The correct order is: width, then style, then color."}},
+    {diff:"easy", ans:1,
+      q:{ar:"لعمل شكل دائرة كاملة من div مربع:", en:"To turn a square div into a full circle:"},
+      opts:{ar:["border-radius: 100px","border-radius: 50%","border-circle: true","shape: circle"], en:["border-radius: 100px","border-radius: 50%","border-circle: true","shape: circle"]},
+      exp:{ar:"border-radius: 50% تحوّل أي مربع لدائرة كاملة.", en:"border-radius: 50% turns any square into a full circle."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الكود لجعل الزاوية العلوية اليسرى فقط دائرية بـ 10px؟", en:"What code rounds only the top-left corner by 10px?"},
+      opts:{ar:["border-top-left: 10px","border-radius-top-left: 10px","border-top-left-radius: 10px","border-left-top-radius: 10px"], en:["border-top-left: 10px","border-radius-top-left: 10px","border-top-left-radius: 10px","border-left-top-radius: 10px"]},
+      exp:{ar:"الصيغة: border-top-left-radius: 10px;", en:"The syntax is: border-top-left-radius: 10px;"}},
+    {diff:"easy", ans:2,
+      q:{ar:"border-style: dashed يعني:", en:"border-style: dashed means:"},
+      opts:{ar:["حدود صلبة","حدود متنقطة","حدود متقطعة خطية","بلا حدود"], en:["A solid border","A dotted border","A dashed border","No border"]},
+      exp:{ar:"dashed تنشئ حدوداً متقطعة (خطوط متقطعة).", en:"dashed creates a border made of short dashes."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما قيمة border-style للحدود المنقطة (نقاط صغيرة)؟", en:"What border-style value creates a dotted border (small dots)?"},
+      opts:{ar:["dashed","dotted","solid","double"], en:["dashed","dotted","solid","double"]},
+      exp:{ar:"dotted تنشئ حدوداً من نقاط صغيرة.", en:"dotted creates a border made of small dots."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما خاصية CSS الاختصارية للحدود؟", en:"What is the CSS shorthand property for borders?"},
+      opts:{ar:["borders","border-all","border","border-shorthand"], en:["borders","border-all","border","border-shorthand"]},
+      exp:{ar:"border هو الاختصار الذي يجمع: border-width, border-style, border-color.", en:"border is the shorthand that combines: border-width, border-style, border-color."}},
+    {diff:"hard", ans:0,
+      q:{ar:"border: none و border: 0 — ما الفرق؟", en:"border: none vs border: 0 — what's the difference?"},
+      opts:{ar:["لا فرق عملياً","none أسرع","0 أحدث","none للعناصر الكتلية فقط"], en:["No practical difference","none renders faster","0 is newer","none only works on block elements"]},
+      exp:{ar:"كلاهما يُزيل الحدود، ولا فرق عملياً بينهما في المتصفحات الحديثة.", en:"Both remove the border, with no practical difference in modern browsers."}},
+    {diff:"hard", ans:1,
+      q:{ar:"border-radius: 10px 20px 30px 40px — ما الترتيب؟", en:"border-radius: 10px 20px 30px 40px — what is the order?"},
+      opts:{ar:["أعلى يمين أسفل يسار","أعلى يسار أعلى يمين أسفل يمين أسفل يسار","يمين يسار أعلى أسفل","كلها نفس القيمة"], en:["top right bottom left","top-left top-right bottom-right bottom-left","right left top bottom","All corners get the same value"]},
+      exp:{ar:"الترتيب: أعلى يسار → أعلى يمين → أسفل يمين → أسفل يسار (مع عقارب الساعة).", en:"Order: top-left → top-right → bottom-right → bottom-left (clockwise)."}},
+    {diff:"easy", ans:0,
+      q:{ar:"ما الخاصية لتغيير لون الحدود فقط؟", en:"Which property changes only the border color?"},
+      opts:{ar:["border-color","border","border-style","outline-color"], en:["border-color","border","border-style","outline-color"]},
+      exp:{ar:"border-color تغير لون الحدود دون التأثير على السماكة والنوع.", en:"border-color changes the border color without affecting width or style."}},
+    {diff:"med", ans:1,
+      q:{ar:"outline يختلف عن border في:", en:"How does outline differ from border?"},
+      opts:{ar:["لا فرق","outline خارج border ولا يأخذ مساحة","border أقوى","outline للنصوص فقط"], en:["No difference","outline sits outside the border and doesn't take up layout space","border is stronger","outline only works on text"]},
+      exp:{ar:"outline خط إضافي خارجي لا يأخذ مساحة في تدفق الصفحة.", en:"outline is an extra external line that doesn't occupy space in the page flow."}},
+  ]
+},
+{
+  id:9, title:{ar:"Shadows & Effects", en:"Shadows & Effects"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية لإضافة ظل لعنصر div؟", en:"Which property adds a shadow to a div?"},
+      opts:{ar:["shadow","element-shadow","box-shadow","div-shadow"], en:["shadow","element-shadow","box-shadow","div-shadow"]},
+      exp:{ar:"box-shadow هي الخاصية الصحيحة لإضافة ظل لأي عنصر صندوقي.", en:"box-shadow is the correct property for adding a shadow to any box element."}},
+    {diff:"med", ans:2,
+      q:{ar:"في box-shadow: 0 4px 10px 2px black — ماذا تعني 2px الرابعة؟", en:"In box-shadow: 0 4px 10px 2px black — what does the 4th value (2px) mean?"},
+      opts:{ar:["الـ blur","الإزاحة العمودية","الانتشار (spread)","لون الظل"], en:["The blur radius","Vertical offset","The spread radius","Shadow color"]},
+      exp:{ar:"الترتيب: x-offset, y-offset, blur-radius, spread-radius, color.", en:"Order: x-offset, y-offset, blur-radius, spread-radius, color."}},
+    {diff:"med", ans:1,
+      q:{ar:"لعمل ظل داخلي (inward shadow):", en:"To create an inward (inset) shadow:"},
+      opts:{ar:["box-shadow: inner ...","box-shadow: inset 0 4px 8px black","box-shadow: inside 4px black","inner-shadow: 4px black"], en:["box-shadow: inner ...","box-shadow: inset 0 4px 8px black","box-shadow: inside 4px black","inner-shadow: 4px black"]},
+      exp:{ar:"كلمة inset في أول القيمة تجعل الظل داخلياً.", en:"The keyword inset at the start of the value makes the shadow inward."}},
+    {diff:"easy", ans:0,
+      q:{ar:"ما الخاصية لإضافة ظل للنص؟", en:"Which property adds a shadow to text?"},
+      opts:{ar:["text-shadow","font-shadow","shadow-text","word-shadow"], en:["text-shadow","font-shadow","shadow-text","word-shadow"]},
+      exp:{ar:"text-shadow تضيف ظلاً للنص: x y blur color.", en:"text-shadow adds a shadow to text: x y blur color."}},
+    {diff:"med", ans:1,
+      q:{ar:"filter: blur(5px) تعني:", en:"filter: blur(5px) means:"},
+      opts:{ar:["ظل الصندوق","تضبيب العنصر بمقدار 5px","تكبير 5 مرات","تغيير اللون"], en:["Box shadow","Blurs the element by 5px","Scales it up 5 times","Changes the color"]},
+      exp:{ar:"filter: blur() يضبّب العنصر — يُستخدم لتأثيرات frosted glass وما شابهها.", en:"filter: blur() blurs the element — used for frosted-glass style effects."}},
+    {diff:"med", ans:1,
+      q:{ar:"filter: brightness(0.5) تعني:", en:"filter: brightness(0.5) means:"},
+      opts:{ar:["تكبير النص","تقليل سطوع العنصر للنصف","زيادة السطوع ضعفين","إخفاء العنصر"], en:["Enlarge the text","Reduce the element's brightness by half","Double the brightness","Hide the element"]},
+      exp:{ar:"brightness(0.5) تخفض السطوع لنصف قيمته. 1 = طبيعي، أعلى = أكثر سطوعاً.", en:"brightness(0.5) reduces brightness to half. 1 = normal, higher = brighter."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما CSS property لتحديد مظهر المؤشر عند الـ hover؟", en:"Which CSS property sets the cursor appearance on hover?"},
+      opts:{ar:["mouse-style","pointer-type","cursor","hover-cursor"], en:["mouse-style","pointer-type","cursor","hover-cursor"]},
+      exp:{ar:"cursor تحدد شكل مؤشر الفأرة: pointer, crosshair, text, wait, etc.", en:"cursor sets the mouse pointer shape: pointer, crosshair, text, wait, etc."}},
+    {diff:"easy", ans:2,
+      q:{ar:"filter: grayscale(100%) تُحوّل العنصر إلى:", en:"filter: grayscale(100%) turns the element into:"},
+      opts:{ar:["شفاف","ظلام كامل","أسود وأبيض","أحمر"], en:["Transparent","Fully dark","Black and white","Red"]},
+      exp:{ar:"grayscale(100%) تحوّل ألوان العنصر إلى تدرجات رمادية.", en:"grayscale(100%) converts the element's colors to shades of gray."}},
+    {diff:"hard", ans:2,
+      q:{ar:"ما خاصية CSS لتطبيق أكثر من فلتر معاً؟", en:"How do you apply multiple filters together in CSS?"},
+      opts:{ar:["multi-filter","filter-list","filter (مفصولة بمسافة)","filters"], en:["multi-filter","filter-list","filter (space-separated)","filters"]},
+      exp:{ar:"يمكن تطبيق فلاتر متعددة في نفس خاصية filter مفصولة بمسافة: filter: blur(2px) brightness(1.2)", en:"Multiple filters can be applied in a single filter property, space-separated: filter: blur(2px) brightness(1.2)"}},
+    {diff:"hard", ans:1,
+      q:{ar:"backdrop-filter تختلف عن filter في:", en:"How does backdrop-filter differ from filter?"},
+      opts:{ar:["لا فرق","backdrop-filter يُطبق على الخلفية خلف العنصر","backdrop-filter أقدم","filter أقوى"], en:["No difference","backdrop-filter applies to whatever is behind the element","backdrop-filter is older","filter is stronger"]},
+      exp:{ar:"backdrop-filter يُطبق الفلاتر على ما يظهر خلف العنصر — مثالي لتأثير frosted glass.", en:"backdrop-filter applies filters to what's visible behind the element — ideal for frosted-glass effects."}},
+  ]
+},
+{
+  id:10, title:{ar:"Pseudo-classes", en:"Pseudo-classes"},
+  questions:[
+    {diff:"easy", ans:1,
+      q:{ar:"ما الـ pseudo-class لتغيير شكل زر عند التمرير عليه؟", en:"Which pseudo-class changes a button's style when the mouse hovers over it?"},
+      opts:{ar:[":focus",":hover",":active","::hover"], en:[":focus",":hover",":active","::hover"]},
+      exp:{ar:":hover تُطبق الأنماط عند تمرير المؤشر على العنصر.", en:":hover applies styles when the pointer is over the element."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين :first-child و:first-of-type؟", en:"What's the difference between :first-child and :first-of-type?"},
+      opts:{ar:["لا فرق","first-child: أول عنصر داخل أبيه. first-of-type: أول من نوعه","first-of-type أحدث","first-child للأرقام فقط"], en:["No difference","first-child: the first child of its parent. first-of-type: the first of its element type","first-of-type is newer","first-child only works with numbers"]},
+      exp:{ar:":first-child يستهدف أول ابن مهما كان نوعه. :first-of-type يستهدف أول من نفس النوع.", en:":first-child targets the first child regardless of its type. :first-of-type targets the first of the same tag type."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما المطلوب دائماً في ::before و::after لكي تظهر؟", en:"What is always required for ::before and ::after to appear?"},
+      opts:{ar:["display: block","content: ''","position: absolute","z-index: 1"], en:["display: block","content: ''","position: absolute","z-index: 1"]},
+      exp:{ar:"خاصية content مطلوبة دائماً حتى لو كانت قيمتها فارغة content: ''", en:"The content property is always required, even if set to an empty string content: ''"}},
+    {diff:"hard", ans:1,
+      q:{ar:":nth-child(2n+1) تستهدف:", en:":nth-child(2n+1) targets:"},
+      opts:{ar:["كل عنصر زوجي","كل عنصر فردي","العنصر الثاني فقط","لا شيء"], en:["Every even element","Every odd element","Only the second element","Nothing"]},
+      exp:{ar:"2n+1 = 1, 3, 5, 7... أي العناصر الفردية. يُعادل :nth-child(odd).", en:"2n+1 = 1, 3, 5, 7... i.e., the odd elements. Equivalent to :nth-child(odd)."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الـ pseudo-class لتحديد عنصر input عند الكتابة فيه؟", en:"Which pseudo-class targets an input while it's being typed into?"},
+      opts:{ar:[":hover",":active",":focus",":selected"], en:[":hover",":active",":focus",":selected"]},
+      exp:{ar:":focus يُطبق على العناصر عند التركيز عليها (مثل input عند الكتابة).", en:":focus applies when an element has focus (like an input while typing)."}},
+    {diff:"med", ans:1,
+      q:{ar:":not(p) يستهدف:", en:":not(p) targets:"},
+      opts:{ar:["فقرات p","كل العناصر ما عدا p","p الأبناء","لا شيء"], en:["p paragraphs","Every element except p","Children of p","Nothing"]},
+      exp:{ar:":not() يستثني العناصر المحددة — :not(p) يستهدف كل العناصر غير p.", en:":not() excludes the given selector — :not(p) targets everything that isn't a p."}},
+    {diff:"med", ans:1,
+      q:{ar:"::placeholder يستهدف:", en:"::placeholder targets:"},
+      opts:{ar:["النص داخل input","النص الرمادي الخفيف في input قبل الكتابة","الـ label","العنصر بعد input"], en:["Text typed inside an input","The light gray hint text shown before typing","The label","The element after the input"]},
+      exp:{ar:"::placeholder يستهدف نص الـ placeholder في حقول الإدخال.", en:"::placeholder targets the placeholder hint text in input fields."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما pseudo-class لعنصر input بنوع checkbox محدد؟", en:"Which pseudo-class targets a checked checkbox input?"},
+      opts:{ar:[":selected",":checked",":active",":enabled"], en:[":selected",":checked",":active",":enabled"]},
+      exp:{ar:":checked يستهدف checkbox أو radio button عند تحديده.", en:":checked targets a checkbox or radio button when it's selected."}},
+    {diff:"easy", ans:1,
+      q:{ar:":last-child يستهدف:", en:":last-child targets:"},
+      opts:{ar:["أول عنصر","آخر عنصر بين أبناء أبيه","العنصر الأوسط","جميع الأبناء"], en:["The first element","The last child among its siblings","The middle element","All children"]},
+      exp:{ar:":last-child يستهدف آخر عنصر بين أبناء نفس الأب.", en:":last-child targets the last element among siblings of the same parent."}},
+    {diff:"med", ans:1,
+      q:{ar:"::first-letter يستهدف:", en:"::first-letter targets:"},
+      opts:{ar:["أول كلمة","أول حرف في العنصر","الحروف الكبيرة","العنوان"], en:["The first word","The first character in the element","Uppercase letters","The heading"]},
+      exp:{ar:"::first-letter يستهدف أول حرف في العنصر — يُستخدم لتأثيرات Drop Cap.", en:"::first-letter targets the first character of an element — used for drop-cap effects."}},
+  ]
+},
+{
+  id:11, title:{ar:"Transform", en:"Transform"},
+  questions:[
+    {diff:"easy", ans:1,
+      q:{ar:"ما الدالة لتحريك عنصر 50px لليمين؟", en:"Which function moves an element 50px to the right?"},
+      opts:{ar:["transform: moveX(50px)","transform: translateX(50px)","transform: shiftX(50px)","move: 50px right"], en:["transform: moveX(50px)","transform: translateX(50px)","transform: shiftX(50px)","move: 50px right"]},
+      exp:{ar:"translateX(50px) تحرك العنصر 50px على المحور الأفقي.", en:"translateX(50px) moves the element 50px along the horizontal axis."}},
+    {diff:"med", ans:1,
+      q:{ar:"transform: scale(0.5) تعني:", en:"transform: scale(0.5) means:"},
+      opts:{ar:["تكبير العنصر ضعفين","تصغير العنصر لنصف حجمه","تحريك العنصر 0.5px","لا تأثير"], en:["Double the element's size","Shrink the element to half its size","Move the element by 0.5px","No effect"]},
+      exp:{ar:"scale(0.5) تصغّر العنصر لنصف حجمه الأصلي.", en:"scale(0.5) shrinks the element to half its original size."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما الفرق بين translate والـ margin/position في التحريك؟", en:"What's the difference between translate and margin/position for movement?"},
+      opts:{ar:["لا فرق","translate لا يُزيح باقي العناصر، margin يؤثر على التخطيط","translate أبطأ","margin أدق"], en:["No difference","translate doesn't shift other elements, margin affects layout","translate is slower","margin is more precise"]},
+      exp:{ar:"translate يحرك العنصر بصرياً دون التأثير على تدفق الصفحة.", en:"translate moves the element visually without affecting the page's layout flow."}},
+    {diff:"easy", ans:1,
+      q:{ar:"transform: rotate(90deg) تدور العنصر:", en:"transform: rotate(90deg) rotates the element:"},
+      opts:{ar:["90 درجة عكس عقارب الساعة","90 درجة مع عقارب الساعة","نصف دوران","دوران كامل"], en:["90 degrees counter-clockwise","90 degrees clockwise","Half a turn","A full turn"]},
+      exp:{ar:"rotate() بقيمة موجبة تدور مع عقارب الساعة.", en:"rotate() with a positive value rotates clockwise."}},
+    {diff:"hard", ans:1,
+      q:{ar:"transform-origin يتحكم في:", en:"transform-origin controls:"},
+      opts:{ar:["نوع الـ transform","نقطة المحور التي يدور أو يتمدد حولها العنصر","سرعة الـ transform","ترتيب التحويلات"], en:["The type of transform","The pivot point the element rotates or scales around","The speed of the transform","The order of transforms"]},
+      exp:{ar:"transform-origin تحدد نقطة الأصل (المحور) للتحويلات — الافتراضي center center.", en:"transform-origin sets the pivot point for transforms — the default is center center."}},
+    {diff:"med", ans:1,
+      q:{ar:"transform: skewX(20deg) تعني:", en:"transform: skewX(20deg) means:"},
+      opts:{ar:["تحريك 20px","إمالة العنصر أفقياً 20 درجة","تدوير 20 درجة","تكبير 20%"], en:["Move by 20px","Skew the element horizontally by 20 degrees","Rotate by 20 degrees","Scale up by 20%"]},
+      exp:{ar:"skewX() تُميل العنصر على المحور الأفقي.", en:"skewX() slants the element along the horizontal axis."}},
+    {diff:"med", ans:2,
+      q:{ar:"كيف تدمج عدة transforms معاً؟", en:"How do you combine multiple transforms?"},
+      opts:{ar:["transform: rotate(45deg); transform: scale(1.2);","transform: rotate(45deg), scale(1.2);","transform: rotate(45deg) scale(1.2);","multi-transform: rotate scale;"], en:["transform: rotate(45deg); transform: scale(1.2);","transform: rotate(45deg), scale(1.2);","transform: rotate(45deg) scale(1.2);","multi-transform: rotate scale;"]},
+      exp:{ar:"تُدمج التحويلات بمسافة في نفس خاصية transform.", en:"Transforms are combined with spaces inside a single transform property."}},
+    {diff:"hard", ans:2,
+      q:{ar:"translateZ() تعمل على:", en:"translateZ() operates on:"},
+      opts:{ar:["المحور الأفقي","المحور العمودي","المحور العمقي (3D)","التدوير"], en:["The horizontal axis","The vertical axis","The depth (Z) axis in 3D","Rotation"]},
+      exp:{ar:"translateZ() تحرك العنصر على المحور Z (العمق) في الفضاء ثلاثي الأبعاد.", en:"translateZ() moves the element along the Z (depth) axis in 3D space."}},
+    {diff:"easy", ans:2,
+      q:{ar:"transform: scale(1) تعني:", en:"transform: scale(1) means:"},
+      opts:{ar:["إخفاء العنصر","تكبير ضعفين","الحجم الطبيعي بدون تغيير","تصغير نصف"], en:["Hide the element","Double the size","The natural size, unchanged","Half the size"]},
+      exp:{ar:"scale(1) = الحجم الأصلي. أعلى من 1 تكبير، أقل من 1 تصغير.", en:"scale(1) = original size. Above 1 scales up, below 1 scales down."}},
+    {diff:"hard", ans:1,
+      q:{ar:"perspective في CSS 3D تُستخدم لـ:", en:"perspective in CSS 3D is used to:"},
+      opts:{ar:["تصغير العنصر","إعطاء إحساس بالعمق للتحويلات ثلاثية الأبعاد","إزالة الـ transform","رسم المنظور"], en:["Shrink the element","Give a sense of depth to 3D transforms","Remove the transform","Draw perspective lines"]},
+      exp:{ar:"perspective تحدد مسافة المشاهد من الشاشة، تؤثر على مدى وضوح الـ 3D transforms.", en:"perspective sets the viewer's distance from the screen, affecting how pronounced 3D transforms appear."}},
+  ]
+},
+{
+  id:12, title:{ar:"Transition", en:"Transition"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية لإضافة انتقال سلس بين حالتين؟", en:"Which property adds a smooth transition between two states?"},
+      opts:{ar:["animation","transform","transition","motion"], en:["animation","transform","transition","motion"]},
+      exp:{ar:"transition هي الخاصية المخصصة للانتقالات السلسة بين حالتين.", en:"transition is the property dedicated to smooth changes between two states."}},
+    {diff:"med", ans:2,
+      q:{ar:"في transition: background 0.3s ease 0.1s — ماذا تعني 0.1s الأخيرة؟", en:"In transition: background 0.3s ease 0.1s — what does the last 0.1s mean?"},
+      opts:{ar:["مدة الانتقال","سرعة البداية","تأخير قبل البدء","نهاية الانتقال"], en:["The transition duration","The initial speed","A delay before it starts","The end of the transition"]},
+      exp:{ar:"الترتيب: property, duration, timing, delay. 0.1s هو التأخير.", en:"Order: property, duration, timing, delay. 0.1s is the delay."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما الفرق بين ease-in وease-out؟", en:"What's the difference between ease-in and ease-out?"},
+      opts:{ar:["لا فرق","ease-in يبدأ ببطء ويسرّع، ease-out يبدأ بسرعة ويبطئ","ease-out أبطأ","ease-in للألوان فقط"], en:["No difference","ease-in starts slow and speeds up, ease-out starts fast and slows down","ease-out is always slower","ease-in only works with colors"]},
+      exp:{ar:"ease-in: بطيء في البداية. ease-out: بطيء في النهاية.", en:"ease-in: slow at the start. ease-out: slow at the end."}},
+    {diff:"easy", ans:1,
+      q:{ar:"transition: all 0.3s تعني:", en:"transition: all 0.3s means:"},
+      opts:{ar:["تحريك كل الصفحة","تطبيق الانتقال على جميع الخصائص المتغيرة","لا تأثير","تطبيق transition 0.3 مرة"], en:["Move the whole page","Apply the transition to every property that changes","No effect","Apply the transition 0.3 times"]},
+      exp:{ar:"all تعني تطبيق الانتقال على كل الخصائص التي تتغير في آنٍ واحد.", en:"all means the transition applies to every property that changes at once."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الـ timing function للانتقال بسرعة ثابتة؟", en:"Which timing function gives a constant transition speed?"},
+      opts:{ar:["ease","linear","ease-in","step-start"], en:["ease","linear","ease-in","step-start"]},
+      exp:{ar:"linear ينتقل بسرعة ثابتة من البداية للنهاية دون تسارع أو تباطؤ.", en:"linear moves at a constant speed from start to finish, with no acceleration or deceleration."}},
+    {diff:"hard", ans:1,
+      q:{ar:"cubic-bezier() في transition تُستخدم لـ:", en:"cubic-bezier() in transition is used to:"},
+      opts:{ar:["تحديد مدة الانتقال","إنشاء timing function مخصصة","تعيين اللون","تحديد الخاصية"], en:["Set the transition duration","Create a custom timing function","Set the color","Set the property"]},
+      exp:{ar:"cubic-bezier() تتيح تخصيص منحنى الانتقال بدقة عبر 4 نقاط تحكم.", en:"cubic-bezier() lets you precisely customize the transition curve using 4 control points."}},
+    {diff:"hard", ans:1,
+      q:{ar:"هل transition تعمل مع display: none؟", en:"Does transition work with display: none?"},
+      opts:{ar:["نعم تماماً","لا، لأن display ليست خاصية قابلة للانتقال","نعم مع تأخير","فقط مع display: block"], en:["Yes, completely","No, because display is not an animatable property","Yes, with a delay","Only with display: block"]},
+      exp:{ar:"display ليست قابلة للانتقال. لانتقال الإخفاء، استخدم opacity أو visibility مع transition.", en:"display is not animatable. To transition visibility, use opacity or visibility instead."}},
+    {diff:"easy", ans:0,
+      q:{ar:"ما الخاصية لتأخير بدء الانتقال بـ 0.5 ثانية؟", en:"Which property delays the start of a transition by 0.5 seconds?"},
+      opts:{ar:["transition-delay: 0.5s","transition-start: 0.5s","transition-wait: 0.5s","animation-delay: 0.5s"], en:["transition-delay: 0.5s","transition-start: 0.5s","transition-wait: 0.5s","animation-delay: 0.5s"]},
+      exp:{ar:"transition-delay يحدد وقت الانتظار قبل بدء الانتقال.", en:"transition-delay sets the wait time before the transition begins."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية لتحديد مدة الانتقال فقط؟", en:"Which property sets only the transition's duration?"},
+      opts:{ar:["transition-speed","transition-time","transition-duration","transition-length"], en:["transition-speed","transition-time","transition-duration","transition-length"]},
+      exp:{ar:"transition-duration تحدد مدة الانتقال بالثواني أو الميلي ثانية.", en:"transition-duration sets the transition's length in seconds or milliseconds."}},
+    {diff:"med", ans:2,
+      q:{ar:"ease-in-out يعني:", en:"ease-in-out means:"},
+      opts:{ar:["بطيء في البداية","بطيء في النهاية","بطيء في البداية والنهاية، سريع في المنتصف","سريع طوال الوقت"], en:["Slow at the start","Slow at the end","Slow at both start and end, fast in the middle","Fast the whole time"]},
+      exp:{ar:"ease-in-out يبدأ ببطء، يتسارع في المنتصف، ثم يتباطأ في النهاية.", en:"ease-in-out starts slowly, speeds up in the middle, then slows down at the end."}},
+  ]
+},
+{
+  id:13, title:{ar:"Display", en:"Display"},
+  questions:[
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين display: none وvisibility: hidden؟", en:"What's the difference between display: none and visibility: hidden?"},
+      opts:{ar:["لا فرق","none يزيل العنصر من التدفق، hidden يخفيه ويحتفظ بمساحته","hidden أسرع","none للكتليات فقط"], en:["No difference","none removes the element from the flow, hidden hides it but keeps its space","hidden is faster","none only works on block elements"]},
+      exp:{ar:"display: none يزيل العنصر وكأنه غير موجود. visibility: hidden يخفيه لكن يحتجز مساحته.", en:"display: none removes the element as if it didn't exist. visibility: hidden hides it but keeps its space reserved."}},
+    {diff:"med", ans:1,
+      q:{ar:"لماذا لا يمكن تعيين width لعنصر inline؟", en:"Why can't you set a width on an inline element?"},
+      opts:{ar:["لأنه خطأ في CSS","لأن inline لا يدعم أبعاداً","لأن width مخصصة لـ block","لأن span أصغر"], en:["It's a CSS error","Because inline elements don't support box dimensions","Because width is reserved for block elements","Because span is smaller"]},
+      exp:{ar:"عناصر inline حجمها يتحدد بمحتواها ولا تقبل width/height.", en:"Inline elements size themselves based on their content and don't accept width/height."}},
+    {diff:"med", ans:0,
+      q:{ar:"display: inline-block يسمح بـ:", en:"display: inline-block allows:"},
+      opts:{ar:["يجلس بجانب العناصر ويقبل width/height","يأخذ سطراً كاملاً","مثل block تماماً","لا يقبل margin"], en:["Sitting alongside other elements while accepting width/height","Taking a full line","Behaving exactly like block","No margin support"]},
+      exp:{ar:"inline-block: يجلس بجانب العناصر مثل inline، لكن يقبل width وheight مثل block.", en:"inline-block: sits alongside other elements like inline, but accepts width and height like block."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما display الخاصة بعناصر الجداول (table cells)؟", en:"What display value is used for table cells?"},
+      opts:{ar:["display: cell","display: table-cell","display: grid-cell","display: flex-cell"], en:["display: cell","display: table-cell","display: grid-cell","display: flex-cell"]},
+      exp:{ar:"display: table-cell يجعل العنصر يتصرف مثل خلية جدول.", en:"display: table-cell makes an element behave like a table cell."}},
+    {diff:"hard", ans:1,
+      q:{ar:"display: contents تعني:", en:"display: contents means:"},
+      opts:{ar:["إخفاء العنصر","العنصر يختفي كحاوية وأبناؤه يتصرفون كأنهم مباشرون للأب","يُظهر المحتوى فقط","لا تأثير"], en:["Hide the element","The element's box disappears and its children act as if directly in the parent","Show only the content","No effect"]},
+      exp:{ar:"contents: يزيل الصندوق المرئي للعنصر لكن يبقي أبناؤه في التدفق الطبيعي.", en:"contents: removes the element's visible box but keeps its children in the normal flow."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما الفرق بين block وflex؟", en:"What's the difference between block and flex?"},
+      opts:{ar:["لا فرق","block عرض كامل بدون تحكم، flex يُفعّل نظام flexbox","flex أحدث فقط","block للنصوص فقط"], en:["No difference","block is full width with no layout control, flex enables the flexbox system","flex is only newer","block is only for text"]},
+      exp:{ar:"block: العنصر يأخذ سطراً كاملاً. flex: يُفعّل Flexbox للتحكم في توزيع الأبناء.", en:"block: the element takes a full line. flex: enables Flexbox for controlling how children are distributed."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما خاصية display للقوائم المنسدلة؟", en:"What is the default display value for list items?"},
+      opts:{ar:["display: list","display: dropdown","display: list-item","display: menu"], en:["display: list","display: dropdown","display: list-item","display: menu"]},
+      exp:{ar:"display: list-item هو العرض الافتراضي لعناصر li، يُظهر نقطة القائمة.", en:"display: list-item is the default for li elements, showing the bullet marker."}},
+    {diff:"med", ans:1,
+      q:{ar:"display: grid يختلف عن display: flex في:", en:"How does display: grid differ from display: flex?"},
+      opts:{ar:["لا فرق","flex أحادي الأبعاد، grid ثنائي الأبعاد (صفوف وأعمدة)","grid أقدم","flex أقوى"], en:["No difference","flex is one-dimensional, grid is two-dimensional (rows and columns)","grid is older","flex is more powerful"]},
+      exp:{ar:"flex: للتخطيط في اتجاه واحد (صف أو عمود). grid: للتخطيط في الاتجاهين معاً.", en:"flex: for layout along a single axis (row or column). grid: for layout in both directions at once."}},
+    {diff:"easy", ans:2,
+      q:{ar:"ما display الافتراضي لعنصر div؟", en:"What is the default display value for a div?"},
+      opts:{ar:["inline","flex","block","inline-block"], en:["inline","flex","block","inline-block"]},
+      exp:{ar:"div هو block-level element بشكل افتراضي.", en:"div is a block-level element by default."}},
+    {diff:"med", ans:1,
+      q:{ar:"display: none مقابل opacity: 0:", en:"display: none vs opacity: 0:"},
+      opts:{ar:["لا فرق","none يزيل العنصر كلياً، opacity: 0 يجعله شفافاً ولكن يحتل مساحة","opacity أسرع","none أكثر دعماً"], en:["No difference","none removes the element entirely, opacity: 0 makes it invisible but it still takes up space","opacity is faster","none has wider support"]},
+      exp:{ar:"display: none = إزالة كاملة. opacity: 0 = شفاف لكن يحتل مساحة ويستقبل الأحداث.", en:"display: none = fully removed. opacity: 0 = invisible but still occupies space and receives events."}},
+  ]
+},
+{
+  id:14, title:{ar:"Position", en:"Position"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الـ position الذي يجعل العنصر يبقى ثابتاً عند التمرير؟", en:"Which position value keeps an element fixed while scrolling?"},
+      opts:{ar:["absolute","sticky","fixed","relative"], en:["absolute","sticky","fixed","relative"]},
+      exp:{ar:"fixed يثبت العنصر بالنسبة لنافذة المتصفح ولا يتأثر بالتمرير.", en:"fixed anchors the element relative to the viewport, unaffected by scrolling."}},
+    {diff:"med", ans:2,
+      q:{ar:"لاستخدام top/left مع عنصر absolute، يجب أن يكون الأب:", en:"To use top/left with an absolute element, its parent must be:"},
+      opts:{ar:["أي عنصر","position: static","يحمل position غير static","display: flex"], en:["Any element","position: static","Positioned (anything other than static)","display: flex"]},
+      exp:{ar:"absolute يتموضع بالنسبة لأقرب أب له position غير static.", en:"absolute positions relative to the nearest ancestor with a position other than static."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما الفرق بين relative وabsolute؟", en:"What's the difference between relative and absolute?"},
+      opts:{ar:["لا فرق","relative يتحرك نسبياً لمكانه الأصلي ويحتفظ بمساحته، absolute يُزال من التدفق","absolute أسرع","relative أقوى"], en:["No difference","relative moves relative to its original spot and keeps its space, absolute is removed from the flow","absolute is faster","relative is more powerful"]},
+      exp:{ar:"relative: يتحرك من مكانه الأصلي ويحتجز المساحة. absolute: يُنزع من التدفق.", en:"relative: shifts from its original spot but keeps its space reserved. absolute: removed from the normal flow."}},
+    {diff:"hard", ans:1,
+      q:{ar:"position: sticky يتصرف مثل:", en:"position: sticky behaves like:"},
+      opts:{ar:["fixed دائماً","relative حتى حد معين ثم يصبح fixed","absolute","static"], en:["fixed permanently","relative until a threshold, then it becomes fixed","absolute","static"]},
+      exp:{ar:"sticky: يتصرف مثل relative في التدفق الطبيعي، ثم يثبت عند وصوله لحد معين (top, left...).", en:"sticky: behaves like relative in normal flow, then locks in place once it reaches a threshold (top, left...)."}},
+    {diff:"easy", ans:3,
+      q:{ar:"ما القيمة الافتراضية لـ position؟", en:"What is the default value of position?"},
+      opts:{ar:["relative","absolute","fixed","static"], en:["relative","absolute","fixed","static"]},
+      exp:{ar:"static هي القيمة الافتراضية — العنصر في تدفقه الطبيعي ولا يتأثر بـ top/left/right/bottom.", en:"static is the default — the element sits in normal flow and ignores top/left/right/bottom."}},
+    {diff:"med", ans:1,
+      q:{ar:"top: 50% مع position: absolute تعني:", en:"top: 50% with position: absolute means:"},
+      opts:{ar:["50% من ارتفاع العنصر","50% من ارتفاع الأب المحدد","50% من ارتفاع الصفحة","50px من الأعلى"], en:["50% of the element's own height","50% of the positioned ancestor's height","50% of the page height","50px from the top"]},
+      exp:{ar:"50% تعني 50% من ارتفاع العنصر الأب الذي يحمل position غير static.", en:"50% means 50% of the height of the nearest positioned ancestor."}},
+    {diff:"hard", ans:1,
+      q:{ar:"لتوسيط عنصر absolute أفقياً وعمودياً:", en:"To center an absolute element both horizontally and vertically:"},
+      opts:{ar:["margin: auto","top: 50%; left: 50%; transform: translate(-50%, -50%)","position: center","top: center; left: center"], en:["margin: auto","top: 50%; left: 50%; transform: translate(-50%, -50%)","position: center","top: center; left: center"]},
+      exp:{ar:"الطريقة الكلاسيكية: top:50%, left:50% ثم إزاحة بـ translate للخلف بنصف حجم العنصر.", en:"The classic method: top:50%, left:50%, then shift back with translate by half the element's own size."}},
+    {diff:"med", ans:1,
+      q:{ar:"z-index يعمل فقط مع:", en:"z-index only works on:"},
+      opts:{ar:["أي عنصر","عناصر positioned (غير static)","display: flex","عناصر الأعمدة"], en:["Any element","Positioned elements (not static)","display: flex","Column elements"]},
+      exp:{ar:"z-index يؤثر فقط على العناصر التي تملك position غير static.", en:"z-index only affects elements with a position value other than static."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما الـ position الذي يُزيل العنصر من تدفق الصفحة الطبيعي؟", en:"Which position value removes an element from the normal page flow?"},
+      opts:{ar:["relative","static","absolute","sticky"], en:["relative","static","absolute","sticky"]},
+      exp:{ar:"absolute (وكذلك fixed) يُنزع العنصر من التدفق الطبيعي للصفحة.", en:"absolute (and also fixed) removes the element from the page's normal flow."}},
+    {diff:"hard", ans:1,
+      q:{ar:"inset: 0 في CSS يعني:", en:"inset: 0 in CSS means:"},
+      opts:{ar:["margin صفر","top:0; right:0; bottom:0; left:0","padding صفر","border صفر"], en:["Zero margin","top:0; right:0; bottom:0; left:0","Zero padding","Zero border"]},
+      exp:{ar:"inset اختصار لـ top, right, bottom, left في آنٍ واحد.", en:"inset is a shorthand that sets top, right, bottom, and left at once."}},
+  ]
+},
+{
+  id:15, title:{ar:"Z-Index & Overflow", en:"Z-Index & Overflow"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما شرط عمل z-index على عنصر؟", en:"What condition is required for z-index to work on an element?"},
+      opts:{ar:["لا يوجد شرط","أن يكون display: block","أن يكون position غير static","أن يكون display: flex"], en:["No condition needed","display: block","position other than static","display: flex"]},
+      exp:{ar:"z-index يعمل فقط على العناصر التي تملك position: relative/absolute/fixed/sticky.", en:"z-index only works on elements with position: relative/absolute/fixed/sticky."}},
+    {diff:"easy", ans:1,
+      q:{ar:"overflow: hidden تعني:", en:"overflow: hidden means:"},
+      opts:{ar:["إخفاء العنصر","قطع المحتوى الزائد عن حدود العنصر","إضافة شريط تمرير","جعل المحتوى يطفو"], en:["Hide the element","Clip content that overflows the element's bounds","Add a scrollbar","Make content float"]},
+      exp:{ar:"overflow: hidden يقطع ويخفي أي محتوى يتجاوز حدود العنصر.", en:"overflow: hidden clips and hides any content that exceeds the element's bounds."}},
+    {diff:"easy", ans:1,
+      q:{ar:"أي قيمة z-index أعلى تظهر أمام الأخرى؟", en:"Which z-index value appears in front of the other?"},
+      opts:{ar:["الأصغر","الأكبر","لا يهم","الأخيرة في CSS"], en:["The smaller one","The larger one","It doesn't matter","Whichever is last in the CSS"]},
+      exp:{ar:"القيمة الأكبر تظهر أمام القيم الأصغر.", en:"The larger value appears in front of smaller values."}},
+    {diff:"easy", ans:1,
+      q:{ar:"overflow: scroll تعني:", en:"overflow: scroll means:"},
+      opts:{ar:["إخفاء المحتوى الزائد","إظهار شريط تمرير دائماً","إظهار شريط تمرير عند الحاجة فقط","قطع المحتوى"], en:["Hide overflowing content","Always show a scrollbar","Show a scrollbar only when needed","Clip the content"]},
+      exp:{ar:"scroll يضيف شريط تمرير دائماً حتى لو لم يكن هناك محتوى زائد.", en:"scroll always adds a scrollbar, even if there's no overflow."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين overflow: scroll وoverflow: auto؟", en:"What's the difference between overflow: scroll and overflow: auto?"},
+      opts:{ar:["لا فرق","scroll يضيف شريط دائماً، auto يضيفه عند الحاجة فقط","auto أسرع","scroll للأفقي فقط"], en:["No difference","scroll always shows a scrollbar, auto shows it only when needed","auto is faster","scroll only applies horizontally"]},
+      exp:{ar:"scroll: شريط تمرير دائماً. auto: شريط تمرير فقط عند امتلاء المحتوى.", en:"scroll: always shows a scrollbar. auto: shows one only when content overflows."}},
+    {diff:"hard", ans:1,
+      q:{ar:"overflow-x: hidden مع overflow-y: auto تعني:", en:"overflow-x: hidden combined with overflow-y: auto means:"},
+      opts:{ar:["إخفاء كل شيء","إخفاء الفائض الأفقي فقط مع تمرير عمودي عند الحاجة","تمرير في الاتجاهين","لا تأثير"], en:["Hide everything","Hide horizontal overflow only, with vertical scroll when needed","Scroll in both directions","No effect"]},
+      exp:{ar:"يمكن التحكم في كل محور بشكل مستقل.", en:"Each axis can be controlled independently."}},
+    {diff:"med", ans:2,
+      q:{ar:"ما z-index لعنصر لا يملك position؟", en:"What z-index applies to an element without a position value?"},
+      opts:{ar:["0","auto","لا يعمل","1"], en:["0","auto","It doesn't work","1"]},
+      exp:{ar:"z-index لا يعمل على عناصر position: static (الافتراضي).", en:"z-index has no effect on elements with position: static (the default)."}},
+    {diff:"hard", ans:1,
+      q:{ar:"Stacking Context في CSS يعني:", en:"What does 'Stacking Context' mean in CSS?"},
+      opts:{ar:["ترتيب الكود","سياق مستقل لترتيب z-index تُنشئه بعض الخصائص","ترتيب الأبناء","لا معنى له"], en:["The order of code","An independent context for z-index ordering, created by certain properties","The order of children","It has no meaning"]},
+      exp:{ar:"Stacking Context سياق تراكم مستقل — تُنشئه خصائص مثل transform, opacity < 1, isolation, إلخ.", en:"A Stacking Context is an independent layering context — created by properties like transform, opacity < 1, isolation, etc."}},
+    {diff:"med", ans:1,
+      q:{ar:"text-overflow: ellipsis تعني:", en:"text-overflow: ellipsis means:"},
+      opts:{ar:["حذف النص الزائد","إضافة ... للنص المقطوع","تكبير الخط","تدوير النص"], en:["Delete the overflowing text","Add ... to truncated text","Enlarge the font","Rotate the text"]},
+      exp:{ar:"ellipsis يُظهر ... عند قطع النص — تحتاج overflow: hidden وwhite-space: nowrap.", en:"ellipsis shows ... when text is truncated — requires overflow: hidden and white-space: nowrap."}},
+    {diff:"med", ans:1,
+      q:{ar:"white-space: nowrap تمنع:", en:"white-space: nowrap prevents:"},
+      opts:{ar:["المسافات البيضاء","التفاف النص لسطر جديد","الحروف الكبيرة","الـ overflow"], en:["Whitespace characters","Text wrapping onto a new line","Uppercase letters","Overflow"]},
+      exp:{ar:"nowrap يمنع النص من الالتفاف لسطر جديد — يبقى في سطر واحد.", en:"nowrap prevents text from wrapping to a new line — it stays on a single line."}},
+  ]
+},
+{
+  id:16, title:{ar:"Animations", en:"Animations"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الـ at-rule المستخدم لتعريف الحركات في CSS؟", en:"Which at-rule is used to define animations in CSS?"},
+      opts:{ar:["@animation","@motion","@keyframes","@frames"], en:["@animation","@motion","@keyframes","@frames"]},
+      exp:{ar:"@keyframes هو الـ at-rule الصحيح لتعريف مراحل الحركة.", en:"@keyframes is the correct at-rule for defining animation stages."}},
+    {diff:"med", ans:1,
+      q:{ar:"animation-fill-mode: forwards تعني:", en:"animation-fill-mode: forwards means:"},
+      opts:{ar:["تكرار الحركة للأمام","الإبقاء على الحالة الأخيرة بعد انتهاء الحركة","تسريع الحركة","بدء الحركة من اليسار"], en:["Repeat the animation forward","Keep the final state after the animation ends","Speed up the animation","Start the animation from the left"]},
+      exp:{ar:"forwards: العنصر يحتفظ بنمط آخر frame بعد انتهاء الحركة.", en:"forwards: the element retains the styles of the last frame after the animation ends."}},
+    {diff:"hard", ans:2,
+      q:{ar:"ما قيمة animation-direction لعكس الحركة في كل دورة؟", en:"Which animation-direction value reverses the animation on each cycle?"},
+      opts:{ar:["reverse","backward","alternate","loop"], en:["reverse","backward","alternate","loop"]},
+      exp:{ar:"alternate: الحركة تسير للأمام ثم للخلف بالتناوب في كل دورة.", en:"alternate: the animation alternates forward then backward on each cycle."}},
+    {diff:"easy", ans:1,
+      q:{ar:"animation-iteration-count: infinite تعني:", en:"animation-iteration-count: infinite means:"},
+      opts:{ar:["الحركة تعمل مرة واحدة","الحركة تتكرر لانهاية","الحركة سريعة جداً","لا تأثير"], en:["The animation runs once","The animation repeats forever","The animation is very fast","No effect"]},
+      exp:{ar:"infinite تجعل الحركة تتكرر إلى الأبد.", en:"infinite makes the animation repeat endlessly."}},
+    {diff:"med", ans:1,
+      q:{ar:"animation-play-state: paused تُستخدم لـ:", en:"animation-play-state: paused is used to:"},
+      opts:{ar:["إيقاف الحركة تماماً","إيقاف الحركة مؤقتاً","تسريع الحركة","تغيير الاتجاه"], en:["Stop the animation entirely","Pause the animation temporarily","Speed up the animation","Change direction"]},
+      exp:{ar:"paused يوقف الحركة مؤقتاً — يمكن استئنافها بـ running.", en:"paused temporarily halts the animation — it can be resumed with running."}},
+    {diff:"hard", ans:1,
+      q:{ar:"animation-fill-mode: both تعني:", en:"animation-fill-mode: both means:"},
+      opts:{ar:["نفس forwards","تطبيق both forwards وbackwards — قبل وبعد الحركة","لا تأثير","تكرار مزدوج"], en:["Same as forwards","Applies both forwards and backwards — before and after the animation","No effect","Double repetition"]},
+      exp:{ar:"both يجمع بين backwards (قبل البدء) وforwards (بعد الانتهاء).", en:"both combines backwards (before it starts) and forwards (after it ends)."}},
+    {diff:"med", ans:0,
+      q:{ar:"كيف تُحدد نقطة منتصف الـ keyframes؟", en:"How do you define the midpoint of keyframes?"},
+      opts:{ar:["50% { }","mid { }","half { }","center { }"], en:["50% { }","mid { }","half { }","center { }"]},
+      exp:{ar:"يمكن استخدام نسب مئوية من 0% إلى 100% لتحديد أي نقطة في الحركة.", en:"Percentages from 0% to 100% can be used to define any point in the animation."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما القيمة لتطبيق حركة مرة واحدة ثم العودة للبداية؟", en:"What value makes an animation run once and return to the start?"},
+      opts:{ar:["animation-fill-mode: none","animation-iteration-count: 1","animation-direction: reverse","animation-timing: once"], en:["animation-fill-mode: none","animation-iteration-count: 1","animation-direction: reverse","animation-timing: once"]},
+      exp:{ar:"iteration-count: 1 (الافتراضي) تُشغّل الحركة مرة واحدة.", en:"iteration-count: 1 (the default) runs the animation once."}},
+    {diff:"hard", ans:1,
+      q:{ar:"animation: name 1s ease infinite — ما الترتيب؟", en:"animation: name 1s ease infinite — what is the order?"},
+      opts:{ar:["name, timing, duration, iteration","name, duration, timing, iteration","name, iteration, duration, timing","duration, name, timing, iteration"], en:["name, timing, duration, iteration","name, duration, timing, iteration","name, iteration, duration, timing","duration, name, timing, iteration"]},
+      exp:{ar:"الترتيب: name, duration, timing-function, delay, iteration, direction, fill-mode.", en:"Order: name, duration, timing-function, delay, iteration, direction, fill-mode."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما الخاصية لإيقاف تشغيل animation عند hover مثلاً؟", en:"Which property pauses an animation, e.g. on hover?"},
+      opts:{ar:["animation: stop","animation-play-state: paused","animation-stop: true","animation-run: false"], en:["animation: stop","animation-play-state: paused","animation-stop: true","animation-run: false"]},
+      exp:{ar:"animation-play-state: paused توقف الحركة. running تستأنفها.", en:"animation-play-state: paused halts the animation. running resumes it."}},
+  ]
+},
+{
+  id:17, title:{ar:"Grid", en:"Grid"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما الخاصية لتعريف أعمدة الـ Grid؟", en:"Which property defines Grid columns?"},
+      opts:{ar:["grid-columns","column-count","grid-template-columns","flex-columns"], en:["grid-columns","column-count","grid-template-columns","flex-columns"]},
+      exp:{ar:"grid-template-columns تحدد عدد وعرض الأعمدة في الـ Grid.", en:"grid-template-columns defines the number and width of columns in the Grid."}},
+    {diff:"med", ans:1,
+      q:{ar:"ماذا يعني repeat(3, 1fr)؟", en:"What does repeat(3, 1fr) mean?"},
+      opts:{ar:["3 أعمدة بعرض 1px","3 أعمدة متساوية تتقاسم المساحة","عمود واحد بعرض 3fr","3 صفوف"], en:["3 columns of 1px width","3 equal columns sharing the space","One column with 3fr width","3 rows"]},
+      exp:{ar:"repeat(3, 1fr): 3 أعمدة تتقاسم المساحة المتاحة بالتساوي.", en:"repeat(3, 1fr): 3 columns that equally share the available space."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما استخدام minmax(200px, 1fr)؟", en:"What is minmax(200px, 1fr) used for?"},
+      opts:{ar:["عمود ثابت 200px","عمود لا يقل عن 200px ويمتد حتى 1fr","أقصى عرض 200px","لا يعمل في CSS"], en:["A fixed 200px column","A column no smaller than 200px that can grow up to 1fr","A maximum width of 200px","It's invalid CSS"]},
+      exp:{ar:"minmax(min, max): حد أدنى 200px ويمتد حتى 1fr من المساحة المتاحة.", en:"minmax(min, max): a minimum of 200px, growing up to 1fr of available space."}},
+    {diff:"easy", ans:1,
+      q:{ar:"grid-gap في CSS Grid يُستخدم لـ:", en:"grid-gap in CSS Grid is used for:"},
+      opts:{ar:["حجم الشبكة","المسافة بين الخلايا","لون الحدود","عدد الأعمدة"], en:["The size of the grid","The space between cells","Border color","The number of columns"]},
+      exp:{ar:"grid-gap (أو gap) تحدد المسافة بين خلايا الشبكة.", en:"grid-gap (or gap) sets the spacing between grid cells."}},
+    {diff:"med", ans:1,
+      q:{ar:"grid-column: 1 / 3 تعني:", en:"grid-column: 1 / 3 means:"},
+      opts:{ar:["العمود الأول فقط","يمتد من العمود 1 إلى 3 (عمودان)","3 أعمدة من البداية","لا تأثير"], en:["The first column only","Spans from line 1 to line 3 (two columns)","3 columns from the start","No effect"]},
+      exp:{ar:"1 / 3 تعني ابدأ من خط 1 وانتهِ عند خط 3 — أي عمودان.", en:"1 / 3 means start at line 1 and end at line 3 — spanning two columns."}},
+    {diff:"med", ans:0,
+      q:{ar:"ما الخاصية لتحديد موضع عنصر في الشبكة صفاً وعموداً؟", en:"Which property positions an item in the grid by row and column?"},
+      opts:{ar:["grid-area","grid-position","grid-place","grid-location"], en:["grid-area","grid-position","grid-place","grid-location"]},
+      exp:{ar:"grid-area يمكن استخدامه لتسمية الـ area أو تحديد: row-start/column-start/row-end/column-end.", en:"grid-area can name an area or set row-start/column-start/row-end/column-end."}},
+    {diff:"hard", ans:1,
+      q:{ar:"auto-fill مقابل auto-fit في Grid:", en:"auto-fill vs auto-fit in Grid:"},
+      opts:{ar:["لا فرق","auto-fill يُنشئ أعمدة فارغة، auto-fit يمتد العناصر ليملؤوا المساحة","auto-fit أحدث","auto-fill أسرع"], en:["No difference","auto-fill creates empty tracks, auto-fit stretches items to fill the space","auto-fit is newer","auto-fill is faster"]},
+      exp:{ar:"auto-fill: يملأ بأعمدة فارغة إن احتاج. auto-fit: يمتد العناصر الموجودة.", en:"auto-fill: fills in with empty tracks if needed. auto-fit: stretches the existing items."}},
+    {diff:"hard", ans:1,
+      q:{ar:"grid-template-areas تُستخدم لـ:", en:"grid-template-areas is used to:"},
+      opts:{ar:["تحديد عدد الأعمدة","إنشاء تخطيط مرئي بأسماء للمناطق","تغيير لون الشبكة","تحديد الـ gap"], en:["Define the number of columns","Create a visual layout using named areas","Change the grid's color","Set the gap"]},
+      exp:{ar:"grid-template-areas تتيح تعريف تخطيط بصري باستخدام أسماء مناطق نصية.", en:"grid-template-areas lets you define a visual layout using named text areas."}},
+    {diff:"med", ans:1,
+      q:{ar:"place-items: center في Grid تعني:", en:"place-items: center in Grid means:"},
+      opts:{ar:["توسيط الشبكة في الصفحة","توسيط محتويات كل خلية أفقياً وعمودياً","توسيط الأعمدة","لا تأثير"], en:["Center the grid on the page","Center each cell's content both horizontally and vertically","Center the columns","No effect"]},
+      exp:{ar:"place-items: center هو اختصار لـ align-items: center وjustify-items: center.", en:"place-items: center is shorthand for align-items: center and justify-items: center."}},
+    {diff:"easy", ans:2,
+      q:{ar:"وحدة fr في Grid تعني:", en:"What does the fr unit mean in Grid?"},
+      opts:{ar:["بكسل ثابت","نسبة مئوية","حصة من المساحة المتاحة الحرة","rem نسبي"], en:["A fixed pixel value","A percentage","A share of the available free space","A relative rem"]},
+      exp:{ar:"fr = fractional unit — حصة من المساحة المتبقية بعد الأعمدة ذات الحجم الثابت.", en:"fr = fractional unit — a share of the space remaining after fixed-size tracks."}},
+  ]
+},
+{
+  id:18, title:{ar:"Table Styling", en:"Table Styling"},
+  questions:[
+    {diff:"easy", ans:1,
+      q:{ar:"ما الخاصية التي تدمج حدود الجدول لتجنب الحد المزدوج؟", en:"Which property merges table borders to avoid double lines?"},
+      opts:{ar:["border: merge","border-collapse: collapse","table-border: single","border-style: collapse"], en:["border: merge","border-collapse: collapse","table-border: single","border-style: collapse"]},
+      exp:{ar:"border-collapse: collapse تدمج حدود الخلايا المتجاورة في حد واحد.", en:"border-collapse: collapse merges adjacent cell borders into a single line."}},
+    {diff:"med", ans:1,
+      q:{ar:"لتلوين الصفوف الفردية باللون الرمادي:", en:"To color odd rows gray:"},
+      opts:{ar:["tr.odd { background: gray }","tr:nth-child(odd) { background: gray }","tr:first-child { background: gray }","table tr { background: gray }"], en:["tr.odd { background: gray }","tr:nth-child(odd) { background: gray }","tr:first-child { background: gray }","table tr { background: gray }"]},
+      exp:{ar:"tr:nth-child(odd) يستهدف الصفوف ذات الأرقام الفردية (1، 3، 5...).", en:"tr:nth-child(odd) targets odd-numbered rows (1, 3, 5...)."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين padding على td وborder-spacing على table؟", en:"What's the difference between padding on td and border-spacing on table?"},
+      opts:{ar:["لا فرق","padding داخل الخلية، border-spacing بين الخلايا","padding للعرض فقط","spacing أحدث"], en:["No difference","padding is inside the cell, border-spacing is between cells","padding only affects width","spacing is newer"]},
+      exp:{ar:"padding مساحة داخل الخلية. border-spacing مسافة بين الخلايا (مع border-collapse: separate).", en:"padding is space inside a cell. border-spacing is space between cells (with border-collapse: separate)."}},
+    {diff:"hard", ans:1,
+      q:{ar:"table-layout: fixed تعني:", en:"table-layout: fixed means:"},
+      opts:{ar:["الجدول بحجم ثابت","أعمدة الجدول متساوية العرض بناءً على أول صف","الجدول لا يتمدد","الحدود ثابتة"], en:["The table has a fixed size","Column widths are set by the first row, not the content","The table can't expand","Borders are fixed"]},
+      exp:{ar:"fixed: عرض الأعمدة يُحدد من أول صف ولا يتأثر بالمحتوى — أسرع للجداول الكبيرة.", en:"fixed: column widths are set from the first row, unaffected by content — faster for large tables."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما خاصية CSS لتوسيط محتوى خلية جدول عمودياً؟", en:"Which CSS property vertically centers a table cell's content?"},
+      opts:{ar:["text-align: center","vertical-align: middle","align: center","cell-align: center"], en:["text-align: center","vertical-align: middle","align: center","cell-align: center"]},
+      exp:{ar:"vertical-align: middle توسّط المحتوى عمودياً داخل خلية الجدول.", en:"vertical-align: middle centers content vertically within a table cell."}},
+    {diff:"hard", ans:1,
+      q:{ar:"caption-side: bottom تعني:", en:"caption-side: bottom means:"},
+      opts:{ar:["تعليق الجدول","نقل عنوان الجدول (caption) لأسفله","إخفاء العنوان","تحديد ارتفاع الجدول"], en:["Comment out the table","Move the table caption below it","Hide the caption","Set the table's height"]},
+      exp:{ar:"caption-side تحدد موضع عنوان الجدول: top (الافتراضي) أو bottom.", en:"caption-side sets the position of the table caption: top (default) or bottom."}},
+    {diff:"hard", ans:1,
+      q:{ar:"empty-cells: hide في الجداول تعني:", en:"empty-cells: hide in tables means:"},
+      opts:{ar:["إخفاء الجدول","إخفاء حدود وخلفية الخلايا الفارغة","حذف الخلايا الفارغة","إخفاء النص"], en:["Hide the table","Hide the border and background of empty cells","Delete empty cells","Hide text"]},
+      exp:{ar:"empty-cells: hide تُخفي حدود وخلفية الخلايا التي لا تحتوي على محتوى.", en:"empty-cells: hide hides the border and background of cells with no content."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما CSS لإضافة تأثير hover على صفوف الجدول؟", en:"What CSS adds a hover effect on table rows?"},
+      opts:{ar:["table:hover","tr:hover { background: lightblue }","td:hover {}","row:hover {}"], en:["table:hover","tr:hover { background: lightblue }","td:hover {}","row:hover {}"]},
+      exp:{ar:"tr:hover يستهدف الصف كاملاً عند تمرير المؤشر عليه.", en:"tr:hover targets the entire row when the pointer hovers over it."}},
+    {diff:"easy", ans:1,
+      q:{ar:"ما الفرق بين th وtd؟", en:"What's the difference between th and td?"},
+      opts:{ar:["لا فرق","th للعناوين (غامق ومتوسط)، td للبيانات العادية","td أكبر","th للصور فقط"], en:["No difference","th is for headers (bold, centered), td is for regular data","td is larger","th is only for images"]},
+      exp:{ar:"th (table header): خلية عنوان — افتراضياً غامقة ومتوسطة. td: خلية بيانات عادية.", en:"th (table header): a header cell — bold and centered by default. td: a regular data cell."}},
+    {diff:"hard", ans:1,
+      q:{ar:"border-spacing: 10px 20px في الجداول:", en:"border-spacing: 10px 20px in tables:"},
+      opts:{ar:["padding داخلي","مسافة 10px أفقية و20px عمودية بين الخلايا","حدود 10px ثم 20px","لا تأثير"], en:["Internal padding","10px horizontal and 20px vertical spacing between cells","A 10px then 20px border","No effect"]},
+      exp:{ar:"border-spacing: horizontal vertical — الأولى المسافة الأفقية والثانية العمودية.", en:"border-spacing: horizontal vertical — the first value is horizontal spacing, the second is vertical."}},
+  ]
+},
+{
+  id:19, title:{ar:"Width & Height", en:"Width & Height"},
+  questions:[
+    {diff:"easy", ans:2,
+      q:{ar:"ما معنى height: 100vh؟", en:"What does height: 100vh mean?"},
+      opts:{ar:["100 بكسل","100% من ارتفاع الصفحة كلها","100% من ارتفاع نافذة المتصفح","100 سطر"], en:["100 pixels","100% of the entire page's height","100% of the browser viewport's height","100 lines"]},
+      exp:{ar:"vh = viewport height. 100vh = ارتفاع نافذة المتصفح كاملاً.", en:"vh = viewport height. 100vh equals the full height of the browser window."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين box-sizing: content-box وborder-box؟", en:"What's the difference between box-sizing: content-box and border-box?"},
+      opts:{ar:["لا فرق","content-box: width لا يشمل padding/border. border-box: يشملهما","border-box أحدث","content-box أسرع"], en:["No difference","content-box: width excludes padding/border. border-box: width includes them","border-box is newer","content-box is faster"]},
+      exp:{ar:"content-box (افتراضي): width = المحتوى فقط. border-box: width يشمل padding وborder.", en:"content-box (default): width = content only. border-box: width includes padding and border."}},
+    {diff:"hard", ans:2,
+      q:{ar:"لعنصر بـ width: 300px وpadding: 20px وbox-sizing: border-box، كم عرض المحتوى الفعلي؟", en:"For an element with width: 300px, padding: 20px, and box-sizing: border-box, what is the actual content width?"},
+      opts:{ar:["300px","340px","260px","280px"], en:["300px","340px","260px","280px"]},
+      exp:{ar:"border-box: 300px = محتوى + padding. محتوى = 300 - 20 - 20 = 260px.", en:"border-box: 300px = content + padding. Content = 300 - 20 - 20 = 260px."}},
+    {diff:"easy", ans:1,
+      q:{ar:"max-width يُستخدم لـ:", en:"max-width is used to:"},
+      opts:{ar:["تحديد عرض ثابت","منع العنصر من تجاوز عرض معين","تحديد حد أدنى للعرض","لا تأثير"], en:["Set a fixed width","Prevent an element from exceeding a certain width","Set a minimum width","No effect"]},
+      exp:{ar:"max-width يحدد الحد الأقصى للعرض — مفيد للـ responsive containers.", en:"max-width sets an upper limit on width — useful for responsive containers."}},
+    {diff:"easy", ans:1,
+      q:{ar:"min-height: 100px تعني:", en:"min-height: 100px means:"},
+      opts:{ar:["الارتفاع ثابت 100px","الارتفاع لا يقل عن 100px لكن يمكنه النمو","الارتفاع لا يتجاوز 100px","لا تأثير"], en:["Height is fixed at 100px","Height won't go below 100px but can grow","Height won't exceed 100px","No effect"]},
+      exp:{ar:"min-height تحدد حداً أدنى للارتفاع — العنصر يمكنه النمو بزيادة المحتوى.", en:"min-height sets a lower limit on height — the element can still grow with more content."}},
+    {diff:"easy", ans:2,
+      q:{ar:"width: 100% تعني:", en:"width: 100% means:"},
+      opts:{ar:["100 بكسل","100% من عرض نافذة المتصفح","100% من عرض العنصر الأب","100 وحدة rem"], en:["100 pixels","100% of the browser viewport's width","100% of the parent element's width","100 rem units"]},
+      exp:{ar:"100% تعني 100% من عرض العنصر الأب المباشر.", en:"100% means 100% of the direct parent element's width."}},
+    {diff:"hard", ans:1,
+      q:{ar:"aspect-ratio: 16/9 في CSS تعني:", en:"aspect-ratio: 16/9 in CSS means:"},
+      opts:{ar:["حجم الصورة","نسبة العرض للارتفاع 16:9","جودة العرض","لا تأثير"], en:["The image's size","A width-to-height ratio of 16:9","Display quality","No effect"]},
+      exp:{ar:"aspect-ratio تحافظ على نسبة أبعاد محددة للعنصر حتى مع تغيير حجم الشاشة.", en:"aspect-ratio maintains a fixed proportion for an element even as the screen size changes."}},
+    {diff:"hard", ans:1,
+      q:{ar:"width: fit-content تعني:", en:"width: fit-content means:"},
+      opts:{ar:["عرض ثابت","العنصر يأخذ عرض محتواه بالضبط","عرض كامل","لا تأثير"], en:["A fixed width","The element takes exactly the width of its content","Full width","No effect"]},
+      exp:{ar:"fit-content يجعل عرض العنصر بالضبط بحجم محتواه — لا أكبر ولا أصغر.", en:"fit-content sizes the element to exactly fit its content — no larger, no smaller."}},
+    {diff:"easy", ans:1,
+      q:{ar:"height: auto تعني:", en:"height: auto means:"},
+      opts:{ar:["ارتفاع صفر","الارتفاع يتحدد بحجم المحتوى","ارتفاع 100%","لا ارتفاع"], en:["Zero height","Height is determined by the content's size","100% height","No height"]},
+      exp:{ar:"auto (الافتراضي للارتفاع) يجعل الارتفاع يتحدد تلقائياً بكمية المحتوى.", en:"auto (the default for height) lets the height be determined automatically by the amount of content."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين vw وpercent (%) للعرض؟", en:"What's the difference between vw and percent (%) for width?"},
+      opts:{ar:["لا فرق","vw نسبي لنافذة المتصفح، % نسبي لأب العنصر","vw ثابت","% أحدث"], en:["No difference","vw is relative to the viewport, % is relative to the parent element","vw is fixed","% is newer"]},
+      exp:{ar:"vw = viewport width (نافذة المتصفح). % = نسبة من الأب المباشر.", en:"vw = viewport width (the browser window). % = a percentage of the direct parent."}},
+  ]
+},
+{
+  id:20, title:{ar:"Responsive Design", en:"Responsive Design"},
+  questions:[
+    {diff:"easy", ans:3,
+      q:{ar:"ما الـ at-rule المستخدم للـ Responsive Design؟", en:"Which at-rule is used for Responsive Design?"},
+      opts:{ar:["@responsive","@screen","@breakpoint","@media"], en:["@responsive","@screen","@breakpoint","@media"]},
+      exp:{ar:"@media تُطبق أنماطاً مشروطة بحجم الشاشة أو خصائص أخرى.", en:"@media applies styles conditionally based on screen size or other features."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الفرق بين نهج Mobile-First وDesktop-First؟", en:"What's the difference between Mobile-First and Desktop-First approaches?"},
+      opts:{ar:["لا فرق","Mobile-First يبدأ بالموبايل ويستخدم min-width، Desktop-First العكس بـ max-width","Desktop-First أفضل دائماً","Mobile-First أقدم"], en:["No difference","Mobile-First starts with mobile and uses min-width, Desktop-First is the opposite using max-width","Desktop-First is always better","Mobile-First is older"]},
+      exp:{ar:"Mobile-First: تصميم أساسي للموبايل ثم تعديل للشاشات الأكبر بـ min-width.", en:"Mobile-First: base styles target mobile, then min-width media queries adjust for larger screens."}},
+    {diff:"hard", ans:1,
+      q:{ar:"ما الـ viewport meta tag المطلوب للـ Responsive Design؟", en:"Which viewport meta tag is required for Responsive Design?"},
+      opts:{ar:["&lt;meta name='screen' content='responsive'&gt;","&lt;meta name='viewport' content='width=device-width, initial-scale=1'&gt;","&lt;meta responsive='true'&gt;","&lt;meta name='mobile' content='yes'&gt;"], en:["&lt;meta name='screen' content='responsive'&gt;","&lt;meta name='viewport' content='width=device-width, initial-scale=1'&gt;","&lt;meta responsive='true'&gt;","&lt;meta name='mobile' content='yes'&gt;"]},
+      exp:{ar:"هذا الـ meta tag يُخبر المتصفح بعرض الصفحة بحجم الجهاز الحقيقي.", en:"This meta tag tells the browser to render the page at the device's actual width."}},
+    {diff:"easy", ans:1,
+      q:{ar:"@media (max-width: 768px) تعني:", en:"@media (max-width: 768px) means:"},
+      opts:{ar:["فقط على الشاشات بعرض 768px","على الشاشات بعرض 768px أو أقل","على الشاشات الأكبر من 768px","على جميع الشاشات"], en:["Only for screens exactly 768px wide","For screens 768px wide or narrower","For screens wider than 768px","For all screens"]},
+      exp:{ar:"max-width: 768px تطبق الأنماط عندما يكون عرض الشاشة 768px أو أقل.", en:"max-width: 768px applies styles when the screen width is 768px or less."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الوحدات المرنة المناسبة للـ Responsive Design؟", en:"Which flexible units are suitable for Responsive Design?"},
+      opts:{ar:["px فقط","%, vw, vh, rem, em","px وcm","pt فقط"], en:["px only","%, vw, vh, rem, em","px and cm","pt only"]},
+      exp:{ar:"الوحدات النسبية والمرنة: %, vw, vh, rem, em — تتكيف مع حجم الشاشة.", en:"Relative, flexible units — %, vw, vh, rem, em — adapt to screen size."}},
+    {diff:"med", ans:1,
+      q:{ar:"breakpoint في Responsive Design يعني:", en:"What does 'breakpoint' mean in Responsive Design?"},
+      opts:{ar:["نقطة انهيار التصميم","نقطة تحول يتغير عندها التصميم لحجم شاشة مختلف","خطأ في الكود","حد التمرير"], en:["A point where the design breaks down","A threshold at which the layout changes for a different screen size","A code error","A scroll limit"]},
+      exp:{ar:"breakpoint نقطة (عادةً عرض محدد) يتغير عندها التصميم للتكيف مع حجم الشاشة.", en:"A breakpoint is a threshold (usually a specific width) at which the layout adapts to screen size."}},
+    {diff:"hard", ans:1,
+      q:{ar:"@media (orientation: landscape) تعني:", en:"@media (orientation: landscape) means:"},
+      opts:{ar:["اتجاه عمودي","اتجاه أفقي (عرض أكبر من الارتفاع)","اتجاه الكتابة","تدوير الصفحة"], en:["Portrait orientation","Landscape orientation (width greater than height)","Text writing direction","Page rotation"]},
+      exp:{ar:"landscape: الجهاز في الوضع الأفقي حيث العرض أكبر من الارتفاع.", en:"landscape: the device is in horizontal orientation, where width exceeds height."}},
+    {diff:"hard", ans:1,
+      q:{ar:"clamp(min, ideal, max) في CSS تُستخدم لـ:", en:"clamp(min, ideal, max) in CSS is used to:"},
+      opts:{ar:["تحديد ارتفاع ثابت","قيمة مرنة بين حد أدنى وأقصى","ضبط الألوان","تكرار العناصر"], en:["Set a fixed height","Create a flexible value between a min and max","Adjust colors","Repeat elements"]},
+      exp:{ar:"clamp() تُنشئ قيمة مرنة: لا تقل عن min ولا تتجاوز max وتستخدم ideal في المنتصف.", en:"clamp() creates a flexible value: never below min, never above max, using ideal in between."}},
+    {diff:"med", ans:1,
+      q:{ar:"ما الخاصية لمنع المستخدم من تغيير حجم textarea؟", en:"Which property prevents the user from resizing a textarea?"},
+      opts:{ar:["overflow: hidden","resize: none","max-size: fixed","no-resize: true"], en:["overflow: hidden","resize: none","max-size: fixed","no-resize: true"]},
+      exp:{ar:"resize: none تمنع تغيير حجم العنصر (textarea افتراضياً قابل للتغيير).", en:"resize: none prevents resizing the element (textarea is resizable by default)."}},
+    {diff:"med", ans:1,
+      q:{ar:"في Mobile-First، ما الـ media query للكمبيوتر؟", en:"In Mobile-First, what media query targets desktop?"},
+      opts:{ar:["@media (max-width: 1024px)","@media (min-width: 1024px)","@media (desktop)","@media screen"], en:["@media (max-width: 1024px)","@media (min-width: 1024px)","@media (desktop)","@media screen"]},
+      exp:{ar:"Mobile-First يستخدم min-width لإضافة أنماط للشاشات الأكبر تدريجياً.", en:"Mobile-First uses min-width to progressively layer on styles for larger screens."}},
+  ]
+},
+];
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+let currentTopicIdx = 0;
+let currentQIdx = 0;
+let answers = {};
+let topicDone = {};
+let totalScore = 0;
+
+function t(key, ...args) {
+  const fn = UI[currentLang][key];
+  return typeof fn === 'function' ? fn(...args) : fn;
+}
+
+function setLang(lang) {
+  currentLang = lang;
+  const html = document.getElementById('html-root');
+  html.setAttribute('lang', lang);
+  html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.getElementById('btn-lang-ar').classList.toggle('active', lang === 'ar');
+  document.getElementById('btn-lang-en').classList.toggle('active', lang === 'en');
+  document.getElementById('brand-title').textContent = UI[lang].brand;
+  document.getElementById('sidebar-title').textContent = UI[lang].sidebarTitle;
+  document.getElementById('progress-label').textContent = UI[lang].progressLabel;
+  document.getElementById('res-score-label').textContent = UI[lang].resultScoreLabel;
+  document.getElementById('res-correct-lbl').textContent = UI[lang].correctLbl;
+  document.getElementById('res-wrong-lbl').textContent = UI[lang].wrongLbl;
+  document.getElementById('res-pts-lbl').textContent = UI[lang].ptsLbl;
+  document.getElementById('btn-retry').textContent = UI[lang].retry;
+  updateTopScore();
+  renderSidebar();
+  renderQuestion();
+}
+
+function init() {
+  renderSidebar();
+  const params = new URLSearchParams(window.location.search);
+  const raw = params.get('number') || params.get('id') || params.get('n');
+  let startIdx = 0;
+  if (raw !== null) {
+    const num = parseInt(raw, 10);
+    const found = topics.findIndex(t => t.id === num);
+    if (found !== -1) startIdx = found;
+  }
+  setLang('ar');
+  loadTopic(startIdx);
+}
+
+function renderSidebar() {
+  const list = document.getElementById('topic-list');
+  document.getElementById('sidebar-subtitle').textContent = t('sidebarSubtitle', topics.length);
+  list.innerHTML = topics.map((tp, i) => `
+    <div class="topic-item ${i===currentTopicIdx?'active':''} ${topicDone[i]?'done':''}" onclick="loadTopic(${i})">
+      <div class="topic-info">
+        <div class="topic-name">${tp.title[currentLang]}</div>
+        <div class="topic-count">${t('topicCount', tp.questions.length)}</div>
+      </div>
+      <div class="topic-num-badge">${topicDone[i]?'✓':tp.id}</div>
+    </div>
+  `).join('');
+}
+
+function loadTopic(idx) {
+  currentTopicIdx = idx;
+  currentQIdx = 0;
+  if (!answers[idx]) answers[idx] = {};
+  renderSidebar();
+  renderQuestion();
+  showQuizUI();
+}
+
+function showQuizUI() {
+  document.getElementById('question-card').style.display = 'block';
+  document.getElementById('nav-row').style.display = 'flex';
+  document.getElementById('result-card').classList.remove('show');
+}
+
+function renderQuestion() {
+  const tp = topics[currentTopicIdx];
+  const q = tp.questions[currentQIdx];
+  const totalQ = tp.questions.length;
+  const ans = answers[currentTopicIdx];
+
+  document.getElementById('quiz-title').textContent = t('quizTitle', tp.title[currentLang]);
+  document.getElementById('quiz-subtitle').textContent = t('quizSubtitle', totalQ);
+
+  const answered = Object.keys(ans).length;
+  const pct = Math.round(answered / totalQ * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-count').textContent = t('counter', answered, totalQ);
+
+  document.getElementById('q-dots').innerHTML = tp.questions.map((_, i) => {
+    let cls = '';
+    if (i === currentQIdx) cls = 'current';
+    else if (ans[i] !== undefined) {
+      cls = ans[i] === tp.questions[i].ans ? 'answered' : 'wrong-dot';
+    }
+    return `<div class="q-dot ${cls}" onclick="gotoQ(${i})"></div>`;
+  }).join('');
+
+  document.getElementById('q-badge').textContent = t('qBadge', currentQIdx+1, totalQ);
+  const diffEl = document.getElementById('q-diff');
+  diffEl.textContent = UI[currentLang].diff[q.diff];
+  diffEl.className = `q-diff-badge ${q.diff}`;
+  document.getElementById('q-text').innerHTML = q.q[currentLang];
+
+  const letters = ['A','B','C','D'];
+  const chosen = ans[currentQIdx];
+  document.getElementById('options').innerHTML = q.opts[currentLang].map((o, j) => {
+    let cls = '';
+    if (chosen !== undefined) {
+      if (j === q.ans) cls = 'correct';
+      else if (j === chosen && chosen !== q.ans) cls = 'wrong';
+    }
+    return `<button class="option-btn ${cls}" ${chosen!==undefined?'disabled':''} onclick="answerQ(${j})">
+      <span>${o}</span>
+      <div class="opt-icon">${chosen!==undefined && j===q.ans?'✓':chosen===j&&j!==q.ans?'✗':letters[j]}</div>
+    </button>`;
+  }).join('');
+
+  const fb = document.getElementById('feedback');
+  if (chosen !== undefined) {
+    const ok = chosen === q.ans;
+    fb.className = `feedback show ${ok?'ok':'err'}`;
+    fb.textContent = (ok?t('correctPrefix'):t('wrongPrefix')) + q.exp[currentLang];
+  } else {
+    fb.className = 'feedback';
+    fb.textContent = '';
+  }
+
+  document.getElementById('q-counter').textContent = t('counter', currentQIdx+1, totalQ);
+  document.getElementById('btn-prev').textContent = t('prev');
+  document.getElementById('btn-prev').disabled = currentQIdx === 0;
+  const isLast = currentQIdx === totalQ - 1;
+  const nextBtn = document.getElementById('btn-next');
+  if (isLast) {
+    nextBtn.textContent = t('finish');
+    nextBtn.onclick = () => showResult();
+  } else {
+    nextBtn.textContent = t('next');
+    nextBtn.onclick = () => nextQ();
+  }
+}
+
+function answerQ(j) {
+  if (answers[currentTopicIdx][currentQIdx] !== undefined) return;
+  const q = topics[currentTopicIdx].questions[currentQIdx];
+  answers[currentTopicIdx][currentQIdx] = j;
+  if (j === q.ans) totalScore += 10;
+  updateTopScore();
+  renderQuestion();
+}
+
+function gotoQ(i) { currentQIdx = i; renderQuestion(); }
+function prevQ() { if (currentQIdx > 0) { currentQIdx--; renderQuestion(); } }
+function nextQ() {
+  if (currentQIdx < topics[currentTopicIdx].questions.length - 1) {
+    currentQIdx++;
+    renderQuestion();
+  }
+}
+
+function showResult() {
+  const tp = topics[currentTopicIdx];
+  const ans = answers[currentTopicIdx];
+  let correct = 0, wrong = 0;
+  tp.questions.forEach((q, i) => {
+    if (ans[i] === q.ans) correct++;
+    else if (ans[i] !== undefined) wrong++;
+  });
+  const pct = Math.round(correct / tp.questions.length * 100);
+  topicDone[currentTopicIdx] = true;
+  renderSidebar();
+
+  document.getElementById('res-pct').textContent = pct + '%';
+  document.getElementById('res-correct').textContent = correct;
+  document.getElementById('res-wrong').textContent = wrong;
+  document.getElementById('res-pts').textContent = correct * 10;
+  document.getElementById('res-title').textContent = t('resultTitle', pct);
+  document.getElementById('res-desc').textContent = t('resultDesc', correct, tp.questions.length);
+
+  const nextBtn = document.getElementById('btn-next-topic');
+  if (currentTopicIdx < topics.length - 1) {
+    nextBtn.textContent = t('nextTopic', topics[currentTopicIdx+1].title[currentLang]);
+    nextBtn.style.display = '';
+  } else {
+    nextBtn.textContent = t('courseDone');
+  }
+
+  document.getElementById('question-card').style.display = 'none';
+  document.getElementById('nav-row').style.display = 'none';
+  document.getElementById('result-card').classList.add('show');
+
+  document.getElementById('progress-fill').style.width = '100%';
+  document.getElementById('progress-count').textContent = t('counter', tp.questions.length, tp.questions.length);
+}
+
+function retryTopic() {
+  answers[currentTopicIdx] = {};
+  topicDone[currentTopicIdx] = false;
+  loadTopic(currentTopicIdx);
+}
+
+function nextTopic() {
+  if (currentTopicIdx < topics.length - 1) {
+    loadTopic(currentTopicIdx + 1);
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+}
+
+function updateTopScore() {
+  document.getElementById('total-score-display').textContent = t('score', totalScore);
+}
+
+init();
+</script>
+</body>
+</html>
