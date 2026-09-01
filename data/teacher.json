@@ -1,0 +1,40 @@
+[
+  {
+    "name": "Eng Menna Almahdi",
+    "email": "admin@arabiatech.net",
+    "password": "AMMM1111",
+    "special": [
+      "Web development",
+      "Artificial Intelligence"
+    ],
+    "code": "T1"
+  },
+  {
+    "name": "Eng mohamed Ramdan",
+    "email": "instructor2@arabiatech.net",
+    "password": "Mrmoh123@",
+    "special": [
+      "Web development"
+    ],
+    "code": "T2"
+  },
+  {
+    "name": "Eng Amal Hani",
+    "email": "instructor3@arabiatech.net",
+    "password": "Msamal123@",
+    "special": [
+      "Web development",
+      "Kids"
+    ],
+    "code": "T3"
+  },
+  {
+    "name": "Mr Mostafa",
+    "code": "T4",
+    "email": "instructor4@arabiatech.net",
+    "password": "MrMostafa123",
+    "special": [
+      "Web development"
+    ]
+  }
+]
