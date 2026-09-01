@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مسار البرمجة للأطفال - من الأساسيات إلى الذكاء الاصطناعي</title>
+    <link rel="icon" type="image/png" href="image/icon3.png">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Almarai:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #1e3a8a;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --minecraft: #8b7355;
+            --scratch: #ff6b35;
+            --ai: #6366f1;
+            --merge: #ec4899;
+            --tools: #14b8a6;
+            --dark: #1f2937;
+            --light: #f9fafb;
+        }
+
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.8;
+        }
+         @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0.7); transform: translateY(-50%) scale(1); }
+      50%  { box-shadow: 0 0 0 14px rgba(234, 179, 8, 0); transform: translateY(-50%) scale(1.05); }
+      100% { box-shadow: 0 0 0 0 rgba(234, 179, 8, 0); transform: translateY(-50%) scale(1); }
+    }
+
+    .pulse-btn {
+      position: fixed;
+      right: 20px;
+      top: 90%;
+      transform: translateY(-50%);
+      text-decoration: none;
+      background: #7000a3;
+      color: #ffffff;
+      border: none;
+      border-radius: 50px;
+      padding: 14px 28px;
+      font-size: 17px;
+      font-weight: 700;
+      font-family: 'Cairo', 'Tajawal', sans-serif;
+      cursor: pointer;
+      white-space: nowrap;
+      animation: pulse 1.8s ease-in-out infinite;
+      box-shadow: 0 4px 20px rgba(234, 179, 8, 0.45);
+      transition: background 0.2s;
+      z-index: 9999;
+    }
+
+    .pulse-btn:hover {
+      background: #FACC15;
+      animation-play-state: paused;
+    }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -250px;
+            right: -100px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -100px;
+            animation: float 20s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            50% {
+                transform: translateY(-30px) translateX(20px);
+            }
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .main-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            opacity: 0.95;
+            font-weight: 400;
+        }
+
+        /* Introduction Section */
+        .intro-section {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+
+        .intro-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .intro-text {
+            font-size: 1.3rem;
+            color: #4b5563;
+            max-width: 800px;
+            margin: 0 auto 40px;
+            line-height: 2;
+        }
+
+        /* Learning Path */
+        .learning-path {
+            max-width: 1400px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .path-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 60px;
+        }
+
+        .courses-container {
+            display: grid;
+            gap: 40px;
+        }
+
+        /* Course Card */
+        .course-card {
+            background: white;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-header {
+            padding: 50px 40px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .course-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.3) 100%);
+        }
+
+        .course-number {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 900;
+            backdrop-filter: blur(10px);
+        }
+
+        .course-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .course-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .course-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            position: relative;
+            z-index: 1;
+        }
+
+        .course-body {
+            padding: 40px;
+        }
+
+        .section-heading {
+            font-family: 'Almarai', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-heading::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .course-description {
+            font-size: 1.15rem;
+            color: #4b5563;
+            margin-bottom: 30px;
+            line-height: 2;
+        }
+
+        .benefits-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .benefit-item {
+            padding: 15px 20px;
+            background: #f3f4f6;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-item:hover {
+            background: #e5e7eb;
+            transform: translateX(-5px);
+        }
+
+        .benefit-item::before {
+            content: '✓';
+            width: 28px;
+            height: 28px;
+            background: var(--success);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .skill-badge {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--dark);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+
+        /* Media Section */
+        .media-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #f3f4f6;
+        }
+
+        .video-showcase {
+            margin-bottom: 30px;
+        }
+
+        .video-frame {
+            width: 100%;
+            max-width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .video-frame:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-placeholder {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .play-button {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .video-placeholder:hover .play-button {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(1.1);
+        }
+
+        .video-placeholder p {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 0 20px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .images-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .image-placeholder {
+            width: 100%;
+            aspect-ratio: 4/3;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #4b5563;
+        }
+
+        .image-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .image-placeholder p {
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            padding: 0 15px;
+            color: #374151;
+        }
+
+        /* Course-specific media colors */
+        .minecraft-course .video-placeholder {
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 100%);
+        }
+
+        .scratch-course .video-placeholder {
+            background: linear-gradient(135deg, #e94627 0%, #ff6b35 100%);
+        }
+
+        .ai-course .video-placeholder {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+        }
+
+        .merge-course .video-placeholder {
+            background: linear-gradient(135deg, #db2777 0%, #ec4899 100%);
+        }
+
+        .tools-course .video-placeholder {
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+        }
+
+        .minecraft-course .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e8dcc8 100%);
+        }
+
+        .scratch-course .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #ffe5dc 100%);
+        }
+
+        .ai-course .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
+        }
+
+        .merge-course .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #fce7f3 100%);
+        }
+
+        .tools-course .image-placeholder {
+            background: linear-gradient(135deg, #f3f4f6 0%, #ccfbf1 100%);
+        }
+
+        /* Course-specific colors */
+        .minecraft-course .course-header {
+            background: linear-gradient(135deg, #6b4423 0%, #8b7355 50%, #a89968 100%),
+                        url('image/m1.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .minecraft-course .skill-badge:hover {
+            border-color: var(--minecraft);
+            background: linear-gradient(135deg, #f3f4f6 0%, #e8dcc8 100%);
+        }
+
+        .scratch-course .course-header {
+            background: linear-gradient(135deg, #e94627 0%, #ff6b35 50%, #ff8c61 100%),
+                        url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .scratch-course .skill-badge:hover {
+            border-color: var(--scratch);
+            background: linear-gradient(135deg, #f3f4f6 0%, #ffe5dc 100%);
+        }
+
+        .ai-course .course-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #818cf8 100%),
+                        url('image/c1.png');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .ai-course .skill-badge:hover {
+            border-color: var(--ai);
+            background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
+        }
+
+        .merge-course .course-header {
+            background: linear-gradient(135deg, #db2777 0%, #ec4899 50%, #f472b6 100%),
+                        url('https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .merge-course .skill-badge:hover {
+            border-color: var(--merge);
+            background: linear-gradient(135deg, #f3f4f6 0%, #fce7f3 100%);
+        }
+
+        .tools-course .course-header {
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 50%, #2dd4bf 100%),
+                        url('https://images.unsplash.com/photo-1676573409210-c5e9959d1ee6?w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+        }
+
+        .tools-course .skill-badge:hover {
+            border-color: var(--tools);
+            background: linear-gradient(135deg, #f3f4f6 0%, #ccfbf1 100%);
+        }
+
+        /* Journey Connector */
+        .journey-connector {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .connector-line {
+            width: 4px;
+            height: 60px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            margin: 0 auto;
+        }
+
+        .connector-icon {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        /* Why Section */
+        .why-section {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 80px 20px;
+            margin-top: 80px;
+        }
+
+        .why-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .why-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 50px;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .why-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .why-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .why-card-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 15px;
+        }
+
+        .why-card-text {
+            font-size: 1.1rem;
+            color: #6b7280;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-family: 'Almarai', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+
+        .cta-text {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 20px 60px;
+            background: var(--accent);
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 1.1rem;
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .intro-title {
+                font-size: 2rem;
+            }
+
+            .path-title {
+                font-size: 2rem;
+            }
+
+            .course-title {
+                font-size: 1.8rem;
+            }
+
+            .course-header {
+                padding: 40px 30px;
+            }
+
+            .course-body {
+                padding: 30px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .images-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .play-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .video-placeholder p {
+                font-size: 1rem;
+            }
+
+            .image-icon {
+                font-size: 3rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="main-title">مسار البرمجة المتكامل للأطفال</h1>
+            <p class="subtitle">من الأساسيات إلى صناعة تطبيقات الذكاء الاصطناعي</p>
+        </div>
+    </header>
+
+    <!-- Introduction -->
+    <section class="intro-section">
+        <h2 class="intro-title">رحلة تعليمية مُصممة بعناية</h2>
+        <p class="intro-text">
+            مسار تعليمي متدرج يبدأ من تعليم طفلك أساسيات البرمجة عبر اللعب، ويصل به إلى إنشاء تطبيقات ذكية تتفاعل مع العالم الحقيقي، وأخيراً استخدام أدوات الذكاء الاصطناعي الحديثة في الحياة اليومية. كل كورس يبني على المهارات السابقة، ليضمن فهماً عميقاً وقدرة حقيقية على الإبداع.
+        </p>
+    </section>
+
+    <!-- Learning Path -->
+    <section class="learning-path">
+        <h2 class="path-title">المسار التعليمي - 5 كورسات أساسية</h2>
+        
+        <div class="courses-container">
+            <!-- Course 1: Minecraft -->
+            <div class="course-card minecraft-course animate-in">
+                <div class="course-header">
+                    <div class="course-number">1</div>
+                    <div class="course-icon">⛏️</div>
+                    <h3 class="course-title">البرمجة عبر Minecraft Education</h3>
+                    <p class="course-subtitle">تعلم الأوامر الأساسية من خلال المحاكاة داخل اللعبة</p>
+                </div>
+                <div class="course-body">
+                    <h4 class="section-heading">ماذا سيتعلم طفلك؟</h4>
+                    <p class="course-description">
+                        في هذا الكورس، يتعلم الأطفال أساسيات البرمجة بطريقة ممتعة داخل عالم Minecraft. بدلاً من الكتابة على شاشة سوداء مملة، يتحكم طفلك في روبوت (Agent) يبني ويحفر وينفذ المهام داخل اللعبة باستخدام الأوامر البرمجية.
+                    </p>
+
+                    <h4 class="section-heading">الفوائد التعليمية</h4>
+                    <ul class="benefits-list">
+                        <li class="benefit-item">فهم المفاهيم الأساسية: التسلسل، التكرار، الشروط</li>
+                        <li class="benefit-item">تعلم التفكير المنطقي وحل المشكلات خطوة بخطوة</li>
+                        <li class="benefit-item">رؤية النتائج الفورية لكل كود يكتبه</li>
+                        <li class="benefit-item">بناء الثقة من خلال إنجازات ملموسة داخل اللعبة</li>
+                        <li class="benefit-item">تطوير مهارات التخطيط والتصميم المعماري</li>
+                    </ul>
+
+                    <h4 class="section-heading">المهارات المكتسبة</h4>
+                    <div class="skills-grid">
+                        <div class="skill-badge">أوامر الحركة والتحكم</div>
+                        <div class="skill-badge">الحلقات التكرارية (Loops)</div>
+                        <div class="skill-badge">الشروط (If-Else)</div>
+                        <div class="skill-badge">المتغيرات والقيم</div>
+                        <div class="skill-badge">التفكير الحسابي</div>
+                        <div class="skill-badge">حل المشكلات المنطقية</div>
+                    </div>
+
+                    <h4 class="section-heading">شاهد طفلك وهو يتعلم</h4>
+                    <div class="media-section">
+                        <div class="video-showcase">
+                            <div class="video-frame">
+                                <div class="video-placeholder" style="background: linear-gradient(black , gray) , url('image/m2.png'); background-size: cover; background-blend-mode: overlay;" >
+                                    <a href="https://drive.google.com/file/d/1M3qrQNy8ynZ2yhLtacG1iwuRaPcP51e1/view?usp=sharing" style="text-decoration: none;color: #e5e7eb;">
+                                    <div class="play-button">▶</div>
+                                    </a>
+                                    <p>شاهد احدى محاضرات</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="images-gallery">
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/m2.png" alt="" width="100%"></span>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/m4.gif" alt="" width="100%"></span>
+                                    
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/m3.gif" alt="" width="100%"></span>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div class="journey-connector">
+    
+                <p style="font-size: 1.2rem; color: #6b7280; font-weight: 600;">بعد إتقان الأساسيات...</p>
+            </div>
+
+            <!-- Course 2: Scratch -->
+            <div class="course-card scratch-course animate-in">
+                <div class="course-header">
+                    <div class="course-number">2</div>
+                    <div class="course-icon">🎮</div>
+                    <h3 class="course-title">صناعة الألعاب بـ Scratch</h3>
+                    <p class="course-subtitle">استخدام المفاهيم لإنشاء ألعاب حقيقية تفاعلية</p>
+                </div>
+                <div class="course-body">
+                    <h4 class="section-heading">ماذا سيتعلم طفلك؟</h4>
+                    <p class="course-description">
+                        الآن يستخدم طفلك كل ما تعلمه في Minecraft لصناعة ألعابه الخاصة من الصفر! Scratch هي منصة برمجة مرئية تستخدم "البلوكات" الملونة بدلاً من الكود النصي، مما يجعل البرمجة سهلة وممتعة. طفلك سيصمم ألعاباً كاملة بشخصيات متحركة، أصوات، ومستويات متعددة.
+                    </p>
+
+                    <h4 class="section-heading">الفوائد التعليمية</h4>
+                    <ul class="benefits-list">
+                        <li class="benefit-item">تحويل الأفكار الإبداعية إلى واقع ملموس</li>
+                        <li class="benefit-item">فهم عميق لتصميم الألعاب وميكانيكيات اللعب</li>
+                        <li class="benefit-item">تطوير القدرة على التخطيط والتنفيذ للمشاريع الكبيرة</li>
+                        <li class="benefit-item">تعلم التعامل مع الأحداث والتفاعلات</li>
+                        <li class="benefit-item">بناء مهارات الفن الرقمي والتصميم</li>
+                    </ul>
+
+                    <h4 class="section-heading">المهارات المكتسبة</h4>
+                    <div class="skills-grid">
+                        <div class="skill-badge">البرمجة الموجهة بالأحداث</div>
+                        <div class="skill-badge">الرسوم المتحركة (Animation)</div>
+                        <div class="skill-badge">التنسيق بين عناصر متعددة</div>
+                        <div class="skill-badge">تصميم واجهات المستخدم</div>
+                        <div class="skill-badge">الإبداع والابتكار</div>
+                        <div class="skill-badge">إدارة المشاريع</div>
+                    </div>
+
+                    <h4 class="section-heading">ألعاب حقيقية من صنع الأطفال</h4>
+                    <div class="media-section">
+                        
+                        <div class="images-gallery">
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/s2.gif" alt="" width="100%"></span>
+                                    
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/s1.gif" alt="" width="100%"></span>
+                                   
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/s3.png" alt="" width="100%"></span>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course 3: AI -->
+            <div class="course-card ai-course animate-in">
+                <div class="course-header">
+                    <div class="course-number">3</div>
+                    <div class="course-icon">🤖</div>
+                    <h3 class="course-title">المفاهيم الأساسية للذكاء الاصطناعي</h3>
+                    <p class="course-subtitle">فهم كيف تفكر الآلات وتتعلم من البيانات</p>
+                </div>
+                <div class="course-body">
+                    <h4 class="section-heading">ماذا سيتعلم طفلك؟</h4>
+                    <p class="course-description">
+                        في عصر الذكاء الاصطناعي، من الضروري أن يفهم الأطفال كيف تعمل هذه التقنية. هذا الكورس يشرح بطريقة مبسطة وتفاعلية كيف تتعرف الآلات على الصور، تفهم الأصوات، وتتخذ القرارات. طفلك لن يكون مستخدماً فقط، بل سيفهم ما يحدث خلف الكواليس.
+                    </p>
+
+                    <h4 class="section-heading">الفوائد التعليمية</h4>
+                    <ul class="benefits-list">
+                        <li class="benefit-item">فهم التقنيات التي تشكل مستقبلنا</li>
+                        <li class="benefit-item">تعلم كيفية تدريب الآلات على التعرف على الأنماط</li>
+                        <li class="benefit-item">تطوير التفكير النقدي حول استخدامات الذكاء الاصطناعي</li>
+                        <li class="benefit-item">بناء مشاريع ذكية بسيطة (التعرف على الصور والأصوات)</li>
+                        <li class="benefit-item">الاستعداد لمهن المستقبل</li>
+                    </ul>
+
+                    <h4 class="section-heading">المهارات المكتسبة</h4>
+                    <div class="skills-grid">
+                        <div class="skill-badge">مفاهيم التعلم الآلي</div>
+                        <div class="skill-badge">التعرف على الأنماط</div>
+                        <div class="skill-badge">تدريب النماذج</div>
+                        <div class="skill-badge">معالجة الصور</div>
+                        <div class="skill-badge">معالجة الأصوات</div>
+                        <div class="skill-badge">التفكير التحليلي</div>
+                    </div>
+
+                    <h4 class="section-heading">اكتشف عالم الذكاء الاصطناعي</h4>
+                    <div class="media-section">
+                        <div class="video-showcase">
+                            <div class="video-frame">
+                                <div class="video-placeholder" style="background-image: url('image/c2.gif'); background-size: cover;">
+                                    <div class="play-button">▶</div>
+                                    <p>كيف تدرب طفلك الآلة على التعرف على الأشياء</p>
+                                </div>
+                            </div>
+                        </div>
+                       
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            
+
+            <!-- Course 4: Merge -->
+            <div class="course-card merge-course animate-in">
+                <div class="course-header">
+                    <div class="course-number">4</div>
+                    <div class="course-icon">✨</div>
+                    <h3 class="course-title">دمج Scratch مع الذكاء الاصطناعي</h3>
+                    <p class="course-subtitle">صناعة ألعاب ذكية تتفاعل مع الحركة والصوت</p>
+                </div>
+                <div class="course-body">
+                    <h4 class="section-heading">ماذا سيتعلم طفلك؟</h4>
+                    <p class="course-description">
+                        هنا يحدث السحر! طفلك سيدمج كل ما تعلمه في الكورسات الثلاثة السابقة لصناعة ألعاب ذكية مذهلة. تخيل لعبة تتحكم فيها بحركة يدك أمام الكاميرا، أو لعبة تستجيب لصوتك، أو شخصية تتعرف على وجهك! هذا هو مستوى الإبداع الذي سيصل إليه طفلك.
+                    </p>
+
+                    <h4 class="section-heading">الفوائد التعليمية</h4>
+                    <ul class="benefits-list">
+                        <li class="benefit-item">دمج مهارات البرمجة مع الذكاء الاصطناعي</li>
+                        <li class="benefit-item">إنشاء تطبيقات تفاعلية حقيقية</li>
+                        <li class="benefit-item">فهم كيفية ربط التقنيات المختلفة معاً</li>
+                        <li class="benefit-item">تطوير مهارات حل المشكلات المعقدة</li>
+                        <li class="benefit-item">بناء مشاريع يفخر بها طفلك ويشاركها مع الآخرين</li>
+                    </ul>
+
+                    <h4 class="section-heading">المهارات المكتسبة</h4>
+                    <div class="skills-grid">
+                        <div class="skill-badge">دمج الأنظمة المختلفة</div>
+                        <div class="skill-badge">التحكم بالحركة (Motion Control)</div>
+                        <div class="skill-badge">التعرف على الوجوه</div>
+                        <div class="skill-badge">معالجة الصوت الحي</div>
+                        <div class="skill-badge">بناء واجهات ذكية</div>
+                        <div class="skill-badge">الإبداع التقني المتقدم</div>
+                    </div>
+
+                    <h4 class="section-heading">مشاريع مذهلة تجمع البرمجة والذكاء الاصطناعي</h4>
+                    <div class="media-section">
+                        
+                        <div class="images-gallery">
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/a1.png" alt="" width="100%"></span>
+                                    
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                     <span class="image-icon"><img src="../image/a4.png" alt="" width="100%"></span>                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon"><img src="image/a3.png" alt="" width="100%"></span>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           
+
+            <!-- Course 5: AI Tools -->
+            <div class="course-card tools-course animate-in">
+                <div class="course-header">
+                    <div class="course-number">5</div>
+                    <div class="course-icon">🛠️</div>
+                    <h3 class="course-title">استخدام أدوات الذكاء الاصطناعي في الحياة اليومية</h3>
+                    <p class="course-subtitle">تطبيق التقنيات الحديثة لحل المشكلات الواقعية</p>
+                </div>
+                <div class="course-body">
+                    <h4 class="section-heading">ماذا سيتعلم طفلك؟</h4>
+                    <p class="course-description">
+                        في الكورس الأخير، يتعلم طفلك كيفية استخدام أدوات الذكاء الاصطناعي المتاحة حالياً لتسهيل حياته اليومية وتعزيز إبداعه. من إنشاء الصور بالذكاء الاصطناعي، إلى كتابة القصص، تحرير الفيديو، تعلم اللغات، والبحث الذكي. طفلك سيصبح مستخدماً ذكياً للتقنية، قادراً على توظيفها بشكل مسؤول وإبداعي.
+                    </p>
+
+                    <h4 class="section-heading">الفوائد التعليمية</h4>
+                    <ul class="benefits-list">
+                        <li class="benefit-item">فهم الأدوات المتاحة وكيفية استخدامها بشكل آمن وفعال</li>
+                        <li class="benefit-item">تطوير مهارات الإبداع الرقمي والتفكير النقدي</li>
+                        <li class="benefit-item">تعلم التواصل الفعال مع أنظمة الذكاء الاصطناعي</li>
+                        <li class="benefit-item">استخدام التقنية لحل مشكلات حقيقية في الدراسة والحياة</li>
+                        <li class="benefit-item">بناء الوعي بالاستخدام الأخلاقي والمسؤول للذكاء الاصطناعي</li>
+                    </ul>
+
+                    <h4 class="section-heading">المهارات المكتسبة</h4>
+                    <div class="skills-grid">
+                        <div class="skill-badge">توليد الصور بالذكاء الاصطناعي</div>
+                        <div class="skill-badge">الكتابة الإبداعية المدعومة بالذكاء</div>
+                        <div class="skill-badge">تحرير الفيديو الذكي</div>
+                        <div class="skill-badge">البحث المتقدم والتحليل</div>
+                        <div class="skill-badge">استخدام المساعدات الذكية</div>
+                        <div class="skill-badge">الاستخدام الأخلاقي للتقنية</div>
+                    </div>
+
+                    <h4 class="section-heading">أمثلة تطبيقية من الحياة اليومية</h4>
+                    <div class="media-section">
+                        
+                        </div>
+                        <div class="images-gallery">
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon">🎨</span>
+                                    <p>توليد الصور للمشاريع</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon">📝</span>
+                                    <p>المساعدة في الكتابة</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon">🎬</span>
+                                    <p>تحرير الفيديوهات</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon">🌍</span>
+                                    <p>تعلم اللغات</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon">🔍</span>
+                                    <p>البحث الذكي</p>
+                                </div>
+                            </div>
+                            <div class="gallery-item">
+                                <div class="image-placeholder">
+                                    <span class="image-icon">📚</span>
+                                    <p>المساعدة في الواجبات</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Section -->
+    <section class="why-section">
+        <div class="why-container">
+            <h2 class="why-title">لماذا هذا المسار مميز؟</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🎯</div>
+                    <h3 class="why-card-title">تدرج منطقي</h3>
+                    <p class="why-card-text">كل كورس يبني على السابق، مما يضمن فهماً عميقاً وتطوراً ملحوظاً في المهارات</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🎮</div>
+                    <h3 class="why-card-title">تعلم بالممارسة</h3>
+                    <p class="why-card-text">لا نظريات معقدة، بل مشاريع حقيقية وألعاب ممتعة يصنعها طفلك بنفسه</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🚀</div>
+                    <h3 class="why-card-title">مهارات المستقبل</h3>
+                    <p class="why-card-text">نركز على التقنيات الحديثة التي ستكون أساسية في عالم الغد</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">💡</div>
+                    <h3 class="why-card-title">تطوير التفكير</h3>
+                    <p class="why-card-text">تنمية مهارات حل المشكلات، التفكير المنطقي، والإبداع</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">🏆</div>
+                    <h3 class="why-card-title">إنجازات ملموسة</h3>
+                    <p class="why-card-text">مشاريع حقيقية يمكن لطفلك أن يفخر بها ويشاركها مع أصدقائه وعائلته</p>
+                </div>
+                <div class="why-card">
+                    <div class="why-icon">👨‍👩‍👧‍👦</div>
+                    <h3 class="why-card-title">منهج مُختبر</h3>
+                    <p class="why-card-text">مصمم بناءً على أفضل الممارسات التعليمية العالمية ومُجرب مع مئات الطلاب</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <h2 class="cta-title">استثمر في مستقبل طفلك اليوم</h2>
+        <p class="cta-text">انضم إلى مئات العائلات التي اختارت تمكين أطفالها بمهارات المستقبل</p>
+       
+    </section>
+    <a href="https://forms.gle/T35rJPySHEDhU7b36" target="_blank" class="pulse-btn">سجل الآن</a>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">© 2026 مسار البرمجة للأطفال - نبني المبرمجين والمبدعين</p>
+    </footer>
+
+    <script>
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.course-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
