@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="background.css">
+    <link rel="icon" type="image/png" href="../static/image/icon3.png">
+
+    <title>ArabiaTech For Loop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One:wght@400&family=JetBrains+Mono:wght@400;600&family=Quicksand:wght@400;600;700&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            direction: ltr;
+            overflow-x: hidden;
+            padding: 0px;
+            background-color: #0d1117;;
+            
+           
+        }
+        .container {
+          
+            overflow: hidden;
+            margin-top: 10px;
+            
+        }
+
+        .content {
+            
+            display: flex;
+            align-items: flex-start;
+            flex-direction: row-reverse;
+        }
+
+        .main-area {
+            flex: 2;
+            min-width: 0;
+        }
+
+        .control-panel {
+            background: #1e2530;
+            padding: 10px;
+            padding-top: 0px;
+
+            flex: 1;
+            max-width: 400px;
+            position: sticky;
+            top: 0 px;
+            border: 2px solid #0000007c;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            max-height: 900px;
+        }
+        
+        .control-panel h2 {
+            color: #ffffff;
+            margin-bottom: 10px;
+            margin-top: 0px;
+            text-align: center;
+            font-size: 60px;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            margin: 10px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            color: #fffcdc;
+            font-size: 1.3em;
+        }
+
+        .input-field {
+            padding: 5px 0px;
+            border: 2px solid #bdc3c7;
+            border-radius: 10px;
+            font-size: 16px;
+            text-align: center;
+            width: 50px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: #f8f8f8;
+            box-shadow: 0 0 10px rgba(106, 106, 106, 0.3);
+        }
+
+        .print-input {
+            width: 120px;
+            padding: 5px 8px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #676767, #000000);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(218, 218, 218, 0.3);
+            margin: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(113, 113, 113, 0.4);
+        }
+
+        .btn.stop {
+             background: rgba(0,0,0,0.7);
+        }
+
+        .btn.reset {
+            background: linear-gradient(135deg, #3498db, #3498db);
+        }
+
+        .simulation-area {
+            
+            border-radius: 20px;
+            padding: 50px;
+            margin: 0 0 20px 0;
+            position: relative;
+            min-height: 300px;
+            overflow: hidden;
+           
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 0px;
+        }
+
+        .track {
+            width: 240px;
+            height: 240px;
+            border: 8px dashed #ffffff;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+             background: rgba(0,0,0,0.7);
+        }
+
+        .start-stage {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: rgb(0, 0, 0);
+            font-weight: bold;
+            font-size: 0.9em;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 4px solid transparent;
+            background: linear-gradient(135deg, #ffffff, #fcfbb5b1);
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .start-stage.active {
+            transform: translateX(-50%) scale(1.2);
+            border-color: #3498db;
+            box-shadow: 0 0 30px #3498db;
+            animation: pulse 1s infinite;
+            z-index: 15;
+        }
+
+        .runner {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            transition: all 0.3s ease;
+            z-index: 10;
+            top: 50%;
+            left: 90%;
+        }
+
+        .loop-display {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ffffff;
+            direction: ltr;
+            text-align: center;
+        }
+
+        .code-display {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            border: 2px solid #ffffff;
+            direction: ltr;
+            text-align: center;
+        }
+
+        .variables-display {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            padding: 5px;
+            border-radius: 15px;
+            min-width: 110px;
+            border: 2px solid #0000007c;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+            color: white;
+        }
+
+        .variable {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+            font-size: .8em;
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .variable .name {
+            color: #ffffff;
+        }
+
+        .variable .value {
+            color: #ffffff;
+            font-size: 1.4em;
+        }
+
+        .status-display {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+              background: #1e2530;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            min-width: 150px;
+            border: 2px solid #0000007c;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+             color: white;
+        }
+
+        .status {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 10px 0;
+            color: rgb(255, 255, 255);
+          
+        }
+
+        .status.running {
+            color: #2ecc71;
+        }
+
+        .status.stopped {
+            color: #e74c3c;
+        }
+
+        .status.completed {
+            color: #f39c12;
+        }
+
+        .iteration-counter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+           background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #0000007c;
+            box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .current-stage-display {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.7);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #fdffe1;
+        }
+
+        .output-area {
+              background: #1e2530;
+            color: #ffffff;
+            padding: 10px;
+            
+          
+            min-height: 100px;
+        
+            overflow-y: auto;
+    
+            max-height: 150px;
+        }
+
+
+        .output-content {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            line-height: 1;
+            text-align: left;
+            direction: ltr;
+        }
+
+        .output-line {
+            margin: 8px 0;
+            animation: fadeInOutput 0.5s ease-in;
+        }
+
+        .log-area {
+            background: #1e2530;
+            color: #ecf0f1;
+            padding: 20px;
+            margin: 2px 0;
+            max-height: 70px;
+            overflow-y: hidden;
+            font-family: 'Courier New', monospace;
+        }
+
+        .log-entry {
+            margin: 8px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 1.1em;
+        }
+
+        .log-entry.init {
+            background: rgba(52, 152, 219, 0.3);
+        }
+
+        .log-entry.execute {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        .log-entry.complete {
+            background: rgba(46, 204, 113, 0.3);
+        }
+
+        .log-entry.stop {
+            background: rgba(149, 165, 166, 0.3);
+        }
+
+        .explanation-box {
+            background: rgba(0,0,0,0.7);
+            color: white;
+          
+            border-radius: 15px;
+            margin: 20px 0;
+            direction:rtl;
+        }
+
+        @keyframes pulse {
+            0% { transform: translateX(-50%) scale(1.1); }
+            50% { transform: translateX(-50%) scale(1.3); }
+            100% { transform: translateX(-50%) scale(1.1); }
+        }
+
+        @keyframes fadeInOutput {
+            from { 
+                opacity: 0; 
+                transform: translateY(-10px);
+                background: rgba(46, 204, 113, 0.3);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+                background: transparent;
+            }
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                flex-direction: column-reverse;
+            }
+            
+            .control-panel {
+                max-width: none;
+                position: static;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content { padding: 20px; }
+            .simulation-area { padding: 20px; min-height: 400px; }
+            .track { width: 280px; height: 280px; }
+            .start-stage { width: 60px; height: 60px; font-size: 0.7em; }
+            .runner { width: 35px; height: 35px; font-size: 18px; }
+            .input-field { width: 60px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <div class="main-area">
+                <div class="simulation-area">
+                    <div class="loop-display" id="loopDisplay" style="z-index: 20;">
+                        for (let i = 0; i &lt; 5; i++) {
+                    </div>
+
+                    <div class="code-display" id="codeDisplay">
+                        console.log("hello");
+                    </div>
+
+                    <div class="current-stage-display" id="currentStageDisplay" style="display: none;">
+                        جاهز للبدء
+                    </div>
+
+                    <div class="iteration-counter">
+                        <div style="color: #ffffff; font-weight: bold;">عدد الدورات</div>
+                        <div id="iterationCount" style="font-size: 2em; font-weight: bold; color: #e74c3c;">0</div>
+                    </div>
+
+                    <div class="track" id="track">
+                        <div class="start-stage" id="startStage">
+                            <div>البداية</div>
+                            <div style="font-size: 0.8em;">Start</div>
+                        </div>
+                    </div>
+
+                    <div class="runner" id="runner"><img src="ro_run.gif" alt="" width="200%"></div>
+
+                    <div class="variables-display">
+                        <h4 style="color: #ffffff; margin-bottom: 15px;">المتغيرات:</h4>
+                        <div class="variable">
+                            <span class="name" id="varName">i:</span>
+                            <span class="value" id="varValue">0</span>
+                        </div>
+                        <div class="variable">
+                            <span class="name">البداية:</span>
+                            <span class="value" id="startDisplay">0</span>
+                        </div>
+                        <div class="variable">
+                            <span class="name">النهاية:</span>
+                            <span class="value" id="endDisplay">5</span>
+                        </div>
+                        <div class="variable">
+                            <span class="name">الخطوة:</span>
+                            <span class="value" id="stepDisplay">1</span>
+                        </div>
+                    </div>
+
+                    <div class="status-display">
+                        <h4 style="margin-bottom: 15px; color: #ffffff;">الحالة:</h4>
+                        <div class="status" id="status">جاهز للبدء</div>
+                    </div>
+                </div>
+
+                <div class="output-area">
+                    <div class="output-header">Output</div>
+                    <div class="output-content" id="outputContent">
+                        <div style="color: #ffffff; font-style: italic;">النتائج ستظهر هنا عند تشغيل البرنامج...</div>
+                    </div>
+                </div>
+
+                <div class="log-area" id="logArea">
+                    <div class="log-entry">سجل العمليات سيظهر هنا...</div>
+                </div>
+
+               
+            </div>
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h2>For Loop</h2>
+                
+                <div class="input-group" style="flex-wrap: nowrap; justify-content: flex-start;">
+                    <label>for (let</label>
+                    <input type="text" id="variableName" class="input-field" value="i" placeholder="i" style="width: 60px;">
+                    <label>=</label>
+                    <input type="number" id="startValue" class="input-field" value="0" placeholder="0">
+                    <label>;&nbsp;i&lt;</label>
+                    <input type="number" id="endValue" class="input-field" value="5" placeholder="5">
+                    <label>;&nbsp;i+=</label>
+                    <input type="number" id="stepValue" class="input-field" value="1" placeholder="1">
+                    <label>) {</label>
+                </div>
+
+                <div class="input-group" style="margin: 15px 0; flex-direction: column; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 5px; flex-wrap: wrap; justify-content: center;">
+                        <label>console.log(</label>
+                        <div id="stringInput" style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap; justify-content: center;">
+                        <label>"</label>
+                        <input type="text" id="printValue" class="input-field print-input" value="hello" placeholder="hello">
+                        <label>"</label>
+                    </div>
+                    
+                    <div id="variableInput" style="display: none; flex-direction: column; gap: 5px;">
+                        <div style="display: flex; align-items: center; gap: 3px; justify-content: center;">
+                            <input type="text" id="printVariable" class="input-field" value="i" placeholder="i" style="width: 60px;">
+                        </div>
+                    </div>
+                    
+                    <div id="mixedInput" style="display: none; flex-direction: column; gap: 5px;">
+                        <div style="display: flex; align-items: center; gap: 3px; flex-wrap: wrap; justify-content: center;">
+                            <label>"</label>
+                            <input type="text" id="mixedText" class="input-field" value="Value: " placeholder="Value: " style="width: 80px;">
+                            <label>" +</label>
+                            <input type="text" id="mixedVariable" class="input-field" value="i" placeholder="i" style="width: 60px;">
+                        </div>
+                    </div>
+                        <label>)</label>
+                        <select id="printType" class="input-field" style="width: 80px; padding: 5px;">
+                            <option value="string">نص</option>
+                            <option value="variable">متغير</option>
+                            <option value="mixed">مختلط</option>
+                        </select>
+                    </div>
+                    
+                    
+                </div>
+
+                <div class="input-group" style="flex-direction: column; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="startSimulation()">ابدأ المحاكاة</button>
+                    <button class="btn stop" onclick="pauseSimulation()" id="pauseBtn">إيقاف مؤقت</button>
+                    <button class="btn reset" onclick="resetSimulation()">إعادة تعيين</button>
+                </div>
+
+                <div class="explanation-box" style="margin-top: 20px; padding: 20px;">
+                    <h3>💡 جرب هذه الأمثلة:</h3>
+                    <p><strong>العد الأساسي:</strong> for (let i = 0; i &lt; 10; i++) - من 0 إلى 9 بزيادة 1</p>
+                    <p><strong>العد التنازلي:</strong> for (let i = 10; i &gt; 0; i--) - من 10 إلى 1 بتقليل 1</p>
+                    <p><strong>الأرقام الزوجية:</strong> for (let i = 0; i &lt; 20; i += 2) - الأرقام الزوجية من 0 إلى 18</p>
+                    <p><strong>مضاعفات الخمسة:</strong> for (let i = 5; i &lt; 50; i += 5) - 5, 10, 15, 20...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let simulationRunning = false;
+        let simulationPaused = false;
+        let simulationTimeout;
+        let currentValue = 0;
+        let iterationCount = 0;
+        let startValue, endValue, stepValue;
+        let angle = 270; // Start at top (270 degrees)
+
+        function updateLoopDisplay() {
+            const varName = document.getElementById('variableName').value || 'i';
+            const start = document.getElementById('startValue').value || '0';
+            const end = document.getElementById('endValue').value || '5';
+            const step = parseInt(document.getElementById('stepValue').value) || 1;
+
+            const comparison = step > 0 ? '&lt;' : '&gt;';
+            const incrementOp = step > 0 ? '+=' : '-=';
+            const stepAbs = Math.abs(step);
+            const increment = stepAbs === 1
+                ? (step > 0 ? `${varName}++` : `${varName}--`)
+                : `${varName} ${incrementOp} ${stepAbs}`;
+
+            document.getElementById('loopDisplay').innerHTML =
+                `for (let ${varName} = ${start}; ${varName} ${comparison} ${end}; ${increment}) {`;
+        }
+
+        function updateCodeDisplay() {
+            const printType = document.getElementById('printType').value;
+            let codeText = '';
+            
+            switch(printType) {
+                case 'string':
+                    const printText = document.getElementById('printValue').value || 'hello';
+                    codeText = `console.log("${printText}");`;
+                    break;
+                case 'variable':
+                    const printVar = document.getElementById('printVariable').value || 'i';
+                    codeText = `console.log(${printVar});`;
+                    break;
+                case 'mixed':
+                    const mixedText = document.getElementById('mixedText').value || 'Value: ';
+                    const mixedVar = document.getElementById('mixedVariable').value || 'i';
+                    codeText = `console.log("${mixedText}" + ${mixedVar});`;
+                    break;
+            }
+            
+            document.getElementById('codeDisplay').innerHTML = codeText;
+        }
+
+        function getPrintOutput() {
+            const printType = document.getElementById('printType').value;
+            const varName = document.getElementById('variableName').value || 'i';
+            let output = '';
+            
+            switch(printType) {
+                case 'string':
+                    const printText = document.getElementById('printValue').value || 'hello';
+                    output = printText;
+                    break;
+                case 'variable':
+                    const printVar = document.getElementById('printVariable').value || 'i';
+                    if (printVar === varName) {
+                        output = currentValue.toString();
+                    } else {
+                        // If it's a different variable name, just show the name for now
+                        output = printVar;
+                    }
+                    break;
+                case 'mixed':
+                    const mixedText = document.getElementById('mixedText').value || 'Value: ';
+                    const mixedVar = document.getElementById('mixedVariable').value || 'i';
+                    if (mixedVar === varName) {
+                        output = mixedText + currentValue.toString();
+                    } else {
+                        output = mixedText + mixedVar;
+                    }
+                    break;
+            }
+            
+            return output;
+        }
+
+        function togglePrintInputs() {
+            const printType = document.getElementById('printType').value;
+            
+            // Hide all inputs first
+            document.getElementById('stringInput').style.display = 'none';
+            document.getElementById('variableInput').style.display = 'none';
+            document.getElementById('mixedInput').style.display = 'none';
+            
+            // Show relevant input based on selection
+            switch(printType) {
+                case 'string':
+                    document.getElementById('stringInput').style.display = 'flex';
+                    break;
+                case 'variable':
+                    document.getElementById('variableInput').style.display = 'block';
+                    break;
+                case 'mixed':
+                    document.getElementById('mixedInput').style.display = 'block';
+                    break;
+            }
+            
+            updateCodeDisplay();
+        }
+
+        function addOutput(text) {
+            const outputContent = document.getElementById('outputContent');
+            
+            // Clear the placeholder text if it exists
+            if (outputContent.innerHTML.includes('النتائج ستظهر هنا')) {
+                outputContent.innerHTML = '';
+            }
+            
+            const outputLine = document.createElement('div');
+            outputLine.className = 'output-line';
+            outputLine.textContent = text;
+            outputContent.appendChild(outputLine);
+            
+            // Auto-scroll to bottom
+            outputContent.scrollTop = outputContent.scrollHeight;
+        }
+
+        function clearOutput() {
+            document.getElementById('outputContent').innerHTML = 
+                '<div style="color: #95a5a6; font-style: italic;">النتائج ستظهر هنا عند تشغيل البرنامج...</div>';
+        }
+
+        function addLog(message, type = '') {
+            const logArea = document.getElementById('logArea');
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry ${type}`;
+            logEntry.innerHTML = `⏰ ${new Date().toLocaleTimeString('ar-EG')}: ${message}`;
+            logArea.appendChild(logEntry);
+            logArea.scrollTop = logArea.scrollHeight;
+        }
+
+        function shouldContinue() {
+            if (stepValue > 0) {
+                return currentValue < endValue;
+            } else {
+                return currentValue > endValue;
+            }
+        }
+
+        function updateDisplay() {
+            const varName = document.getElementById('variableName').value || 'i';
+            document.getElementById('varName').innerHTML = `${varName}:`;
+            document.getElementById('varValue').innerHTML = currentValue;
+            document.getElementById('startDisplay').innerHTML = startValue;
+            document.getElementById('endDisplay').innerHTML = endValue;
+            document.getElementById('stepDisplay').innerHTML = stepValue;
+            document.getElementById('iterationCount').innerHTML = iterationCount;
+        }
+
+        function moveRunner() {
+            const runner = document.getElementById('runner');
+            const radius = 115; // Radius to move on the track
+            const radian = (angle * Math.PI) / 180;
+            const x = radius * Math.cos(radian);
+            const y = radius * Math.sin(radian);
+            
+            runner.style.left = `calc(50% + ${x}px)`;
+            runner.style.top = `calc(50% + ${y}px)`;
+        }
+
+        function animateRunner(targetAngle, callback, steps = 60) {
+            if ((!simulationRunning || simulationPaused) && targetAngle !== 270) return;
+            
+            const startAngle = angle;
+            let angleDiff = targetAngle - startAngle;
+            
+            // Always move clockwise (positive direction)
+            if (angleDiff < 0) angleDiff += 360;
+            if (angleDiff > 360) angleDiff -= 360;
+            
+            const angleStep = angleDiff / steps;
+            let currentStep = 0;
+
+            const animationInterval = setInterval(() => {
+                if ((!simulationRunning || simulationPaused) && targetAngle !== 270) {
+                    clearInterval(animationInterval);
+                    return;
+                }
+                
+                currentStep++;
+                angle = startAngle + angleStep * currentStep;
+                
+                // Keep angle in range 0-360
+                if (angle >= 360) angle -= 360;
+                if (angle < 0) angle += 360;
+                
+                moveRunner();
+                
+                if (currentStep >= steps) {
+                    clearInterval(animationInterval);
+                    angle = targetAngle;
+                    if (angle >= 360) angle -= 360;
+                    if (angle < 0) angle += 360;
+                    moveRunner();
+                    if (callback) callback();
+                }
+            }, 30);
+        }
+
+        function activateStartStage() {
+            document.getElementById('startStage').classList.add('active');
+            document.getElementById('currentStageDisplay').innerHTML = `بداية الدورة ${iterationCount + 1} - i = ${currentValue}`;
+        }
+
+        function deactivateStartStage() {
+            document.getElementById('startStage').classList.remove('active');
+        }
+
+        function executeFullLoop() {
+            // Check if we should continue
+            if (!shouldContinue()) {
+                stopSimulation();
+                document.getElementById('status').innerHTML = 'انتهى!';
+                document.getElementById('status').className = 'status completed';
+                document.getElementById('currentStageDisplay').innerHTML = 'انتهت الحلقة';
+                addLog('🏁 انتهت الحلقة - وصلنا للنهاية', 'complete');
+                deactivateStartStage();
+                return;
+            }
+
+            // Start at the beginning stage (top)
+            angle = 270; // Top position
+            moveRunner();
+            activateStartStage();
+            
+            addLog(`🚀 بداية الدورة ${iterationCount + 1}: i = ${currentValue}`, 'execute');
+            
+            // Wait a bit at start, then begin moving around the circle
+            simulationTimeout = setTimeout(() => {
+                if (!simulationRunning || simulationPaused) return;
+                
+                document.getElementById('currentStageDisplay').innerHTML = `تنفيذ العمليات - الدورة ${iterationCount + 1}`;
+                
+                // First move to bottom (90 degrees) where the print statement is
+                animateRunner(90, () => { // Move to bottom
+                    if (!simulationRunning || simulationPaused) return;
+                    
+                    // Execute the print statement when reaching the bottom
+                    const printOutput = getPrintOutput();
+                    addOutput(printOutput);
+                    
+                    addLog(`🖨️ تنفيذ console.log عند i = ${currentValue}: "${printOutput}"`, 'execute');
+                    
+                    // Wait a moment at the print position, then continue the circle
+                    simulationTimeout = setTimeout(() => {
+                        if (!simulationRunning || simulationPaused) return;
+                        
+                        // Complete the rest of the circle back to start (270)
+                        animateRunner(270, () => { // Back to top
+                            if (!simulationRunning || simulationPaused) return;
+                            
+                            angle = 270; // Reset to top position
+                            moveRunner();
+                            
+                            iterationCount++;
+                            
+                            addLog(`🔄 انتهاء الدورة ${iterationCount}`, 'execute');
+                            
+                            // Wait at start stage, then update variable
+                            simulationTimeout = setTimeout(() => {
+                                if (!simulationRunning || simulationPaused) return;
+                                
+                                const oldValue = currentValue;
+                                currentValue += stepValue;
+                                
+                                addLog(`🔢 تحديث المتغير: ${document.getElementById('variableName').value || 'i'} من ${oldValue} إلى ${currentValue}`, 'execute');
+                                updateDisplay();
+                                
+                                // Check if we exceeded reasonable limits
+                                if (iterationCount > 50) {
+                                    stopSimulation();
+                                    document.getElementById('status').innerHTML = 'توقف تلقائي!';
+                                    document.getElementById('status').className = 'status stopped';
+                                    addLog('⚠️ توقف تلقائي - تجاوز 50 دورة', 'stop');
+                                    deactivateStartStage();
+                                    return;
+                                }
+                                
+                                deactivateStartStage();
+                                
+                                // Brief pause before next iteration
+                                simulationTimeout = setTimeout(() => {
+                                    if (!simulationRunning || simulationPaused) return;
+                                    executeFullLoop(); // Continue to next iteration
+                                }, 800);
+                                
+                            }, 1500);
+                        }, 60); // Animation speed for second half
+                        
+                    }, 1000); // Wait at print position
+                    
+                }, 60); // Animation speed for first half
+                
+            }, 1000);
+        }
+
+        function startSimulation() {
+            if (simulationRunning && !simulationPaused) return;
+            
+            if (simulationPaused) {
+                simulationPaused = false;
+                document.getElementById('status').innerHTML = 'يعمل...';
+                document.getElementById('status').className = 'status running';
+                document.getElementById('pauseBtn').innerHTML = '⏸️ إيقاف مؤقت';
+                addLog('▶️ تم استكمال المحاكاة', 'execute');
+                executeFullLoop();
+                return;
+            }
+            
+            // New start
+            startValue = parseInt(document.getElementById('startValue').value) || 0;
+            endValue = parseInt(document.getElementById('endValue').value) || 5;
+            stepValue = parseInt(document.getElementById('stepValue').value) || 1;
+            
+            // Validate step value
+            if (stepValue === 0) {
+                alert('خطأ: قيمة الخطوة لا يمكن أن تكون صفر!');
+                return;
+            }
+            
+            currentValue = startValue;
+            iterationCount = 0;
+            simulationPaused = false;
+            
+            updateLoopDisplay();
+            updateCodeDisplay();
+            updateDisplay();
+            clearOutput();
+            
+            document.getElementById('status').innerHTML = 'يعمل...';
+            document.getElementById('status').className = 'status running';
+            document.getElementById('pauseBtn').innerHTML = '⏸️ إيقاف مؤقت';
+            
+            addLog('🚀 بدء المحاكاة', 'init');
+            addLog(`📊 المدى: من ${startValue} إلى ${endValue} بخطوة ${stepValue}`, 'init');
+            
+            simulationRunning = true;
+            
+            // Initialize runner position at top
+            angle = 270;
+            moveRunner();
+            
+            setTimeout(() => {
+                if (simulationRunning && !simulationPaused) {
+                    executeFullLoop();
+                }
+            }, 500);
+        }
+
+        function pauseSimulation() {
+            if (!simulationRunning) return;
+            
+            if (simulationPaused) {
+                startSimulation();
+            } else {
+                simulationPaused = true;
+                clearTimeout(simulationTimeout);
+                
+                document.getElementById('status').innerHTML = 'متوقف مؤقتاً';
+                document.getElementById('status').className = 'status stopped';
+                document.getElementById('pauseBtn').innerHTML = '▶️ استكمال';
+                document.getElementById('currentStageDisplay').innerHTML = 'متوقف مؤقتاً';
+                
+                deactivateStartStage();
+                addLog('⏸️ تم إيقاف المحاكاة مؤقتاً', 'stop');
+            }
+        }
+
+        function stopSimulation() {
+            simulationRunning = false;
+            simulationPaused = false;
+            clearTimeout(simulationTimeout);
+            
+            document.getElementById('pauseBtn').innerHTML = '⏸️ إيقاف مؤقت';
+            deactivateStartStage();
+            
+            if (document.getElementById('status').innerHTML === 'يعمل...' || 
+                document.getElementById('status').innerHTML === 'متوقف مؤقتاً') {
+                document.getElementById('status').innerHTML = 'متوقف';
+                document.getElementById('status').className = 'status stopped';
+                addLog('⏹️ تم إيقاف المحاكاة نهائياً', 'stop');
+            }
+        }
+
+        function resetSimulation() {
+            stopSimulation();
+            
+            startValue = parseInt(document.getElementById('startValue').value) || 0;
+            endValue = parseInt(document.getElementById('endValue').value) || 5;
+            stepValue = parseInt(document.getElementById('stepValue').value) || 1;
+            currentValue = startValue;
+            iterationCount = 0;
+            simulationPaused = false;
+            angle = 270; // Reset to top
+            
+            updateDisplay();
+            updateLoopDisplay();
+            updateCodeDisplay();
+            deactivateStartStage();
+            moveRunner(); // Reset runner position
+            clearOutput();
+            
+            document.getElementById('status').innerHTML = 'جاهز للبدء';
+            document.getElementById('status').className = 'status';
+            document.getElementById('pauseBtn').innerHTML = '⏸️ إيقاف مؤقت';
+            document.getElementById('currentStageDisplay').innerHTML = 'جاهز للبدء';
+            
+            document.getElementById('logArea').innerHTML = 
+                '<div class="log-entry">📝 سجل العمليات سيظهر هنا...</div>';
+            
+            addLog('🔄 تمت إعادة التعيين', 'init');
+        }
+
+        // Update display when inputs change
+        document.getElementById('variableName').addEventListener('input', updateLoopDisplay);
+        document.getElementById('startValue').addEventListener('input', () => {
+            updateLoopDisplay();
+            if (!simulationRunning) {
+                currentValue = parseInt(document.getElementById('startValue').value) || 0;
+                updateDisplay();
+            }
+        });
+        document.getElementById('endValue').addEventListener('input', updateLoopDisplay);
+        document.getElementById('stepValue').addEventListener('input', updateLoopDisplay);
+        document.getElementById('printValue').addEventListener('input', updateCodeDisplay);
+        document.getElementById('printType').addEventListener('change', togglePrintInputs);
+        document.getElementById('printVariable').addEventListener('input', updateCodeDisplay);
+        document.getElementById('mixedText').addEventListener('input', updateCodeDisplay);
+        document.getElementById('mixedVariable').addEventListener('input', updateCodeDisplay);
+
+        // Initial setup
+        window.addEventListener('load', () => {
+            updateLoopDisplay();
+            updateCodeDisplay();
+            updateDisplay();
+            togglePrintInputs();
+            angle = 270; // Start at top
+            moveRunner();
+        });
+    </script>
+</body>
+</html>
