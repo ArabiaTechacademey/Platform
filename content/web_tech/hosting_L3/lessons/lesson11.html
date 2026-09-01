@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catch The Ball</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    height:100vh;
+    overflow:hidden;
+    background:#f2f2f2;
+}
+
+.info{
+    display:flex;
+    justify-content:space-around;
+    padding:20px;
+    font-size:25px;
+    font-weight:bold;
+    background:#333;
+    color:white;
+}
+
+#ball{
+    width:70px;
+    height:70px;
+    border-radius:50%;
+    background:red;
+    position:absolute;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<div class="info">
+    <span>Score: <span id="score">0</span></span>
+    <span>Time: <span id="time">30</span></span>
+</div>
+
+<div id="ball" onclick=add_point()></div>
+
+<script>
+
+let ball = document.getElementById("ball");
+let score = document.getElementById("score");
+let time = document.getElementById("time");
+
+let points = 0;
+let seconds = 30;
+
+
+function moveBall(){
+
+    let x = Math.random() * (window.innerWidth - 70);
+    let y = Math.random() * (window.innerHeight - 120);
+
+    ball.style.left = x + "px";
+    ball.style.top = y + "px";
+}
+
+function add_point(){
+    points++;
+    score.innerHTML = points;
+    moveBall();
+}
+
+
+let game = setInterval(function(){
+    moveBall();},1000);
+
+let timer = setInterval(function(){
+    seconds--;
+    time.innerHTML = seconds;},1000);
+
+</script>
+
+</body>
+</html>
