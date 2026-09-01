@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Do You Like Programming?</title>
+
+<style>
+
+body{
+    height:100vh;
+     display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(#f0d2d2);}
+   
+h1{
+    margin-bottom:30px;
+    font-size:35px;}
+
+#yes{
+    padding:10px 25px;
+    font-size:18px;
+    margin-right:20px;
+    cursor:pointer;
+}
+
+#no{
+    position:absolute;
+    padding:10px 25px;
+    font-size:18px;
+    cursor:pointer;}
+
+</style>
+</head>
+<body>
+
+<div>
+<h1>Do you like programming?</h1>
+<button id="yes" onclick=massege()>Yes</button>
+<button id="no">No</button>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const YesBtn = document.getElementById("yes");
+
+function moveButton() {
+
+    const randomX = Math.floor(Math.random() * 1200);
+    const randomY = Math.floor(Math.random() *700);
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+noBtn.addEventListener("mouseenter", moveButton);
+
+function massege() {
+    alert("Great! Keep learning and coding. ❤️");
+};
+</script>
+
+</body>
+</html>
