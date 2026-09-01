@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Session Viewer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" type="image/png" href="../image/icon1.png">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg:        #0d1117;
+  --surface:   #161b22;
+  --surface2:  #1e2530;
+  --surface3:  #2a3344;
+  --border:    rgba(255,255,255,0.08);
+  --border2:   rgba(255,255,255,0.14);
+  --text:      #e6edf3;
+  --text-soft: #8b949e;
+  --accent:    #f0a500;
+  --accent-dim:#c07c00;
+  --green:     #3ec98f;
+  --mono:      'JetBrains Mono', monospace;
+  --sans:      'Cairo', sans-serif;
+  --radius:    10px;
+}
+
+html { font-size: 15px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 32px 20px;
+}
+
+/* ── Top bar ── */
+.topbar {
+  max-width: 1100px;
+  margin: 0 auto 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 3px rgba(240,165,0,0.18);
+}
+
+.brand-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.session-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 50px;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  color: var(--text-soft);
+}
+
+.session-pill .num {
+  font-family: var(--mono);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--accent);
+}
+
+/* ── Main grid ── */
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.7fr;
+  gap: 20px;
+  align-items: start;
+}
+
+/* ── Cards ── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  direction: rtl;
+}
+
+.card-header-icon {
+  width: 30px; height: 30px;
+  border-radius: 8px;
+  background: var(--surface3);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-header-icon svg { width: 16px; height: 16px; fill: var(--accent); }
+
+.card-header-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  letter-spacing: 0.04em;
+}
+
+/* ── Image card ── */
+.image-wrap {
+  padding: 16px;
+  background: var(--surface2);
+}
+
+.preview-img {
+  width: 100%;
+  border-radius: var(--radius);
+  display: block;
+  max-height: 340px;
+  object-fit: contain;
+  background: #0d1117;
+}
+
+/* ── Metadata strip below image ── */
+.meta-strip {
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  direction: rtl;
+  gap: 10px;
+}
+
+.meta-label {
+  font-size: 0.8rem;
+  color: var(--text-soft);
+}
+
+.drive-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--green);
+  text-decoration: none;
+  padding: 5px 12px;
+  border: 1px solid rgba(62,201,143,0.25);
+  border-radius: 6px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.drive-link:hover {
+  background: rgba(62,201,143,0.08);
+  border-color: rgba(62,201,143,0.45);
+}
+
+.drive-link svg { width: 14px; height: 14px; fill: var(--green); }
+
+/* ── Code card ── */
+.code-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  direction: ltr;
+}
+
+.lang-badge {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--accent);
+  background: rgba(240,165,0,0.1);
+  border: 1px solid rgba(240,165,0,0.2);
+  border-radius: 5px;
+  padding: 2px 9px;
+  letter-spacing: 0.04em;
+}
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface3);
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  color: var(--text-soft);
+  font-family: var(--sans);
+  font-size: 0.8rem;
+  padding: 5px 12px;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.copy-btn:hover { color: var(--text); border-color: var(--border2); }
+.copy-btn.copied { color: var(--green); border-color: rgba(62,201,143,0.35); }
+
+.copy-btn svg { width: 13px; height: 13px; fill: currentColor; }
+
+.code-scroll {
+  overflow: auto;
+  max-height: 62vh;
+  padding: 16px 18px;
+  direction: ltr;
+}
+
+.code-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+.code-scroll::-webkit-scrollbar-track { background: transparent; }
+.code-scroll::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+.code-pre {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #cdd9e5;
+  white-space: pre;
+  tab-size: 4;
+}
+
+/* ── Error ── */
+.error-card {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid rgba(240,165,0,0.25);
+  border-top: 3px solid var(--accent);
+  border-radius: 14px;
+  padding: 36px;
+  text-align: center;
+  direction: rtl;
+}
+
+.error-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+.error-card p { color: var(--text-soft); font-size: 0.88rem; font-family: var(--mono); margin-top: 6px; }
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  .layout { grid-template-columns: 1fr; }
+  .topbar { flex-direction: column; align-items: flex-start; }
+  body { padding: 20px 14px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span class="brand-name">Python Course</span>
+  </div>
+  <div class="session-pill">
+    <span>الجلسة</span>
+    <span class="num" id="sessionNum">—</span>
+  </div>
+</div>
+
+<div id="root"></div>
+
+<script>
+const contentData = {
+  5:{
+    image:'https://drive.google.com/file/d/1G2QmBD3QPZ0gYDBK6-NPmvE5giOUyINA/view',
+    code:`import tkinter as tk
+from tkinter import messagebox
+import datetime, time
+
+root = tk.Tk()
+root.title("Chatbot")
+root.geometry("400x650")
+
+def respond():
+    user_msg = area.get("1.0", tk.END)
+    result['text'] = result['text'] + "🤖... it equal " + str(eval(user_msg))
+
+frame1 = tk.Frame(root, bg="#041f00", relief="raised", borderwidth=2)
+frame1.place(x=0, y=0, width=400, height=650)
+
+area = tk.Text(root, fg="#000000", bg="#bbd8c2",
+               font=("Arial", 15, "normal"), relief="ridge",
+               borderwidth=1, state="normal")
+area.insert("1.0", "hello")
+area.place(x=10, y=532, width=350, height=50)
+
+send_btn = tk.Button(root, text="send", fg="#ffffff", bg="#424242",
+                     font=("Arial", 12, "normal"), relief="groove",
+                     borderwidth=5, command=respond)
+send_btn.place(x=282, y=599, width=100, height=35)
+
+result = tk.Label(root, text="", fg="#ffffff", bg="#041f00",
+                  font=("Arial", 12, "normal"), relief="flat",
+                  borderwidth=0, anchor="nw", justify="left")
+result.place(x=7, y=12, width=380, height=500)
+
+root.mainloop()`
+  },
+  7:{
+    image:'https://drive.google.com/file/d/19W1-CzQ8Q7AJHbP8maL0HklCuwyhnBln/view',
+    code:`import tkinter as tk
+
+root = tk.Tk()
+root.title("X-O")
+turn = "X"
+
+def click(btn):
+    global turn
+    if btn["text"] == "":
+        btn.config(text=turn)
+        turn = "O" if turn == "X" else "X"
+
+buttons = []
+for row in range(3):
+    for col in range(3):
+        b = tk.Button(root, text="", width=10, height=4)
+        b.grid(row=row, column=col)
+        b.config(command=lambda x=b: click(x))
+        buttons.append(b)
+
+root.mainloop()`
+  },
+  8:{
+    image:'https://drive.google.com/file/d/1MNsIJQ8LTUX4x0aGtPuWNOAXRLJqfwrZ/view',
+    code:`import tkinter as tk
+import random, time, datetime
+
+root = tk.Tk()
+root.title("Chatbot")
+root.geometry("400x650")
+
+def respond():
+    user_msg = area.get("1.0", tk.END).strip()
+    result['text'] += "You -> " + user_msg + "\\n"
+    if "hello" in user_msg or "hi" in user_msg:
+        replies = ["🤖... Hello there! 😊",
+                   "🤖... Hey! How's it going? 👋",
+                   "🤖... Hi! Nice to see you!"]
+        bot_reply = random.choice(replies)
+    elif "time" in user_msg or "clock" in user_msg:
+        bot_reply = f"🤖... The time is {time.strftime('%H:%M:%S')}"
+    elif "date" in user_msg or "today" in user_msg:
+        today = datetime.date.today().strftime("%B %d, %Y")
+        bot_reply = f"🤖... Today is {today}"
+    elif "bye" in user_msg:
+        bot_reply = random.choice(["🤖... Goodbye 👋", "🤖... See you later 🚀"])
+    elif any(op in user_msg for op in ["+","-","*","/"]):
+        bot_reply = "🤖... it equal " + str(eval(user_msg))
+    else:
+        bot_reply = "🤖... I don't understand, try another word."
+    result['text'] += bot_reply + "\\n\\n"
+
+frame1 = tk.Frame(root, bg="#041f00", relief="raised", borderwidth=2)
+frame1.place(x=0, y=0, width=400, height=650)
+area = tk.Text(root, fg="#000000", bg="#bbd8c2",
+               font=("Arial", 15), relief="ridge", borderwidth=1)
+area.insert("1.0", "hello")
+area.place(x=10, y=532, width=350, height=50)
+send_btn = tk.Button(root, text="send", fg="#ffffff", bg="#424242",
+                     font=("Arial", 12), relief="groove",
+                     borderwidth=5, command=respond)
+send_btn.place(x=282, y=599, width=100, height=35)
+result = tk.Label(root, text="", fg="#ffffff", bg="#041f00",
+                  font=("Arial", 12), relief="flat",
+                  anchor="nw", justify="left")
+result.place(x=7, y=12, width=380, height=500)
+root.mainloop()`
+  },
+  11:{
+    image:'https://drive.google.com/file/d/1eRY-S2XKC1lxuYXjbOl4T28tPw1xe1tY/view',
+    
+    code:`import tkinter as tk
+import time
+
+def countdown():
+    level = scale1.get()
+    mins = {1: 24, 2: 39, 3: 59}[level]
+    head['text'] = "🚀 Don't Give up"
+    for i in range(mins, -1, -1):
+        for j in range(59, -1, -1):
+            time_btn.config(text=f"⏳ {i}:{j:02}")
+            root.update()
+            time.sleep(1)
+    head['text'] = "🚀 Break Time"
+    for i in range(9, -1, -1):
+        for j in range(59, -1, -1):
+            time_btn.config(text=f"⏳ {i}:{j:02}")
+            root.update()
+            time.sleep(1)
+    time_btn['text'] = "⏳ 00:00"
+    head['text'] = "🚀 Let's start again"
+
+root = tk.Tk()
+root.title("Study Timer")
+root.geometry("500x500")
+frame1 = tk.Frame(root, bg="#000000", relief="raised", borderwidth=2)
+frame1.place(x=0, y=0, width=500, height=500)
+scale1 = tk.Scale(root, from_=1, to=3, orient="horizontal",
+                  fg="#ffffff", bg="#000000", font=("Arial", 12))
+scale1.place(x=12, y=435, width=350, height=50)
+head = tk.Label(root, text="Study Session", fg="#ffffff", bg="#000000",
+                font=("Arial", 30), anchor="center")
+head.place(x=75, y=15, width=400, height=50)
+time_btn = tk.Label(root, text="start now", fg="#ffffff", bg="#000000",
+                    font=("Arial", 80), anchor="center")
+time_btn.place(x=25, y=90, width=450, height=300)
+start = tk.Button(root, text="start", fg="#ffffff", bg="#000000",
+                  font=("Arial", 12), relief="raised",
+                  borderwidth=3, command=countdown)
+start.place(x=385, y=442, width=100, height=35)
+root.mainloop()`
+  },
+  12:{
+    image:'https://drive.google.com/file/d/1nyCV_DvC9YY5TkqTeUAmptQQZ7dDyUAy/view',
+    code:`# List vs Tuple vs Set
+
+print("=== LIST ===")
+my_list = [10, 20, 20, 30]
+print("Original:", my_list)
+my_list.append(40)
+my_list[0] = 99
+print("Modified:", my_list)
+print("Slice [1:3]:", my_list[1:3])
+print("Duplicates:", my_list * 2)
+
+print("\\n=== TUPLE ===")
+my_tuple = (10, 20, 20, 30)
+print("Original:", my_tuple)
+try:
+    my_tuple[0] = 99
+except TypeError as e:
+    print("Error (immutable):", e)
+print("Slice [1:3]:", my_tuple[1:3])
+
+print("\\n=== SET ===")
+my_set = {10, 20, 20, 30}
+print("No duplicates:", my_set)
+my_set.add(40)
+print("After add:", my_set)
+try:
+    print(my_set[0])
+except TypeError as e:
+    print("No indexing:", e)`
+  },
+  13:{
+    image:'https://drive.google.com/file/d/1i0yY_DYfhJEhCzrb5XglyScvnf4rPZQg/view',
+    code:`import tkinter as tk
+import random
+root = tk.Tk()
+root.title("Rock Paper Scissors")
+root.geometry("850x500")
+choices = ["Rock", "Paper", "Scissors"]
+player_score = 0
+computer_score = 0
+def play(player_choice):
+global player_score, computer_score
+computer_choice = random.choice(choices)
+computer_choice_label['text'] = f"Computer chose: {computer_choice}"
+if player_score < 3 and computer_score < 3:
+if player_choice == computer_choice:
+win['text'] = "Draw 🤝"; win['fg'] = "yellow"
+elif (player_choice == "Rock"     and computer_choice == "Scissors") or 
+(player_choice == "Paper"    and computer_choice == "Rock")     or 
+(player_choice == "Scissors" and computer_choice == "Paper"):
+win['text'] = "You Win 🎉"; win['fg'] = "green"; player_score += 1
+else:
+win['text'] = "Computer Wins 😅"; win['fg'] = "red"; computer_score += 1
+result['text'] = f"Computer {computer_score}  vs  You {player_score}"
+if player_score == 3:
+tk.messagebox.showinfo("Game Over", "You won!")
+elif computer_score == 3:
+tk.messagebox.showinfo("Game Over", "Computer won 😢")
+
+frame1 = tk.Frame(root, bg="#1b0042", relief="raised", borderwidth=2)
+frame1.place(x=0, y=0, width=850, height=500)
+for txt, x in zip(["Rock", "Paper", "Scissors"], [48, 331, 613]):
+tk.Button(root, text=txt, fg="#1b0042", bg="#bd9d00",
+font=("Arial", 28, "bold"), relief="sunken",
+command=lambda t=txt: play(t)).place(x=x, y=104, width=200, height=50)
+label1 = tk.Label(root, text="VS", fg="#bd9d00", bg="#1b0042",
+font=("Arial", 43), anchor="center")
+label1.place(x=373, y=173, width=120, height=60)
+computer_choice_label = tk.Label(root, text="", fg="#FFFFFF", bg="#1b0042",
+        font=("Arial", 30), anchor="center")
+computer_choice_label.place(x=200, y=251, width=500, height=50)
+win = tk.Label(root, text="", fg="#264700", bg="#1b0042",
+font=("Arial", 30), anchor="center")
+win.place(x=200, y=350, width=500, height=50)
+result = tk.Label(root, text="", fg="#FFFFFF", bg="#1b0042",
+font=("Arial", 30), anchor="center")
+result.place(x=0, y=25, width=500, height=50)
+root.mainloop()`
+},
+14:{
+image:'https://drive.google.com/file/d/1WrWAt3DzSTadg2akPX4zSQYInV42bVFm/view',
+code:`students_db = {
+1: {"name": "Menna", "age": 16, "grade": "10th"},
+2: {"name": "Ali",   "age": 17, "grade": "11th"},
+3: {"name": "Sara",  "age": 15, "grade": "9th"}
+}
+
+# Q1: print name of student #1
+print("Q1:", students_db[1]["name"])  # Menna
+
+# Q2: add a new student
+students_db[4] = {"name": "Omar", "age": 16, "grade": "10th"}
+print("Q2:", students_db[4])
+
+# Q3: update age of student #3
+students_db[3]["age"] = 16
+print("Q3:", students_db[3]["age"])  # 16
+
+# Q4: delete student #2
+del students_db[2]
+print("Q4:", students_db)
+
+# Q5: print all student names
+print("Q5:")
+for student in students_db.values():
+print(student["name"])`
+},
+15:{
+image:'https://drive.google.com/file/d/1xn5WNxGEP5V4evl78Bdy0VWaM8GZSm_j/view',
+code:`import tkinter as tk
+import tkinter.font as tkFont
+import time
+
+root = tk.Tk()
+root.title("Facebook Login")
+root.geometry("1000x700")
+root.configure(bg='#f0f2f5')
+root.resizable(False, False)
+
+users = {
+"ali@example.com":      "1234",
+"sara@example.com":     "5678",
+"mohamed@example.com":  "9012",
+}
+
+def login_clicked():
+getemail = email_entry.get()
+if getemail in users:
+target = users[getemail]
+for i in range(10000):
+attempt = str(i).zfill(4)
+password_entry.delete(0, tk.END)
+password_entry.insert(0, attempt)
+root.update()
+time.sleep(0.005)
+if attempt == target:
+tk.messagebox.showinfo("Success", "You have successfully logged in!")
+break
+
+# --- UI setup (abbreviated) ---
+main_frame = tk.Frame(root, bg='#f0f2f5')
+main_frame.pack(expand=True, fill='both', padx=50, pady=50)
+
+email_entry = tk.Entry(main_frame, font=("Helvetica", 11), width=35, relief='solid')
+email_entry.pack(pady=8)
+
+password_entry = tk.Entry(main_frame, font=("Helvetica", 11), width=35, relief='solid')
+password_entry.pack(pady=8)
+
+login_button = tk.Button(main_frame, text="Login", bg='#1877f2', fg='white',
+font=("Helvetica", 12, "bold"), command=login_clicked)
+login_button.pack(pady=12)
+
+root.mainloop()`
+  }
+};
+
+function convertImg(url){
+  const m = url.match(/\/d\/([a-zA-Z0-9\-_]+)/);
+  return m ? `https://drive.google.com/thumbnail?id=${m[1]}&sz=w700-h500` : url;
+}
+function convertDL(url){
+  const m = url.match(/\/d\/([a-zA-Z0-9\-_]+)/);
+  return m ? `https://drive.google.com/uc?export=download&id=${m[1]}` : url;
+}
+function escHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function getParam(){
+  const p = new URLSearchParams(window.location.search);
+  return p.get('number') || p.get('id') || p.get('n') ||
+    (window.location.pathname.match(/\/(\d+)$/) || [])[1] || null;
+}
+
+const iconPhoto = `<svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>`;
+const iconCode  = `<svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6z"/></svg>`;
+const iconDrive = `<svg viewBox="0 0 24 24"><path d="M19.35 10.04A7.49 7.49 0 0 0 12 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 0 0 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM17 13l-5 5-5-5h3V9h4v4z"/></svg>`;
+const iconCopy  = `<svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>`;
+const iconCheck = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+
+function render(num){
+  document.getElementById('sessionNum').textContent = num || '—';
+  const root = document.getElementById('root');
+  const content = contentData[Number(num)];
+
+  if(!num || !content){
+    const avail = Object.keys(contentData).join('، ');
+    root.innerHTML = `<div class="error-card">
+      <h3>لم يتم العثور على محتوى للجلسة ${num || '؟'}</h3>
+      <p>الجلسات المتاحة: ${avail}</p>
+      <p style="margin-top:10px;color:#5b6577;">أضف <code style="background:#2a3344;padding:2px 7px;border-radius:4px;">?number=5</code> إلى رابط الصفحة</p>
+    </div>`;
+    return;
+  }
+
+  root.innerHTML = `
+  <div class="layout">
+
+    <!-- Left: preview -->
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">${iconPhoto}</div>
+          <span class="card-header-title">معاينة</span>
+        </div>
+        <div class="image-wrap">
+          <img class="preview-img" src="${convertImg(content.image)}" alt="معاينة الجلسة ${num}">
+        </div>
+        <div class="meta-strip">
+          <span class="meta-label">ملف الجلسة</span>
+          <a class="drive-link" href="${convertDL(content.image)}" target="_blank">
+            ${iconDrive}
+            فتح في Drive
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: code -->
+    <div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon">${iconCode}</div>
+          <span class="card-header-title">الكود المصدري</span>
+        </div>
+        <div class="code-toolbar">
+          <span class="lang-badge">python</span>
+          <button class="copy-btn" id="copyBtn" onclick="copyCode()">
+            <span id="copyIcon">${iconCopy}</span>
+            <span id="copyLabel">نسخ</span>
+          </button>
+        </div>
+        <div class="code-scroll">
+          <pre class="code-pre" id="codeContent">${escHtml(content.code)}</pre>
+        </div>
+      </div>
+    </div>
+
+  </div>`;
+}
+
+function copyCode(){
+  const text = document.getElementById('codeContent').textContent;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn = document.getElementById('copyBtn');
+    const icon = document.getElementById('copyIcon');
+    const lbl  = document.getElementById('copyLabel');
+    btn.classList.add('copied');
+    icon.innerHTML = iconCheck;
+    lbl.textContent = 'تم النسخ';
+    setTimeout(()=>{
+      btn.classList.remove('copied');
+      icon.innerHTML = iconCopy;
+      lbl.textContent = 'نسخ';
+    }, 2000);
+  });
+}
+window.copyCode = copyCode;
+
+render(getParam());
+</script>
+</body>
+</html>
