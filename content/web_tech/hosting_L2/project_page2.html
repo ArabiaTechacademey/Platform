@@ -1,0 +1,4130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CSS Projects</title>
+    <link rel="icon" type="image/png" href="../image/icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300..800&display=swap" rel="stylesheet">
+<style>
+:root {
+    --primary: #0056D2;
+    --primary-light: #e8f0fe;
+    --success: #0a8a3c;
+    --success-light: #e8f5e9;
+    --text: #1a1a2e;
+    --text-mid: #595959;
+    --text-muted: #767676;
+    --border: #e0e0e0;
+    --bg: #f8f9fa;
+    --white: #ffffff;
+    --shadow: 0 2px 8px rgba(0,0,0,0.08);
+    --radius: 12px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+/* HEADER */
+.header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 3%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo-text h1 { font-size: 28px; font-weight: 700; color: var(--text); }
+
+.back {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-left: 3px solid black;
+    border-bottom: 3px solid black;
+    transform: rotate(45deg);
+}
+
+/* PAGE WRAPPER */
+.page-wrapper {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 280px;
+    background: var(--white);
+    border-left: 1px solid var(--border);
+    position: sticky;
+    top: 57px;
+    height: calc(100vh - 57px);
+    overflow-y: auto;
+    flex-shrink: 0;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(135deg, var(--primary), #0041a8);
+    color: white;
+}
+
+.sidebar-header h2 { font-size: 17px; font-weight: 700; margin-bottom: 3px; }
+.sidebar-header p { font-size: 12px; opacity: 0.9; }
+
+.sidebar-projects { padding: 10px 8px; }
+
+.sidebar-project {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid transparent;
+}
+
+.sidebar-project:hover { background: var(--primary-light); border-color: var(--primary); }
+.sidebar-project.active { background: var(--primary-light); border-color: var(--primary); box-shadow: 0 2px 8px rgba(0,86,210,0.15); }
+
+.sidebar-project-number {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, var(--primary), #0041a8);
+    color: white; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; font-weight: 700; flex-shrink: 0;
+}
+
+.sidebar-project.active .sidebar-project-number {
+    background: linear-gradient(135deg, var(--success), #087030);
+}
+
+.sidebar-project-info .title { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+
+.level-badge {
+    display: inline-block; padding: 2px 8px;
+    border-radius: 4px; font-size: 11px; font-weight: 600;
+}
+.level-beginner { background: #e8f5e9; color: #0a8a3c; }
+.level-intermediate { background: #fff3e0; color: #f57c00; }
+.level-advanced { background: #fce4ec; color: #c2185b; }
+
+/* MAIN */
+.main { flex: 1; padding: 36px 28px 80px; overflow-x: hidden; }
+
+/* Empty state */
+.empty-state { text-align: center; padding: 80px 20px; }
+.empty-state h3 { font-size: 22px; color: var(--text); margin-bottom: 10px; }
+.empty-state p { color: var(--text-mid); font-size: 15px; }
+
+/* Info cards */
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.info-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 22px;
+    box-shadow: var(--shadow);
+}
+
+.info-card-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 14px;
+}
+
+.info-icon {
+    width: 44px; height: 44px;
+    background: var(--primary-light);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+}
+
+.info-card h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+.info-card p { color: var(--text-mid); font-size: 13px; line-height: 1.7; }
+
+.highlight {
+    background: var(--success-light);
+    color: var(--success);
+    padding: 3px 10px;
+    border-radius: 5px;
+    font-weight: 600;
+    display: inline-block;
+    margin: 3px 3px 0 0;
+    font-size: 12px;
+}
+
+/* Preview Section */
+.preview-section {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+}
+
+.preview-header {
+    background: #f8f9fa;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.preview-header h3 { font-size: 16px; font-weight: 700; color: var(--text); }
+
+.preview-image {
+    width: 100%; max-height: 500px;
+    object-fit: contain; background: #f5f5f5; display: block;
+}
+
+/* CODE Tabs */
+.code-tabs-wrapper {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 28px;
+}
+
+.code-tabs-header {
+    background: #2d3748;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tabs-left { display: flex; align-items: center; gap: 16px; }
+
+.code-dots { display: flex; gap: 6px; padding: 16px 0; }
+.code-dots span { width: 12px; height: 12px; border-radius: 50%; }
+.code-dots .red { background: #ff5f57; }
+.code-dots .yellow { background: #febc2e; }
+.code-dots .green { background: #28ca42; }
+
+.tab-buttons { display: flex; gap: 4px; }
+
+.tab-btn {
+    padding: 7px 16px;
+    border-radius: 6px 6px 0 0;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    color: #a0aec0;
+    background: transparent;
+}
+
+.tab-btn.active {
+    background: #1a202c;
+    color: #e2e8f0;
+}
+
+.tab-btn:hover:not(.active) { background: #3d4a5c; color: #e2e8f0; }
+
+
+.copy-btn {
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-family: 'Cairo', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #4a5568;
+    background: transparent;
+    color: #a0aec0;
+    transition: all 0.2s;
+    margin: 10px 0;
+}
+.copy-btn:hover { border-color: #68d391; color: #68d391; }
+
+.code-pane {
+    background: #1a202c;
+    color: #e2e8f0;
+    padding: 22px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    overflow-x: auto;
+    max-height: 500px;
+    overflow-y: auto;
+    direction: ltr;
+    text-align: left;
+    display: none;
+    white-space: pre;
+}
+
+.code-pane.active { display: block; }
+
+.code-pane::-webkit-scrollbar { width: 8px; height: 8px; }
+.code-pane::-webkit-scrollbar-thumb { background: #4a5568; border-radius: 4px; }
+
+/* Download Banner */
+.download-banner {
+    background: linear-gradient(135deg, var(--primary), #0041a8);
+    color: white;
+    border-radius: var(--radius);
+    padding: 36px;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+.download-banner h3 { font-size: 24px; margin-bottom: 10px; }
+.download-banner p { font-size: 15px; margin-bottom: 24px; opacity: 0.9; }
+.btn-download {
+    background: white; color: var(--primary);
+    padding: 14px 36px; font-size: 16px; border-radius: 10px;
+    font-weight: 700; display: inline-flex; align-items: center; gap: 10px;
+    text-decoration: none; transition: all 0.3s; font-family: 'Cairo', sans-serif;
+}
+.btn-download:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+
+/* Responsive */
+@media (max-width: 960px) {
+    .page-wrapper { flex-direction: column; }
+    .sidebar { width: 100%; position: relative; top: 0; height: auto; border-left: none; border-top: 1px solid var(--border); }
+    .sidebar-projects { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 16px; }
+    .main { padding: 20px 16px 56px; }
+    .info-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 600px) {
+    .main { padding: 16px 12px 48px; }
+    .download-banner { padding: 28px 20px; }
+    .download-banner h3 { font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+     
+    <div class="header-content">
+         <div style="width: 12%;">
+                <img src="../image/logo.png" alt="" width="100%">
+            </div>
+        <div class="logo-text"><h1>CSS Projects</h1></div>
+        <a href="level2.html"><span class="back"></span></a>
+    </div>
+</header>
+
+<div class="page-wrapper">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2>📚 قائمة المشاريع</h2>
+            <p>5 مشاريع CSS متدرجة</p>
+        </div>
+        <div class="sidebar-projects" id="sidebarProjects"></div>
+    </aside>
+
+    <main class="main">
+        <div id="projectDisplay">
+            <div class="empty-state">
+                <h3>اختر مشروعاً للبدء</h3>
+                <p>اختر رقم المشروع من القائمة الجانبية لعرض التفاصيل والكود</p>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  PROJECT DATA  –  HTML & CSS kept as plain strings (no template
+//  literals inside the data object to keep things readable)
+// ═══════════════════════════════════════════════════════════════
+
+const projects = {
+
+    // ── PROJECT 1 ── Backgrounds + Fonts & Text Styling ──────────
+    1: {
+        name: "متجر ملابس - الخلفيات والخطوط",
+        description: "تطبيق مفاهيم Fonts & Text Styling مع Backgrounds (لون، تدرج خطي، تدرج دائري)",
+        level: "مبتدئ",
+        concepts: ["Font Family", "Font Size", "Font Weight", "Text Align", "Background Color", "Linear Gradient", "Radial Gradient"],
+        image: "https://drive.google.com/thumbnail?id=1KNTrWCHaxumYrTUb_aU9GhWyo-RRt97d&sz=w1000",
+        driveLink: "https://drive.google.com/file/d/14F6k1I_BFUKHc9RmP56YYdQDTSMenpzs/view?usp=drive_link",
+        htmlCode:
+`<!DOCTYPE html>
+<html>
+<head>
+    <title>Clothing Store</title>
+    <link rel="stylesheet" href="style1.css">
+</head>
+
+<body>
+
+    <h1>Clothing Store</h1>
+    
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#Man">Men</a></li>
+        <li><a href="#Woman">Women</a></li>
+        <li><a href="#Contact">Contact</a></li>
+    </ul>
+
+    <br>
+    
+    <video loop autoplay muted width="100%">
+        <source src="head.mp4" type="video/mp4">
+    </video>
+    
+    <br><br>
+
+    <input type="search" list="products" placeholder="Search products...">
+
+    <datalist id="products">
+        <option value="T-shirt">
+        <option value="Jeans">
+        <option value="Jacket">
+        <option value="Dress">
+        <option value="Skirt">
+        <option value="Blouse">
+    </datalist>
+
+    <h2 id="Man" class="Man">Men's Clothing</h2>
+
+    <a href="tshirt.html">
+        <img src="1.png" alt="" width="200px">
+    </a>
+    <p>T-shirt <br><del>300 L.E</del> <strong>250 L.E</strong></p>
+
+    <img src="2.png" alt="" width="200px">
+    <p>Jeans <br><del>500 L.E</del> <strong>420 L.E</strong></p>
+
+    <img src="3.png" alt="" width="200px">
+    <p>Jacket <br><del>800 L.E</del> <strong>700 L.E</strong></p>
+
+    <img src="4.png" alt="" width="200px">
+    <p>Sneakers <br><del>600 L.E</del> <strong>520 L.E</strong></p>
+
+ 
+
+    <h2 id="Woman" class="Woman">Women's Clothing</h2>
+    
+    <img src="5.png" alt="" width="200px">
+    <p>Dress <br><del>700 L.E</del> <strong>600 L.E</strong></p>
+
+    <img src="6.png" alt="" width="200px">
+    <p>Skirt <br><del>400 L.E</del> <strong>330 L.E</strong></p>
+
+    <img src="7.png" alt="" width="200px">
+    <p>Blouse <br><del>350 L.E</del> <strong>290 L.E</strong></p>
+
+    <img src="8.png" alt="" width="200px">
+    <p>Handbag <br><del>900 L.E</del> <strong>780 L.E</strong></p>
+
+        
+    <h3 id="Contact">contact</h3>
+    <h3>tel - 01080743803</h3>
+    <h3>email - ClothingStore@gmail.com</h3>
+
+`,
+        cssCode:
+`body {
+    background: linear-gradient(to right, #111, #444);
+    color: white; 
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+h1 {
+    font-size: 50px;
+    text-align: center;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+}
+
+ul {
+    list-style: none; 
+    display: flex; 
+    gap: 30px; 
+    font-size: 20px;
+    justify-content: center;
+}
+
+ul li a {
+    text-decoration: none;
+    color: aliceblue;
+}
+
+input{
+    padding: 8px; 
+    width: 250px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+}
+
+.Man {
+    color: #0099ff;
+    font-size: 35px;
+}
+
+.Woman {
+    color: #ff00aa; 
+    font-size: 35px;
+}
+
+#Contact {
+    color: #ffcc00;
+}
+
+p {
+    font-size: 25px;
+}
+
+del {
+    font-size: 15px;
+}
+
+strong {
+    font-size: 20px;
+}`
+    },
+
+    // ── PROJECT 2 ── DIV + Background Images + Borders ───────────
+    2: {
+        name: "متجر ملابس - DIV والخلفيات المتقدمة",
+        description: "تطبيق DIV وخصائص Background Images والـ Borders & Border Radius",
+        level: "مبتدئ",
+        concepts: ["DIV", "Background Image", "Background Size", "Background Repeat", "Background Position", "Borders", "Border Radius"],
+        image: "https://drive.google.com/thumbnail?id=1m0PazQ0SQEm_qsjPEKF4eaBE6gIV8coJ&sz=w1000",
+         driveLink: "https://drive.google.com/file/d/14F6k1I_BFUKHc9RmP56YYdQDTSMenpzs/view?usp=drive_link",
+        htmlCode:
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store - Modern Fashion</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">CLOTHING STORE</h1>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#accessories">Accessories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+  <input type="search" list="products" placeholder="Search products...">
+  <datalist id="products">
+                <option value="T-shirt">
+                <option value="Jeans">
+                <option value="Jacket">
+                <option value="Dress">
+                <option value="Skirt">
+            </datalist>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">New Collection</h1>
+            <p class="hero-subtitle">Discover the latest trends in fashion</p>
+            <a href="#men" class="hero-btn">Shop Now</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Men's Section -->
+        <section id="men" class="section">
+            <div class="section-header">
+                <h2>Men's Collection</h2>
+                <p>Timeless styles for the modern man</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="1.png" alt="Men's T-shirt">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Classic T-shirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">300 L.E</span>
+                            <span class="price-new">250 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="2.png" alt="Men's Jeans">
+
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Jeans</h3>
+                        <div class="product-price">
+                            <span class="price-old">500 L.E</span>
+                            <span class="price-new">420 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="3.png" alt="Men's Jacket">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Leather Jacket</h3>
+                        <div class="product-price">
+                            <span class="price-old">800 L.E</span>
+                            <span class="price-new">700 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="4.png" alt="Men's Sneakers">
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sport Sneakers</h3>
+                        <div class="product-price">
+                            <span class="price-old">600 L.E</span>
+                            <span class="price-new">520 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Women's Section -->
+        <section id="women" class="section section-alt">
+            <div class="section-header">
+                <h2>Women's Collection</h2>
+                <p>Elegance meets contemporary style</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="5.png" alt="Women's Dress">
+                       
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Evening Dress</h3>
+                        <div class="product-price">
+                            <span class="price-old">700 L.E</span>
+                            <span class="price-new">600 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="6.png" alt="Women's Skirt">
+                       
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Midi Skirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">400 L.E</span>
+                            <span class="price-new">330 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="7.png" alt="Women's Blouse">
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Silk Blouse</h3>
+                        <div class="product-price">
+                            <span class="price-old">350 L.E</span>
+                            <span class="price-new">290 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="8.png" alt="Women's Handbag">
+                        
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Handbag</h3>
+                        <div class="product-price">
+                            <span class="price-old">900 L.E</span>
+                            <span class="price-new">780 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+    </main>
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><strong>Phone:</strong> 01080743803</p>
+                <p><strong>Email:</strong> ClothingStore@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#men">Men's Collection</a></li>
+                    <li><a href="#women">Women's Collection</a></li>
+                    <li><a href="#accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clothing Store. All rights reserved.</p>
+        </div>
+    </footer>`,
+        cssCode:
+`:root {
+    --primary-color: #000000;
+    --secondary-color: #0a0a0a;
+    --accent-color: #d4af37;
+    --text-dark: #ffffff;
+    --text-light: #b0b0b0;
+    --border-color: #2a2a2a;
+    --white: #ffffff;
+    --card-bg: #151515;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    background: #000000;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+   
+}
+
+.nav-container {
+   
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+  
+}
+
+
+
+input{
+    padding: 8px; 
+    width: 300px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+    border-radius: 25px;
+}
+
+
+
+
+/* ===== HERO SECTION ===== */
+.hero {
+    height: 90vh;
+    background-image: url('head.gif');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.hero-content {
+
+    text-align: center;
+    color: var(--white);
+
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--accent-color);
+    color: #000000;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
+   
+}
+
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 5rem 2rem;
+    margin: 0 auto;
+}
+
+.section-alt {
+    background: var(--secondary-color);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 300;
+}
+
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+    display: flex;
+    gap: 2%;
+    justify-content: space-around;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    border: 1px solid var(--border-color);
+    width: 22%;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.price-new {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #000000;
+    color: var(--white);
+    padding: 4rem 2rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.footer-section p {
+    margin-bottom: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+   
+}
+
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}`
+    },
+
+    // ── PROJECT 3 ── Shadows + Pseudo-classes + Transform + Transition ──
+    3: {
+        name: "متجر ملابس - التأثيرات والتحولات",
+        description: "إضافة Shadows وتأثيرات Pseudo-classes وTransform وTransition للتفاعل",
+        level: "متوسط",
+        concepts: ["Box Shadow", "Text Shadow", "Pseudo-classes", "Pseudo-elements", "Transform", "Transition"],
+        image: "https://drive.google.com/thumbnail?id=1PG31XD65M8-p0V_hrWQz4BQtLd6Vb-KW&sz=w1000",
+       driveLink: "https://drive.google.com/file/d/14F6k1I_BFUKHc9RmP56YYdQDTSMenpzs/view?usp=drive_link",
+        htmlCode:
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store - Modern Fashion</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">CLOTHING STORE</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#accessories">Accessories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+           
+  <input type="search" list="products" placeholder="Search products...">
+ <datalist id="products">
+                <option value="T-shirt">
+                <option value="Jeans">
+                <option value="Jacket">
+                <option value="Dress">
+                <option value="Skirt">
+            </datalist>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">New Collection</h1>
+            <p class="hero-subtitle">Discover the latest trends in fashion</p>
+            <a href="#men" class="hero-btn">Shop Now</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Men's Section -->
+        <section id="men" class="section">
+            <div class="section-header">
+                <h2>Men's Collection</h2>
+                <p>Timeless styles for the modern man</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="1.png" alt="Men's T-shirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Classic T-shirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">300 L.E</span>
+                            <span class="price-new">250 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="2.png" alt="Men's Jeans">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Jeans</h3>
+                        <div class="product-price">
+                            <span class="price-old">500 L.E</span>
+                            <span class="price-new">420 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="3.png" alt="Men's Jacket">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Leather Jacket</h3>
+                        <div class="product-price">
+                            <span class="price-old">800 L.E</span>
+                            <span class="price-new">700 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="4.png" alt="Men's Sneakers">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sport Sneakers</h3>
+                        <div class="product-price">
+                            <span class="price-old">600 L.E</span>
+                            <span class="price-new">520 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Women's Section -->
+        <section id="women" class="section section-alt">
+            <div class="section-header">
+                <h2>Women's Collection</h2>
+                <p>Elegance meets contemporary style</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="5.png" alt="Women's Dress">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Evening Dress</h3>
+                        <div class="product-price">
+                            <span class="price-old">700 L.E</span>
+                            <span class="price-new">600 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="6.png" alt="Women's Skirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Midi Skirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">400 L.E</span>
+                            <span class="price-new">330 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="7.png" alt="Women's Blouse">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Silk Blouse</h3>
+                        <div class="product-price">
+                            <span class="price-old">350 L.E</span>
+                            <span class="price-new">290 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="8.png" alt="Women's Handbag">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Handbag</h3>
+                        <div class="product-price">
+                            <span class="price-old">900 L.E</span>
+                            <span class="price-new">780 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><strong>Phone:</strong> 01080743803</p>
+                <p><strong>Email:</strong> ClothingStore@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#men">Men's Collection</a></li>
+                    <li><a href="#women">Women's Collection</a></li>
+                    <li><a href="#accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clothing Store. All rights reserved.</p>
+        </div> </footer>`
+,
+
+        cssCode:
+`:root {
+    --primary-color: #000000;
+    --secondary-color: #0a0a0a;
+    --accent-color: #d4af37;
+    --text-dark: #ffffff;
+    --text-light: #b0b0b0;
+    --border-color: #2a2a2a;
+    --white: #ffffff;
+    --card-bg: #151515;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+   
+    background: #000000;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    transition: var(--transition);
+}
+
+.nav-container {
+   
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+   
+    transition: var(--transition);
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-menu a:hover {
+    color: var(--accent-color);
+}
+
+
+input{
+    padding: 8px; 
+    width: 300px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+    border-radius: 25px;
+}
+
+
+/* ===== HERO SECTION ===== */
+.hero {
+    height: 90vh;
+    background-image: url('head.gif');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+
+}
+
+
+.hero-content {
+    text-align: center;
+    color: var(--white);
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--accent-color);
+    color: #000000;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+    background: #ffffff;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-alt {
+    background: var(--secondary-color);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 300;
+}
+
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+    display: flex;
+    
+    gap: 2%;
+    justify-content: space-between;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    width: 22%;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+    border-color: var(--accent-color);
+}
+
+.product-image {
+  
+    height: 350px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+.product-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+.quick-view {
+    padding: 0.8rem 2rem;
+    background: var(--accent-color);
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.quick-view:hover {
+    background: var(--white);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.price-new {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+}
+
+.add-to-cart:hover {
+    background: var(--accent-color);
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #000000;
+    color: var(--white);
+    padding: 4rem 2rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-around;
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.footer-section p {
+    margin-bottom: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);` },
+
+    // ── PROJECT 4 ── Display + Position + Z-Index + Animations ──────
+    4: {
+        name: "متجر ملابس - Layout والحركة",
+        description: "تطبيق Display وPosition وZ-Index وAnimations لإنشاء تخطيط متقدم",
+        level: "متوسط",
+        concepts: ["Display", "Position", "Z-Index", "Overflow", "Animations", "Flexbox"],
+        image: "https://drive.google.com/thumbnail?id=1QCITT4VlJo14pjDKD2bO6Zs6MHTBtc1X&sz=w1000",
+ driveLink: "https://drive.google.com/file/d/14F6k1I_BFUKHc9RmP56YYdQDTSMenpzs/view?usp=drive_link",        htmlCode:
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store - Modern Fashion</title>
+    <link rel="stylesheet" href="style4.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">CLOTHING STORE</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#accessories">Accessories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+           
+  <input type="search" list="products" placeholder="Search products...">
+ <datalist id="products">
+                <option value="T-shirt">
+                <option value="Jeans">
+                <option value="Jacket">
+                <option value="Dress">
+                <option value="Skirt">
+            </datalist>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">New Collection</h1>
+            <p class="hero-subtitle">Discover the latest trends in fashion</p>
+            <a href="#men" class="hero-btn">Shop Now</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Men's Section -->
+        <section id="men" class="section">
+            <div class="section-header">
+                <h2>Men's Collection</h2>
+                <p>Timeless styles for the modern man</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="1.png" alt="Men's T-shirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Classic T-shirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">300 L.E</span>
+                            <span class="price-new">250 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="2.png" alt="Men's Jeans">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Jeans</h3>
+                        <div class="product-price">
+                            <span class="price-old">500 L.E</span>
+                            <span class="price-new">420 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="3.png" alt="Men's Jacket">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Leather Jacket</h3>
+                        <div class="product-price">
+                            <span class="price-old">800 L.E</span>
+                            <span class="price-new">700 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="4.png" alt="Men's Sneakers">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sport Sneakers</h3>
+                        <div class="product-price">
+                            <span class="price-old">600 L.E</span>
+                            <span class="price-new">520 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Women's Section -->
+        <section id="women" class="section section-alt">
+            <div class="section-header">
+                <h2>Women's Collection</h2>
+                <p>Elegance meets contemporary style</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="5.png" alt="Women's Dress">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Evening Dress</h3>
+                        <div class="product-price">
+                            <span class="price-old">700 L.E</span>
+                            <span class="price-new">600 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="6.png" alt="Women's Skirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Midi Skirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">400 L.E</span>
+                            <span class="price-new">330 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="7.png" alt="Women's Blouse">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Silk Blouse</h3>
+                        <div class="product-price">
+                            <span class="price-old">350 L.E</span>
+                            <span class="price-new">290 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="8.png" alt="Women's Handbag">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Handbag</h3>
+                        <div class="product-price">
+                            <span class="price-old">900 L.E</span>
+                            <span class="price-new">780 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+      
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><strong>Phone:</strong> 01080743803</p>
+                <p><strong>Email:</strong> ClothingStore@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#men">Men's Collection</a></li>
+                    <li><a href="#women">Women's Collection</a></li>
+                    <li><a href="#accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clothing Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+`,
+        cssCode:
+`:root {
+    --primary-color: #000000;
+    --secondary-color: #0a0a0a;
+    --accent-color: #d4af37;
+    --text-dark: #ffffff;
+    --text-light: #b0b0b0;
+    --border-color: #2a2a2a;
+    --white: #ffffff;
+    --card-bg: #151515;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: #000000;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.nav-container {
+  
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-menu a:hover {
+    color: var(--accent-color);
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+input{
+    padding: 8px; 
+    width: 300px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+    border-radius: 25px;
+}
+
+
+.cart-count {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--accent-color);
+    color: var(--white);
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ===== HERO SECTION ===== */
+.hero {
+    height: 90vh;
+    background-image: url('head.gif');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--white);
+    animation: fadeInUp 1s ease;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--accent-color);
+    color: #000000;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+    background: #ffffff;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-alt {
+    background: var(--secondary-color);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 300;
+}
+
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+    display: flex;
+    
+    gap: 2%;
+    justify-content: space-between;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    width: 22%;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+    border-color: var(--accent-color);
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+.quick-view {
+    padding: 0.8rem 2rem;
+    background: var(--accent-color);
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.quick-view:hover {
+    background: var(--white);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.price-new {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+}
+
+.add-to-cart:hover {
+    background: var(--accent-color);
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #000000;
+    color: var(--white);
+    padding: 4rem 2rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.footer-section p {
+    margin-bottom: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}`
+    },
+
+    // ── PROJECT 5 (Final) ── Grid + Table + Width/Height + Responsive ─
+    5: {
+        name: "متجر ملابس - المشروع النهائي",
+        description: "المشروع الكامل بـ Grid وTable وWidth/Height وResponsive Page",
+        level: "متقدم",
+        concepts: ["Grid", "Table Styling", "Width & Height", "Responsive Page", "Media Queries", "Flexbox", "All Previous Concepts"],
+        image: "https://drive.google.com/thumbnail?id=1jCGz7O3Y2i0_2QbSx0_HlsCdYPoc6mCL&sz=w1000",
+       driveLink: "https://drive.google.com/file/d/14F6k1I_BFUKHc9RmP56YYdQDTSMenpzs/view?usp=drive_link",
+        htmlCode:
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store - Modern Fashion</title>
+    <link rel="stylesheet" href="style5.css">
+  
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">CLOTHING STORE</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#accessories">Accessories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+           
+  <input type="search" list="products" placeholder="Search products...">
+ <datalist id="products">
+                <option value="T-shirt">
+                <option value="Jeans">
+                <option value="Jacket">
+                <option value="Dress">
+                <option value="Skirt">
+            </datalist>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">New Collection</h1>
+            <p class="hero-subtitle">Discover the latest trends in fashion</p>
+            <a href="#men" class="hero-btn">Shop Now</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Men's Section -->
+        <section id="men" class="section">
+            <div class="section-header">
+                <h2>Men's Collection</h2>
+                <p>Timeless styles for the modern man</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="1.png" alt="Men's T-shirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Classic T-shirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">300 L.E</span>
+                            <span class="price-new">250 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="2.png" alt="Men's Jeans">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Jeans</h3>
+                        <div class="product-price">
+                            <span class="price-old">500 L.E</span>
+                            <span class="price-new">420 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="3.png" alt="Men's Jacket">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Leather Jacket</h3>
+                        <div class="product-price">
+                            <span class="price-old">800 L.E</span>
+                            <span class="price-new">700 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="4.png" alt="Men's Sneakers">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sport Sneakers</h3>
+                        <div class="product-price">
+                            <span class="price-old">600 L.E</span>
+                            <span class="price-new">520 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Women's Section -->
+        <section id="women" class="section section-alt">
+            <div class="section-header">
+                <h2>Women's Collection</h2>
+                <p>Elegance meets contemporary style</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="5.png" alt="Women's Dress">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Evening Dress</h3>
+                        <div class="product-price">
+                            <span class="price-old">700 L.E</span>
+                            <span class="price-new">600 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="6.png" alt="Women's Skirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Midi Skirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">400 L.E</span>
+                            <span class="price-new">330 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="7.png" alt="Women's Blouse">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Silk Blouse</h3>
+                        <div class="product-price">
+                            <span class="price-old">350 L.E</span>
+                            <span class="price-new">290 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="8.png" alt="Women's Handbag">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Handbag</h3>
+                        <div class="product-price">
+                            <span class="price-old">900 L.E</span>
+                            <span class="price-new">780 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessories Section -->
+        <section id="accessories" class="accessories-section">
+            <div class="section-header">
+                <h2>Our Accessories Collection</h2>
+                <p class="follow-text">Follow us on Instagram @clothingstore.shop</p>
+            </div>
+            
+            <div class="accessories-grid">
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc1.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc2.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc3.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc4.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc5.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc6.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+               
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><strong>Phone:</strong> 01080743803</p>
+                <p><strong>Email:</strong> ClothingStore@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#men">Men's Collection</a></li>
+                    <li><a href="#women">Women's Collection</a></li>
+                    <li><a href="#accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clothing Store. All rights reserved.</p>
+        </div>
+    </footer>
+
+`,
+cssCode:
+`:root {
+    --primary-color: #000000;
+    --secondary-color: #0a0a0a;
+    --accent-color: #d4af37;
+    --text-dark: #ffffff;
+    --text-light: #b0b0b0;
+    --border-color: #2a2a2a;
+    --white: #ffffff;
+    --card-bg: #151515;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: #000000;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-menu a:hover {
+    color: var(--accent-color);
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+input{
+    padding: 8px; 
+    width: 300px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+    border-radius: 25px;
+}
+
+
+
+/* ===== HERO SECTION ===== */
+.hero {
+    height: 90vh;
+    background-image: url('head.gif');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--white);
+    animation: fadeInUp 1s ease;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--accent-color);
+    color: #000000;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+    background: #ffffff;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-alt {
+    background: var(--secondary-color);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 300;
+}
+
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+    display: flex;
+    
+    gap: 2%;
+    justify-content: space-between;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    width: 22%;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+    border-color: var(--accent-color);
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+.quick-view {
+    padding: 0.8rem 2rem;
+    background: var(--accent-color);
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.quick-view:hover {
+    background: var(--white);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.price-new {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+}
+
+.add-to-cart:hover {
+    background: var(--accent-color);
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+/* ===== ACCESSORIES SECTION ===== */
+.accessories-section {
+    padding: 5rem 2rem;
+    background: #000;
+    color: var(--white);
+}
+
+.accessories-section .section-header h2 {
+    color: var(--white);
+}
+
+.follow-text {
+    text-align: center;
+    color: var(--accent-color);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.accessories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin: 0 auto;
+}
+
+.accessory-item {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+     border-style: none ;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.accessory-item video {
+    width: 100%;
+    height: 100%;
+ transform: scale(1.05);
+    display: block;
+    transition: var(--transition);
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+
+    transition: var(--transition);
+}
+
+.accessory-item:hover .play-overlay {
+    opacity: 1;
+}
+
+.play-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #000;
+    padding-left: 5px;
+    transition: var(--transition);
+}
+
+.accessory-item:hover .play-icon {
+    transform: scale(1.1);
+    background: var(--accent-color);
+    color: var(--white);
+}
+
+.accessory-item:hover video {
+    transform: scale(1.15);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #000000;
+    color: var(--white);
+    padding: 4rem 2rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.footer-section p {
+    margin-bottom: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+`
+    },
+     6: {
+        name: "متجر ملابس - الخلفيات والخطوط",
+        description: "تطبيق مفاهيم Fonts & Text Styling مع Backgrounds (لون، تدرج خطي، تدرج دائري)",
+        level: "متقدم",
+        concepts: ["responsive page"],
+        image: "https://drive.google.com/thumbnail?id=1FiDttjW55z4tQsCUKczjvqeW7Jd_Th8D&sz=w1000",
+driveLink: "https://drive.google.com/file/d/14F6k1I_BFUKHc9RmP56YYdQDTSMenpzs/view?usp=drive_link",        htmlCode:
+`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Store - Modern Fashion</title>
+    <link rel="stylesheet" href="style_final.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">CLOTHING STORE</div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#men">Men</a></li>
+                <li><a href="#women">Women</a></li>
+                <li><a href="#accessories">Accessories</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+           
+  <input type="search" list="products" placeholder="Search products...">
+ <datalist id="products">
+                <option value="T-shirt">
+                <option value="Jeans">
+                <option value="Jacket">
+                <option value="Dress">
+                <option value="Skirt">
+            </datalist>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">New Collection</h1>
+            <p class="hero-subtitle">Discover the latest trends in fashion</p>
+            <a href="#men" class="hero-btn">Shop Now</a>
+        </div>
+    </header>
+
+    <main>
+        <!-- Men's Section -->
+        <section id="men" class="section">
+            <div class="section-header">
+                <h2>Men's Collection</h2>
+                <p>Timeless styles for the modern man</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="1.png" alt="Men's T-shirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Classic T-shirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">300 L.E</span>
+                            <span class="price-new">250 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="2.png" alt="Men's Jeans">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Premium Jeans</h3>
+                        <div class="product-price">
+                            <span class="price-old">500 L.E</span>
+                            <span class="price-new">420 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="3.png" alt="Men's Jacket">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Leather Jacket</h3>
+                        <div class="product-price">
+                            <span class="price-old">800 L.E</span>
+                            <span class="price-new">700 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="4.png" alt="Men's Sneakers">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Sport Sneakers</h3>
+                        <div class="product-price">
+                            <span class="price-old">600 L.E</span>
+                            <span class="price-new">520 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Women's Section -->
+        <section id="women" class="section section-alt">
+            <div class="section-header">
+                <h2>Women's Collection</h2>
+                <p>Elegance meets contemporary style</p>
+            </div>
+            
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="5.png" alt="Women's Dress">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Evening Dress</h3>
+                        <div class="product-price">
+                            <span class="price-old">700 L.E</span>
+                            <span class="price-new">600 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="6.png" alt="Women's Skirt">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Midi Skirt</h3>
+                        <div class="product-price">
+                            <span class="price-old">400 L.E</span>
+                            <span class="price-new">330 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="7.png" alt="Women's Blouse">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Silk Blouse</h3>
+                        <div class="product-price">
+                            <span class="price-old">350 L.E</span>
+                            <span class="price-new">290 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="8.png" alt="Women's Handbag">
+                        <div class="product-overlay">
+                            <button class="quick-view">Quick View</button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Designer Handbag</h3>
+                        <div class="product-price">
+                            <span class="price-old">900 L.E</span>
+                            <span class="price-new">780 L.E</span>
+                        </div>
+                        <button class="add-to-cart">Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accessories Section -->
+        <section id="accessories" class="accessories-section">
+            <div class="section-header">
+                <h2>Our Accessories Collection</h2>
+                <p class="follow-text">Follow us on Instagram @clothingstore.shop</p>
+            </div>
+            
+            <div class="accessories-grid">
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc1.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc2.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc3.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc4.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc5.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accessory-item">
+                    <div class="video-wrapper">
+                        <video loop muted autoplay>
+                            <source src="acc6.mp4" type="video/mp4">
+                        </video>
+                        <div class="play-overlay">
+                            <span class="play-icon">▶</span>
+                        </div>
+                    </div>
+                </div>
+
+               
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p><strong>Phone:</strong> 01080743803</p>
+                <p><strong>Email:</strong> ClothingStore@gmail.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#men">Men's Collection</a></li>
+                    <li><a href="#women">Women's Collection</a></li>
+                    <li><a href="#accessories">Accessories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">Instagram</a>
+                    <a href="#" aria-label="Facebook">Facebook</a>
+                    <a href="#" aria-label="Twitter">Twitter</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Clothing Store. All rights reserved.</p>
+        </div>
+    </footer>`,
+        cssCode:
+`:root {
+    --primary-color: #000000;
+    --secondary-color: #0a0a0a;
+    --accent-color: #d4af37;
+    --text-dark: #ffffff;
+    --text-light: #b0b0b0;
+    --border-color: #2a2a2a;
+    --white: #ffffff;
+    --card-bg: #151515;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
+    line-height: 1.6;
+    overflow-x: hidden;
+    background: #000000;
+}
+
+/* ===== NAVIGATION ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(212, 175, 55, 0.1);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    z-index: 1000;
+    transition: var(--transition);
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+}
+
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+}
+
+.nav-menu a {
+    text-decoration: none;
+    color: var(--text-dark);
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    transition: var(--transition);
+}
+
+.nav-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transition: var(--transition);
+}
+
+.nav-menu a:hover {
+    color: var(--accent-color);
+}
+
+.nav-menu a:hover::after {
+    width: 100%;
+}
+
+input{
+    padding: 8px; 
+    width: 300px; 
+    border: 1px solid white;
+    background-color: transparent; 
+    color: white;
+    border-radius: 25px;
+}
+
+
+
+/* ===== HERO SECTION ===== */
+.hero {
+    height: 90vh;
+    background-image: url('head.gif');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    color: var(--white);
+    animation: fadeInUp 1s ease;
+}
+
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    letter-spacing: 2px;
+}
+
+.hero-btn {
+    display: inline-block;
+    padding: 1rem 3rem;
+    background: var(--accent-color);
+    color: #000000;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: var(--transition);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3);
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.5);
+    background: #ffffff;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+    padding: 5rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.section-alt {
+    background: var(--secondary-color);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--white);
+    letter-spacing: 1px;
+}
+
+.section-header p {
+    font-size: 1.1rem;
+    color: var(--text-light);
+    font-weight: 300;
+}
+
+/* ===== PRODUCTS GRID ===== */
+.products-grid {
+    display: flex;
+    
+    gap: 2%;
+    justify-content: space-between;
+}
+
+.product-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: var(--transition);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--border-color);
+    width: 22%;
+}
+
+.product-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+    border-color: var(--accent-color);
+}
+
+.product-image {
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.1);
+}
+
+.product-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.product-card:hover .product-overlay {
+    opacity: 1;
+}
+
+.quick-view {
+    padding: 0.8rem 2rem;
+    background: var(--accent-color);
+    color: #000000;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.quick-view:hover {
+    background: var(--white);
+    color: #000000;
+    transform: scale(1.05);
+}
+
+.product-info {
+    padding: 1.5rem;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.8rem;
+    color: var(--white);
+}
+
+.product-price {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
+}
+
+.price-old {
+    text-decoration: line-through;
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.price-new {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent-color);
+}
+
+.add-to-cart {
+    width: 100%;
+    padding: 0.9rem;
+    background: transparent;
+    color: var(--accent-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    letter-spacing: 0.5px;
+}
+
+.add-to-cart:hover {
+    background: var(--accent-color);
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+}
+
+/* ===== ACCESSORIES SECTION ===== */
+.accessories-section {
+    padding: 5rem 2rem;
+    background: #000;
+    color: var(--white);
+}
+
+.accessories-section .section-header h2 {
+    color: var(--white);
+}
+
+.follow-text {
+    text-align: center;
+    color: var(--accent-color);
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+
+.accessories-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px;
+    margin: 0 auto;
+}
+
+.accessory-item {
+    position: relative;
+    overflow: hidden;
+    background: #000;
+    cursor: pointer;
+     border-style: none ;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.accessory-item video {
+    width: 100%;
+    height: 100%;
+ transform: scale(1.05);
+    display: block;
+    transition: var(--transition);
+}
+
+.play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+
+    transition: var(--transition);
+}
+
+.accessory-item:hover .play-overlay {
+    opacity: 1;
+}
+
+.play-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #000;
+    padding-left: 5px;
+    transition: var(--transition);
+}
+
+.accessory-item:hover .play-icon {
+    transform: scale(1.1);
+    background: var(--accent-color);
+    color: var(--white);
+}
+
+.accessory-item:hover video {
+    transform: scale(1.15);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #000000;
+    color: var(--white);
+    padding: 4rem 2rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 3rem;
+    margin-bottom: 3rem;
+}
+
+.footer-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-color);
+}
+
+.footer-section p {
+    margin-bottom: 0.8rem;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-section ul {
+    list-style: none;
+}
+
+.footer-section ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section ul li a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.footer-section ul li a:hover {
+    color: var(--accent-color);
+    padding-left: 5px;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    color: var(--accent-color);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    .hero-title {
+        font-size: 3.5rem;
+    }
+    
+    .products-grid {
+       flex-direction: column;
+       width: 100%;
+    }
+    .product-card{
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        display: none;
+    }
+    
+    .hero {
+        height: 70vh;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .section {
+        padding: 3rem 1.5rem;
+    }
+    
+    .section-header h2 {
+        font-size: 2rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .product-image {
+        height: 280px;
+    }
+    
+    .accessories-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .play-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 14px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.2rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+        letter-spacing: 2px;
+    }
+    
+    .hero-btn {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+    }
+    
+    .products-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-input {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+}`
+    }
+
+    
+
+
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  HELPERS
+// ═══════════════════════════════════════════════════════════════
+
+function getLevelBadge(level) {
+    const map = { 'مبتدئ': 'level-beginner', 'متوسط': 'level-intermediate', 'متقدم': 'level-advanced' };
+    return `<span class="level-badge ${map[level] || ''}">${level}</span>`;
+}
+
+function escapeHtml(text) {
+    const d = document.createElement('div');
+    d.textContent = text;
+    return d.innerHTML;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SIDEBAR
+// ═══════════════════════════════════════════════════════════════
+
+function initSidebar() {
+    const sidebar = document.getElementById('sidebarProjects');
+    Object.keys(projects).forEach(num => {
+        const p = projects[num];
+        const item = document.createElement('div');
+        item.className = 'sidebar-project';
+        item.innerHTML = `
+            <div class="sidebar-project-number">${num}</div>
+            <div class="sidebar-project-info">
+                <div class="title">المشروع ${num}</div>
+                <div class="level">${getLevelBadge(p.level)}</div>
+            </div>`;
+        item.onclick = () => showProject(num);
+        sidebar.appendChild(item);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  SHOW PROJECT
+// ═══════════════════════════════════════════════════════════════
+
+let activeTab = {};
+
+function showProject(number) {
+    const p = projects[number];
+    const display = document.getElementById('projectDisplay');
+
+    // Update sidebar active state
+    document.querySelectorAll('.sidebar-project').forEach((item, i) => {
+        item.classList.toggle('active', (i + 1) == number);
+    });
+
+    // Default active tab
+    activeTab[number] = activeTab[number] || 'html';
+
+    const conceptBadges = p.concepts.map(c => `<span class="highlight">${c}</span>`).join(' ');
+
+    display.innerHTML = `
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="info-card-header"><div class="info-icon">📚</div><h3>معلومات المشروع</h3></div>
+                <p><strong>الاسم:</strong> ${p.name}</p>
+                <p style="margin-top:6px"><strong>الوصف:</strong> ${p.description}</p>
+                <p style="margin-top:6px"><strong>المستوى:</strong> ${getLevelBadge(p.level)}</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-header"><div class="info-icon">💡</div><h3>المفاهيم المستخدمة</h3></div>
+                <div style="margin-top:4px">${conceptBadges}</div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-header"><div class="info-icon">🎯</div><h3>ماذا ستتعلم؟</h3></div>
+                <p>في هذا المشروع ستتعلم <strong>${p.concepts.length}</strong> مفاهيم CSS وتطبيقها عمليًا على متجر ملابس حقيقي</p>
+            </div>
+        </div>
+
+        <div class="preview-section">
+            <div class="preview-header">
+                <h3>📸 معاينة المشروع</h3>
+            </div>
+            <a href='project_css${number}.html'>
+            <img src="${p.image}" alt="معاينة المشروع ${number}" class="preview-image" onerror="this.style.display='none'">
+            </a>
+        </div>
+
+        <div class="code-tabs-wrapper">
+            <div class="code-tabs-header">
+                <div class="tabs-left">
+                    <div class="code-dots">
+                        <span class="red"></span><span class="yellow"></span><span class="green"></span>
+                    </div>
+                    <div class="tab-buttons">
+                        <button class="tab-btn tab-html ${activeTab[number]==='html'?'active':''}"
+                                onclick="switchTab(${number},'html')">HTML</button>
+                        <button class="tab-btn tab-css ${activeTab[number]==='css'?'active':''}"
+                                onclick="switchTab(${number},'css')">CSS</button>
+                    </div>
+                </div>
+                <button class="copy-btn" onclick="copyActiveCode(${number})">📋 نسخ الكود</button>
+            </div>
+            <pre class="code-pane ${activeTab[number]==='html'?'active':''}" id="htmlPane-${number}">${escapeHtml(p.htmlCode)}</pre>
+            <pre class="code-pane ${activeTab[number]==='css'?'active':''}" id="cssPane-${number}">${escapeHtml(p.cssCode)}</pre>
+        </div>
+
+        <div class="download-banner">
+            <h3>جاهز للتطبيق؟</h3>
+            <p>حمّل المشروع الكامل وابدأ التعلم بالممارسة</p>
+            <a href="${p.driveLink}" class="btn-download" target="_blank">📦 تحميل ملفات المشروع الكاملة</a>
+        </div>
+    `;
+
+    display.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function switchTab(number, tab) {
+    activeTab[number] = tab;
+    document.getElementById(`htmlPane-${number}`).classList.toggle('active', tab === 'html');
+    document.getElementById(`cssPane-${number}`).classList.toggle('active', tab === 'css');
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+}
+
+function copyActiveCode(number) {
+    const tab = activeTab[number] || 'html';
+    const paneId = tab === 'html' ? `htmlPane-${number}` : `cssPane-${number}`;
+    const code = document.getElementById(paneId).textContent;
+    navigator.clipboard.writeText(code).then(() => {
+        const btn = document.querySelector('.copy-btn');
+        if (!btn) return;
+        const orig = btn.innerHTML;
+        btn.innerHTML = '✅ تم النسخ!';
+        btn.style.color = '#68d391';
+        btn.style.borderColor = '#68d391';
+        setTimeout(() => { btn.innerHTML = orig; btn.style.color = ''; btn.style.borderColor = ''; }, 2000);
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSidebar();
+    const params = new URLSearchParams(window.location.search);
+    const num = params.get('number') || params.get('id') || params.get('n');
+    if (num && projects[num]) setTimeout(() => showProject(num), 100);
+});
+</script>
+
+</body>
+</html>
