@@ -622,9 +622,9 @@ function flattenStudents(raw) {
 async function loadAllData() {
   try {
     const [dataRes, coursesRes, teacherRes] = await Promise.all([
-      fetch("../data/data.json").then(r => { if (!r.ok) throw new Error("data.json"); return r.json(); }),
-      fetch("../data/courses.json").then(r => { if (!r.ok) throw new Error("courses.json"); return r.json(); }),
-      fetch("../data/teacher.json").then(r => { if (!r.ok) throw new Error("teacher.json"); return r.json(); }),
+      fetch("data/data.json").then(r => { if (!r.ok) throw new Error("data.json"); return r.json(); }),
+      fetch("data/courses.json").then(r => { if (!r.ok) throw new Error("courses.json"); return r.json(); }),
+      fetch("data/teacher.json").then(r => { if (!r.ok) throw new Error("teacher.json"); return r.json(); }),
     ]);
     students = flattenStudents(dataRes).map((s, i) => ({...s, _key: s.id || `s${i}`}));
     courses = coursesRes;
