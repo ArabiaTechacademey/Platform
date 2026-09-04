@@ -3,19 +3,19 @@
     "rank":"Level 1",
     "special":"Web development",
 "duration":"3 month",
-"link":"./content/web_tech/level1.html"},
+"link":"./content/web_tech/hosting_L1/level1.html"},
 
 "css":{"course_name":"CSS",
     "rank":"Level 2",
     "special":"Web development",
 "duration":"4 month",
-"link":"./content/web_tech/level2.html"},
+"link":"./content/web_tech/hosting_L2/level2.html"},
 
 "js":{"course_name":"JavaScript",
     "rank":"Level 3",
     "special":"Web development",
 "duration":"5 month",
-"link":"./content/web_tech/level3_1.html"},
+"link":"./content/web_tech/hosting_L3/level3_1.html"},
 
 "py":{"course_name":"Python and GUI basics",
     "rank":"Level 1",
